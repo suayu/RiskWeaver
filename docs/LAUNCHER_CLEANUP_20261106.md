@@ -1,0 +1,139 @@
+# 启动文件清理记录
+
+原有122个launch_文件；删除95个无剩余代码/测试调用的历史一次性启动器，保留27个通用入口、当前入口及被引用的辅助模块。日期硬编码、旧模型冒烟、重复试验批次脚本不再作为项目入口维护。
+
+通用入口：experiments/comparison/launch_e1_five_arm.py、experiments/skills/launch_matrix.py。当前配对入口保留work/dual_track_20261105/run_pair.py和launch_formal_1106.py；研究实验仍暂停，保留脚本不代表可以直接运行旧协议。部分launch_模块同时提供清单验证、资源查询等辅助函数，或被测试直接导入，因此保留。
+
+删除仅限本独立仓库，原服务器实验工作区和冻结源码不动。历史文档/协议对已删除文件的提及是历史记录，不是有效运行命令。恢复可使用git restore --source=13c99f778ac0b64b1ff330648f673f70fa21268d -- <文件路径>。完整路径与SHA见LAUNCHER_CLEANUP_20261106.json。
+
+## 保留文件
+
+- `experiments/comparison/launch_e1_five_arm.py`
+- `experiments/scenario_dreamer_ldm_expand250_20260928_r1/launch_scenario_dreamer_ldm_expand250_20260928.py`
+- `experiments/skills/launch_matrix.py`
+- `launch_baseline_formal_120_multigpu_20260927.py`
+- `launch_riskweaver_formal_addons_20_20260927.py`
+- `launch_scenario_dreamer_ldm_expand250_20260928.py`
+- `tests/launch_bailian_profile_matrix.py`
+- `tests/launch_multiagent_matrix.py`
+- `work/bailian_20260916_sync_02/edit/launch_bailian_profile_matrix.py`
+- `work/bailian_20260916_sync_03/edit/launch_bailian_profile_matrix.py`
+- `work/commonroad_e1_10_20261014/code_before/experiments/comparison/launch_e1_five_arm.py`
+- `work/commonroad_integration_20261013/code_before/experiments/comparison/launch_e1_five_arm.py`
+- `work/dual_track_20261105/launch_formal_1106.py`
+- `work/e1_formal_20261012_r3_backup/experiments/comparison/launch_e1_five_arm.py`
+- `work/realtime_terminal_audit_20261104/launch_development.py`
+- `work/skills_45m_acceptance_launch_20261104/launch_acceptance.py`
+- `work/skills_modelpool_budget_dev_20261022/launch_pool_pair.py`
+- `work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/experiments/comparison/launch_e1_five_arm.py`
+- `work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/experiments/skills/launch_matrix.py`
+- `work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_modelpool_budget_dev_20261022/launch_pool_pair.py`
+- `work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_recovery_v4_20261023/launch_recovery_pair.py`
+- `work/skills_protocol_preparation_20261025/launch_four_arm.py`
+- `work/skills_provider_compat_20261028/launch_controlled.py`
+- `work/skills_recovery_v4_20261023/launch_recovery_pair.py`
+- `work/skills_scheduler_compat_20261020/launch_matrix_compat.py`
+- `work/skills_shared_formal_20261028/launch_shared.py`
+- `work/skills_shared_resource_20261028/launch_probe.py`
+
+## 删除文件
+
+- `experiments/riskweaver_anchor_drive_smoke_20260922/launch_profile_paired_pilot.py`
+- `experiments/riskweaver_profile_bailian_fallback_smoke_20260922/launch_profile_fallback_smoke.py`
+- `experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r2/launch_profile_fallback_smoke.py`
+- `experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r3/launch_profile_fallback_smoke.py`
+- `experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r4/launch_profile_fallback_smoke.py`
+- `experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r5/launch_profile_fallback_smoke.py`
+- `experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r6/launch_profile_fallback_smoke.py`
+- `experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r7/launch_profile_fallback_smoke.py`
+- `experiments/riskweaver_profile_candidate_dry_run_20260922/launch_profile_candidate_dry_run.py`
+- `experiments/riskweaver_profile_candidate_dry_run_20260922_r2/launch_profile_candidate_dry_run.py`
+- `experiments/riskweaver_profile_candidate_expansion_paired_dev6_20260927_r1/launch_profile_candidate_expansion_paired_dev6_20260927.py`
+- `experiments/riskweaver_profile_deepseek_closed_loop_smoke_20260925_r3/launch_profile_deepseek_closed_loop_smoke_r3_20260925.py`
+- `experiments/riskweaver_profile_formal_idm_rl_20260923_r1/launch_profile_formal_idm_rl_20260923.py`
+- `experiments/riskweaver_profile_formal_idm_rl_20260924_r2/launch_profile_formal_idm_rl_frozen_20260924.py`
+- `experiments/riskweaver_profile_formal_idm_rl_20260924_r3/launch_profile_formal_idm_rl_frozen_r3_20260924.py`
+- `experiments/riskweaver_profile_formal_idm_rl_20260924_r4/launch_profile_formal_idm_rl_frozen_r4_20260924.py`
+- `experiments/riskweaver_profile_formal_idm_rl_20260925_r5/launch_profile_formal_idm_rl_frozen_r5_20260925.py`
+- `experiments/riskweaver_profile_formal_idm_rl_20260925_r6/launch_profile_formal_idm_rl_frozen_r6_20260925.py`
+- `experiments/riskweaver_profile_paired_pilot_20260922/launch_profile_paired_pilot.py`
+- `experiments/riskweaver_profile_paired_pilot_20260922_r2/launch_profile_paired_pilot.py`
+- `experiments/riskweaver_profile_paired_pilot_20260923_r1/launch_profile_paired_pilot.py`
+- `experiments/riskweaver_profile_projection_common_smoke_20260922/launch_profile_paired_pilot.py`
+- `experiments/riskweaver_profile_qwen35ocr_closed_loop_smoke_20260925_r1/launch_profile_qwen35ocr_closed_loop_smoke_r1_20260925.py`
+- `experiments/riskweaver_profile_qwen37_closed_loop_smoke_20260925_r4/launch_profile_qwen37_closed_loop_smoke_r4_20260925.py`
+- `experiments/riskweaver_profile_qwen3_8b_candidate_expansion_closed_loop_smoke_20260925_r1/launch_profile_qwen3_8b_candidate_expansion_closed_loop_smoke_r1_20260925.py`
+- `experiments/riskweaver_profile_qwen3_8b_closed_loop_smoke_20260925_r1/launch_profile_qwen3_8b_closed_loop_smoke_r1_20260925.py`
+- `experiments/riskweaver_rl_profile_paired_calibration_20260923/launch_rl_profile_paired_calibration_20260923.py`
+- `experiments/riskweaver_rl_profile_paired_calibration_extension_20260923/launch_rl_profile_paired_calibration_extension_20260923.py`
+- `experiments/riskweaver_rl_profile_smoke_20260923/launch_rl_profile_smoke_20260923.py`
+- `experiments/scenario_dreamer_ldm_full60_20260927_r2/launch_scenario_dreamer_ldm_full60_r2_20260927.py`
+- `experiments/scenario_dreamer_ldm_generation_smoke_20260927_r1/launch_scenario_dreamer_ldm_smoke_20260927.py`
+- `experiments/scenario_dreamer_ldm_generation_smoke_20260927_r2/launch_scenario_dreamer_ldm_smoke_r2_20260927.py`
+- `launch_baseline_formal_120_20260927.py`
+- `launch_baseline_formal_20260924.py`
+- `launch_baseline_formal_all75_20260924.py`
+- `launch_baseline_formal_all75_r2_20260924.py`
+- `launch_profile_candidate_expansion_paired_dev6_20260927.py`
+- `launch_profile_deepseek_closed_loop_smoke_r3_20260925.py`
+- `launch_profile_formal_idm_rl_20260923.py`
+- `launch_profile_formal_idm_rl_all75_20260924.py`
+- `launch_profile_formal_idm_rl_frozen_20260924.py`
+- `launch_profile_formal_idm_rl_frozen_r3_20260924.py`
+- `launch_profile_formal_idm_rl_frozen_r4_20260924.py`
+- `launch_profile_formal_idm_rl_frozen_r5_20260925.py`
+- `launch_profile_formal_idm_rl_frozen_r6_20260925.py`
+- `launch_profile_paired_pilot_6scene.py`
+- `launch_profile_qwen35ocr_closed_loop_smoke_r1_20260925.py`
+- `launch_profile_qwen37_closed_loop_smoke_r4_20260925.py`
+- `launch_profile_qwen3_8b_candidate_expansion_closed_loop_smoke_r1_20260925.py`
+- `launch_profile_qwen3_8b_closed_loop_smoke_r1_20260925.py`
+- `launch_riskweaver_ablation_20_20260924.py`
+- `launch_riskweaver_full_120_qwen3_8b_20260927.py`
+- `launch_riskweaver_full_120_qwen3_8b_r2_20260927.py`
+- `launch_riskweaver_full_all75_20260924.py`
+- `launch_riskweaver_full_all75_qwen37_20260925.py`
+- `launch_rl_profile_on_recovery_8_2_20260923.py`
+- `launch_rl_profile_paired_calibration_20260923.py`
+- `launch_rl_profile_paired_calibration_extension_20260923.py`
+- `launch_rl_profile_smoke_20260923.py`
+- `launch_scenario_dreamer_ldm_full60_20260927.py`
+- `launch_scenario_dreamer_ldm_full60_r2_20260927.py`
+- `launch_scenario_dreamer_ldm_smoke_20260927.py`
+- `launch_scenario_dreamer_ldm_smoke_r2_20260927.py`
+- `tests/launch_bailian_profile_matrix_r2.py`
+- `tests/launch_bailian_profile_matrix_r3.py`
+- `tests/launch_bailian_profile_matrix_r4.py`
+- `tests/launch_codex_smoke.py`
+- `tests/launch_riskweaver_evaluation.py`
+- `tests/launch_riskweaver_target_smoke.py`
+- `tests/launch_riskweaver_target_smoke_r6.py`
+- `tests/launch_riskweaver_trajectory.py`
+- `work/dual_track_20261105/launch_formal.py`
+- `work/launch_profile_candidate_dry_run.py`
+- `work/launch_profile_candidate_dry_run_r2.py`
+- `work/launch_profile_paired_pilot.py`
+- `work/launch_profile_paired_pilot_r2.py`
+- `work/launch_profile_projection_common_smoke.py`
+- `work/multiagent_20260917/launch_before_smoke_budget.py`
+- `work/skills_event_budget_cpu_r2_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/failed_r1_original/launch_event_budget_cpu_pair.py`
+- `work/skills_event_budget_cpu_r2_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/launch_event_budget_cpu_pair.py`
+- `work/skills_lifecycle_dev_20261020/launch_fixed_lifecycle.py`
+- `work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v2_compact_dev_20261020/failed_r1_original/launch_event_budget_cpu_pair.py`
+- `work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v2_compact_dev_20261020/launch_event_budget_cpu_pair.py`
+- `work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v2_compact_dev_20261020/launch_frozen_cpu_development_pair.py`
+- `work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v2_compact_dev_20261020/launch_readiness_cpu_smoke.py`
+- `work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v3_candidate_recovery_fast_20261020/launch_fixed_recovery.py`
+- `work/skills_readiness_cpu_r3_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/failed_r1_original/launch_event_budget_cpu_pair.py`
+- `work/skills_readiness_cpu_r3_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/launch_event_budget_cpu_pair.py`
+- `work/skills_readiness_cpu_r3_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/launch_readiness_cpu_smoke.py`
+- `work/skills_v2_compact_dev_20261020/failed_r1_original/launch_event_budget_cpu_pair.py`
+- `work/skills_v2_compact_dev_20261020/launch_event_budget_cpu_pair.py`
+- `work/skills_v2_compact_dev_20261020/launch_frozen_cpu_development_pair.py`
+- `work/skills_v2_compact_dev_20261020/launch_readiness_cpu_smoke.py`
+- `work/skills_v3_candidate_recovery_20261020/launch_fixed_recovery.py`
+- `work/skills_v3_candidate_recovery_fast_20261020/launch_fixed_recovery.py`
+
+## 验证
+
+静态引用复核未发现保留代码引用已删除启动器；清单分片、启动门禁及双轨/故障续跑/统计/归属等相关24项回归通过。没有运行仿真或调用API。

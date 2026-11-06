@@ -1,0 +1,297 @@
+{
+  "before": 122,
+  "retained": 27,
+  "removed": 95,
+  "protected_current_entry": "work/dual_track_20261105/launch_formal_1106.py",
+  "retained_files": {
+    "experiments/comparison/launch_e1_five_arm.py": [
+      "tests/comparison/test_reaction_margin_and_budget.py"
+    ],
+    "experiments/scenario_dreamer_ldm_expand250_20260928_r1/launch_scenario_dreamer_ldm_expand250_20260928.py": [
+      "tests/test_launch_scenario_dreamer_ldm_expand250_20260928.py"
+    ],
+    "experiments/skills/launch_matrix.py": [
+      "tests/test_skills_matrix.py"
+    ],
+    "launch_baseline_formal_120_multigpu_20260927.py": [
+      "tests/test_launch_baseline_formal_120_multigpu_20260927.py"
+    ],
+    "launch_riskweaver_formal_addons_20_20260927.py": [
+      "tests/test_launch_riskweaver_formal_addons_20_20260927.py"
+    ],
+    "launch_scenario_dreamer_ldm_expand250_20260928.py": [
+      "tests/test_launch_scenario_dreamer_ldm_expand250_20260928.py"
+    ],
+    "tests/launch_bailian_profile_matrix.py": [
+      "work/bailian_20260916_sync_02/sync.py"
+    ],
+    "tests/launch_multiagent_matrix.py": [
+      "tests/probe_attack_only_route.py",
+      "tests/probe_attack_route_margin.py",
+      "tests/probe_calibration_four_arms.py",
+      "tests/probe_deferred_all_samples.py",
+      "tests/probe_deferred_planning.py",
+      "tests/probe_four_arm_holdout12.py",
+      "tests/probe_four_arm_holdout_batch.py",
+      "tests/probe_four_arm_multibg.py",
+      "tests/probe_four_arm_scene14.py",
+      "tests/probe_four_arm_second_scene.py",
+      "tests/probe_joint_dynamics.py",
+      "tests/probe_low_speed_smoke.py",
+      "tests/probe_memory_multibg.py",
+      "tests/probe_memory_multibg_r2.py",
+      "tests/probe_memory_training.py",
+      "tests/probe_multiagent_next_scene.py",
+      "tests/probe_multiagent_no_profile.py",
+      "tests/probe_profile_deferred_r2.py",
+      "tests/probe_projection_smoke.py",
+      "tests/probe_relaxed_gate_smoke.py",
+      "tests/probe_route_guidance.py",
+      "tests/probe_scene3_step40.py",
+      "tests/probe_scene7_budget.py",
+      "tests/probe_single_attacker_calibration.py"
+    ],
+    "work/bailian_20260916_sync_02/edit/launch_bailian_profile_matrix.py": [
+      "work/bailian_20260916_sync_02/sync.py"
+    ],
+    "work/bailian_20260916_sync_03/edit/launch_bailian_profile_matrix.py": [
+      "work/bailian_20260916_sync_02/sync.py"
+    ],
+    "work/commonroad_e1_10_20261014/code_before/experiments/comparison/launch_e1_five_arm.py": [
+      "tests/comparison/test_reaction_margin_and_budget.py"
+    ],
+    "work/commonroad_integration_20261013/code_before/experiments/comparison/launch_e1_five_arm.py": [
+      "tests/comparison/test_reaction_margin_and_budget.py"
+    ],
+    "work/dual_track_20261105/launch_formal_1106.py": [],
+    "work/e1_formal_20261012_r3_backup/experiments/comparison/launch_e1_five_arm.py": [
+      "tests/comparison/test_reaction_margin_and_budget.py"
+    ],
+    "work/realtime_terminal_audit_20261104/launch_development.py": [
+      "work/realtime_terminal_audit_20261104/test_launch_gate.py"
+    ],
+    "work/skills_45m_acceptance_launch_20261104/launch_acceptance.py": [
+      "work/skills_45m_acceptance_launch_20261104/test_launch_acceptance.py"
+    ],
+    "work/skills_modelpool_budget_dev_20261022/launch_pool_pair.py": [
+      "work/dual_track_20261105/run_pair.py",
+      "work/hybrid_deepflash_closed_loop_20261102/prepare.py",
+      "work/hybrid_instruction_scope_20261102/prepare_clean_pair.py",
+      "work/hybrid_instruction_scope_20261102_v2/prepare_clean_pair.py",
+      "work/rag_integration_20261030/run_dynamic_pair_20261104.py",
+      "work/rag_integration_20261030/run_pair.py",
+      "work/skills_45m_event_20261104/run_stage.py",
+      "work/skills_candidate_local_runtime_20261030/queue_smoke.py",
+      "work/skills_candidate_local_validation_20261030/prepare_holdout.py",
+      "work/skills_dynamic_static_20261101/real_probe.py",
+      "work/skills_event_grid_20261030/frozen_planning.py",
+      "work/skills_event_grid_20261030/prepare_planning.py",
+      "work/skills_heldout_validation_20261029/run_validation.py",
+      "work/skills_highlevel_comparison_20261030/frozen_planning.py",
+      "work/skills_highlevel_comparison_20261030/prepare_planning.py",
+      "work/skills_identity_evidence_20261030/frozen_planning.py",
+      "work/skills_identity_evidence_20261030/prepare_planning.py",
+      "work/skills_incremental_smoke_launch_20261026/queue_smoke.py",
+      "work/skills_modelpool_budget_dev_20261022/test_launch_pool_pair.py",
+      "work/skills_priority_v5_20261024/queue_single_smoke.py",
+      "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_modelpool_budget_dev_20261022/test_launch_pool_pair.py",
+      "work/skills_provider_compat_20261028/prepare_controlled.py",
+      "work/skills_route_static_fallback_20261102/all250_physical15_r1/source_scan.py",
+      "work/skills_route_static_fallback_20261102/all250_physical15_r1/source_scan_physical15.py",
+      "work/skills_route_static_fallback_20261102/all250_physical15_r1/source_scan_r2.py",
+      "work/skills_route_static_fallback_20261102/all250_r1/source_scan.py",
+      "work/skills_route_static_fallback_20261102/all250_r2/source_scan.py",
+      "work/skills_route_static_fallback_20261102/all250_r2/source_scan_r2.py",
+      "work/skills_route_static_fallback_20261102/scan.py",
+      "work/skills_route_static_fallback_20261102/scan_physical15.py",
+      "work/skills_route_static_fallback_20261102/scan_r2.py",
+      "work/skills_scene_facts_frozen_pair_20261028/frozen_pair.py",
+      "work/skills_scene_facts_frozen_pair_20261028/prepare.py",
+      "work/skills_shared_formal_20261028/prepare_shared.py",
+      "work/skills_shared_resource_20261028/prepare_probe.py",
+      "work/skills_source_facts_20261101/source_before/work/skills_highlevel_comparison_20261030/frozen_planning.py",
+      "work/skills_static_physical15_20261102/audit_seven_wiring.py",
+      "work/skills_static_physical15_20261102/seven_wiring_r1/source_audit_seven_wiring.py",
+      "work/skills_static_physical15_20261102/seven_wiring_r2/source_audit_seven_wiring.py",
+      "work/skills_static_physical15_20261102/source_before_manifest/audit_seven_wiring.py",
+      "work/skills_temporal_evaluation_20261029/run_stage.py"
+    ],
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/experiments/comparison/launch_e1_five_arm.py": [
+      "tests/comparison/test_reaction_margin_and_budget.py"
+    ],
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/experiments/skills/launch_matrix.py": [
+      "tests/test_skills_matrix.py"
+    ],
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_modelpool_budget_dev_20261022/launch_pool_pair.py": [
+      "work/dual_track_20261105/run_pair.py",
+      "work/hybrid_deepflash_closed_loop_20261102/prepare.py",
+      "work/hybrid_instruction_scope_20261102/prepare_clean_pair.py",
+      "work/hybrid_instruction_scope_20261102_v2/prepare_clean_pair.py",
+      "work/rag_integration_20261030/run_dynamic_pair_20261104.py",
+      "work/rag_integration_20261030/run_pair.py",
+      "work/skills_45m_event_20261104/run_stage.py",
+      "work/skills_candidate_local_runtime_20261030/queue_smoke.py",
+      "work/skills_candidate_local_validation_20261030/prepare_holdout.py",
+      "work/skills_dynamic_static_20261101/real_probe.py",
+      "work/skills_event_grid_20261030/frozen_planning.py",
+      "work/skills_event_grid_20261030/prepare_planning.py",
+      "work/skills_heldout_validation_20261029/run_validation.py",
+      "work/skills_highlevel_comparison_20261030/frozen_planning.py",
+      "work/skills_highlevel_comparison_20261030/prepare_planning.py",
+      "work/skills_identity_evidence_20261030/frozen_planning.py",
+      "work/skills_identity_evidence_20261030/prepare_planning.py",
+      "work/skills_incremental_smoke_launch_20261026/queue_smoke.py",
+      "work/skills_modelpool_budget_dev_20261022/test_launch_pool_pair.py",
+      "work/skills_priority_v5_20261024/queue_single_smoke.py",
+      "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_modelpool_budget_dev_20261022/test_launch_pool_pair.py",
+      "work/skills_provider_compat_20261028/prepare_controlled.py",
+      "work/skills_route_static_fallback_20261102/all250_physical15_r1/source_scan.py",
+      "work/skills_route_static_fallback_20261102/all250_physical15_r1/source_scan_physical15.py",
+      "work/skills_route_static_fallback_20261102/all250_physical15_r1/source_scan_r2.py",
+      "work/skills_route_static_fallback_20261102/all250_r1/source_scan.py",
+      "work/skills_route_static_fallback_20261102/all250_r2/source_scan.py",
+      "work/skills_route_static_fallback_20261102/all250_r2/source_scan_r2.py",
+      "work/skills_route_static_fallback_20261102/scan.py",
+      "work/skills_route_static_fallback_20261102/scan_physical15.py",
+      "work/skills_route_static_fallback_20261102/scan_r2.py",
+      "work/skills_scene_facts_frozen_pair_20261028/frozen_pair.py",
+      "work/skills_scene_facts_frozen_pair_20261028/prepare.py",
+      "work/skills_shared_formal_20261028/prepare_shared.py",
+      "work/skills_shared_resource_20261028/prepare_probe.py",
+      "work/skills_source_facts_20261101/source_before/work/skills_highlevel_comparison_20261030/frozen_planning.py",
+      "work/skills_static_physical15_20261102/audit_seven_wiring.py",
+      "work/skills_static_physical15_20261102/seven_wiring_r1/source_audit_seven_wiring.py",
+      "work/skills_static_physical15_20261102/seven_wiring_r2/source_audit_seven_wiring.py",
+      "work/skills_static_physical15_20261102/source_before_manifest/audit_seven_wiring.py",
+      "work/skills_temporal_evaluation_20261029/run_stage.py"
+    ],
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_recovery_v4_20261023/launch_recovery_pair.py": [
+      "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_recovery_v4_20261023/test_v4_protocol_audit.py",
+      "work/skills_recovery_v4_20261023/test_v4_protocol_audit.py"
+    ],
+    "work/skills_protocol_preparation_20261025/launch_four_arm.py": [
+      "work/skills_four_arm_launch_20261026/launch.py"
+    ],
+    "work/skills_provider_compat_20261028/launch_controlled.py": [
+      "work/skills_provider_compat_20261028/prepare_controlled.py"
+    ],
+    "work/skills_recovery_v4_20261023/launch_recovery_pair.py": [
+      "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_recovery_v4_20261023/test_v4_protocol_audit.py",
+      "work/skills_recovery_v4_20261023/test_v4_protocol_audit.py"
+    ],
+    "work/skills_scheduler_compat_20261020/launch_matrix_compat.py": [
+      "work/skills_scheduler_compat_20261020/test_wait_compat.py"
+    ],
+    "work/skills_shared_formal_20261028/launch_shared.py": [
+      "work/skills_shared_formal_20261028/prepare_shared.py",
+      "work/skills_shared_formal_20261028/test_shared.py"
+    ],
+    "work/skills_shared_resource_20261028/launch_probe.py": [
+      "work/skills_shared_resource_20261028/test_resource_policy.py"
+    ]
+  },
+  "deleted_files": {
+    "experiments/riskweaver_anchor_drive_smoke_20260922/launch_profile_paired_pilot.py": "08a4fa86c4a2ecf3aa18804700817473cef408da46be8d608ac278230f3c8bc4",
+    "experiments/riskweaver_profile_bailian_fallback_smoke_20260922/launch_profile_fallback_smoke.py": "0f57be95fdc85f197b80f58cc46496c49d69f06ec6ff2f6da052fdae0f2ddfa0",
+    "experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r2/launch_profile_fallback_smoke.py": "2126a22bab265635011d8105af836651cead85ab2287e0225e130c620ff69e9b",
+    "experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r3/launch_profile_fallback_smoke.py": "d92581f04800dfe74c083b5e6171f1881e9b81e7bcf302a2a1932117aa954b7e",
+    "experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r4/launch_profile_fallback_smoke.py": "0500c620d0e156effc33d3efa5db6458d1f091ed0d65fb1a35ac99b46680dc74",
+    "experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r5/launch_profile_fallback_smoke.py": "f5b54be8f49f0917bca88632f5e43cf40f38c9beeb5304c37087c52fe3ac4ebb",
+    "experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r6/launch_profile_fallback_smoke.py": "c4ca392eb447a970f36a4fcd56b9892c66bd6c4a8ead9af12464842088e7dc0d",
+    "experiments/riskweaver_profile_bailian_fallback_smoke_20260922_r7/launch_profile_fallback_smoke.py": "c1989a485f52ae434192aa5be1672497485b9439800341709d1aa952ace87fd7",
+    "experiments/riskweaver_profile_candidate_dry_run_20260922/launch_profile_candidate_dry_run.py": "838a73ef03f97b95daf1f1eaa78554fcda186b7458f14592b28b505c747e1751",
+    "experiments/riskweaver_profile_candidate_dry_run_20260922_r2/launch_profile_candidate_dry_run.py": "630969913a9de11411b90f9e47535167f1f484fa00616878b79b232bd8146bee",
+    "experiments/riskweaver_profile_candidate_expansion_paired_dev6_20260927_r1/launch_profile_candidate_expansion_paired_dev6_20260927.py": "1e2d0c1eb208fcaac680dec6ddb9698583407d4998bd5f0dabe70f1ee9777d09",
+    "experiments/riskweaver_profile_deepseek_closed_loop_smoke_20260925_r3/launch_profile_deepseek_closed_loop_smoke_r3_20260925.py": "480b21d2a017ab42a32f1572d9a139af87cc8b4c7758966522784eea55c949b9",
+    "experiments/riskweaver_profile_formal_idm_rl_20260923_r1/launch_profile_formal_idm_rl_20260923.py": "b4f40f1e4dc5e08b9dcdec77e60e56433c0358eb00e2de83a14b118aa43723b4",
+    "experiments/riskweaver_profile_formal_idm_rl_20260924_r2/launch_profile_formal_idm_rl_frozen_20260924.py": "1dbe70118132db7851de457d70692eeba673139266e5c502070f6ba2599bd987",
+    "experiments/riskweaver_profile_formal_idm_rl_20260924_r3/launch_profile_formal_idm_rl_frozen_r3_20260924.py": "f656ccea03fb34ba34504111bbb9a3c04f57d075f103ddb5bb6f18a6b72a82f2",
+    "experiments/riskweaver_profile_formal_idm_rl_20260924_r4/launch_profile_formal_idm_rl_frozen_r4_20260924.py": "918686d10695609788df75bfefdc0d0a65cb5384dabbd66aeecc73dbc0f38b88",
+    "experiments/riskweaver_profile_formal_idm_rl_20260925_r5/launch_profile_formal_idm_rl_frozen_r5_20260925.py": "cab301ef7dfa687b79edc0b161126ac6c1a4de6b106a8a2e8fbb3c3da941da46",
+    "experiments/riskweaver_profile_formal_idm_rl_20260925_r6/launch_profile_formal_idm_rl_frozen_r6_20260925.py": "d092f4e9aa146c65705c220b13e989a3dd3b39e08d91a05c0721d4014a6d739a",
+    "experiments/riskweaver_profile_paired_pilot_20260922/launch_profile_paired_pilot.py": "850f0620b62b189b04d5a3546ea4ba8d69922b8d06cfc1048c7d8ce6930d5b74",
+    "experiments/riskweaver_profile_paired_pilot_20260922_r2/launch_profile_paired_pilot.py": "135d19b91ebd7d56ecbd7dc53f8c103dd4d0fd36660718821fec0eb51b1959d5",
+    "experiments/riskweaver_profile_paired_pilot_20260923_r1/launch_profile_paired_pilot.py": "401dd54744ee2293eb398c96e1ffce08fef64430faa53c12d95c6cb4686c529c",
+    "experiments/riskweaver_profile_projection_common_smoke_20260922/launch_profile_paired_pilot.py": "790345bacd62785371d75b51303e9f0c788666612d5ddc6f93c426035f69abe0",
+    "experiments/riskweaver_profile_qwen35ocr_closed_loop_smoke_20260925_r1/launch_profile_qwen35ocr_closed_loop_smoke_r1_20260925.py": "1aae8d61ad23555b81acd16773ccf38b055520d16d0b09c5e8958dedf25bd558",
+    "experiments/riskweaver_profile_qwen37_closed_loop_smoke_20260925_r4/launch_profile_qwen37_closed_loop_smoke_r4_20260925.py": "8844047eb53a9ddd32b5b96544112412dc803354016b9e0ce112623258f90334",
+    "experiments/riskweaver_profile_qwen3_8b_candidate_expansion_closed_loop_smoke_20260925_r1/launch_profile_qwen3_8b_candidate_expansion_closed_loop_smoke_r1_20260925.py": "6bb3b8a866da5cf2b2f3ea40cf4cdcfd04569c644c6e64c1a2a1252dd2d88258",
+    "experiments/riskweaver_profile_qwen3_8b_closed_loop_smoke_20260925_r1/launch_profile_qwen3_8b_closed_loop_smoke_r1_20260925.py": "c9e59fbe2f38a7befae5c0cfa7a0005ac45bd79f8585f3b6872d1d49bc0c8470",
+    "experiments/riskweaver_rl_profile_paired_calibration_20260923/launch_rl_profile_paired_calibration_20260923.py": "3e38df9e4828333a2679d320f47a3218bed4019ef9ea51d7ac31084ccc3589a7",
+    "experiments/riskweaver_rl_profile_paired_calibration_extension_20260923/launch_rl_profile_paired_calibration_extension_20260923.py": "eeded3053a2c15023bc8b18ea3f42b0d7cd6075103cf55202cef4d4981b72869",
+    "experiments/riskweaver_rl_profile_smoke_20260923/launch_rl_profile_smoke_20260923.py": "5fae25d967d3cd3923f5f313f033e996af8af2cbc1572509a8b9cb1ec2eba364",
+    "experiments/scenario_dreamer_ldm_full60_20260927_r2/launch_scenario_dreamer_ldm_full60_r2_20260927.py": "080a4dfe66beb090ae426d6ffbca85209be46e806cb6febb1198fb60af8eba1d",
+    "experiments/scenario_dreamer_ldm_generation_smoke_20260927_r1/launch_scenario_dreamer_ldm_smoke_20260927.py": "60afcfdf9f9ddbca435fcda8eb431b21d34ff28b498a265710210e05526fc5a2",
+    "experiments/scenario_dreamer_ldm_generation_smoke_20260927_r2/launch_scenario_dreamer_ldm_smoke_r2_20260927.py": "97e50ac540c6272d89b82233ff3d0972fb9a51426d32f3928b4e4d25044e18ef",
+    "launch_baseline_formal_120_20260927.py": "7ce50ba4132d1e833fdcffd804171bf9cb25e493a706ea1f05093b4d912e70a1",
+    "launch_baseline_formal_20260924.py": "8ceb7bc56734ea6ab983f1c98beed8afe0e350b997efed955f277bf76498d78e",
+    "launch_baseline_formal_all75_20260924.py": "8e0361f8e17e3a00fab5fd579891461320cbff9b6f2a62ac5d7b7471c04b0e4d",
+    "launch_baseline_formal_all75_r2_20260924.py": "33798d3d18f73e8ac41d3f2ac766bb29925b2dc43122ee07fdd73e443c20c135",
+    "launch_profile_candidate_expansion_paired_dev6_20260927.py": "1e2d0c1eb208fcaac680dec6ddb9698583407d4998bd5f0dabe70f1ee9777d09",
+    "launch_profile_deepseek_closed_loop_smoke_r3_20260925.py": "480b21d2a017ab42a32f1572d9a139af87cc8b4c7758966522784eea55c949b9",
+    "launch_profile_formal_idm_rl_20260923.py": "b4f40f1e4dc5e08b9dcdec77e60e56433c0358eb00e2de83a14b118aa43723b4",
+    "launch_profile_formal_idm_rl_all75_20260924.py": "d2fc1ac863939a53455678f9abf61732ce4ffb0891784068c9a8d424dca78c41",
+    "launch_profile_formal_idm_rl_frozen_20260924.py": "1dbe70118132db7851de457d70692eeba673139266e5c502070f6ba2599bd987",
+    "launch_profile_formal_idm_rl_frozen_r3_20260924.py": "f656ccea03fb34ba34504111bbb9a3c04f57d075f103ddb5bb6f18a6b72a82f2",
+    "launch_profile_formal_idm_rl_frozen_r4_20260924.py": "918686d10695609788df75bfefdc0d0a65cb5384dabbd66aeecc73dbc0f38b88",
+    "launch_profile_formal_idm_rl_frozen_r5_20260925.py": "cab301ef7dfa687b79edc0b161126ac6c1a4de6b106a8a2e8fbb3c3da941da46",
+    "launch_profile_formal_idm_rl_frozen_r6_20260925.py": "d092f4e9aa146c65705c220b13e989a3dd3b39e08d91a05c0721d4014a6d739a",
+    "launch_profile_paired_pilot_6scene.py": "a5193af662288bc394af749beaf88ea140bd572a1e98561f1dc040a7d453d38b",
+    "launch_profile_qwen35ocr_closed_loop_smoke_r1_20260925.py": "1aae8d61ad23555b81acd16773ccf38b055520d16d0b09c5e8958dedf25bd558",
+    "launch_profile_qwen37_closed_loop_smoke_r4_20260925.py": "8844047eb53a9ddd32b5b96544112412dc803354016b9e0ce112623258f90334",
+    "launch_profile_qwen3_8b_candidate_expansion_closed_loop_smoke_r1_20260925.py": "e6a67dfeee0f87a0081ebd20d34e319f4de3ef970b88b419137cf187a2d64a0c",
+    "launch_profile_qwen3_8b_closed_loop_smoke_r1_20260925.py": "66061ef55789bfc9066ee5f3b81ca90dd56c920e31b0170c2cd2b50d5b672a08",
+    "launch_riskweaver_ablation_20_20260924.py": "5e9135a3c9adfb32fd6031fdc96862a44cc26d35c685ba971bd625cde27768b3",
+    "launch_riskweaver_full_120_qwen3_8b_20260927.py": "1dfe363079cdcd6d5770e84cb0c99c296e38ac8ecb618b8667d38da19806bea0",
+    "launch_riskweaver_full_120_qwen3_8b_r2_20260927.py": "5867420cb81679ce976bac7b53682c2f882485c1a530f87dbc8a26b518e41cce",
+    "launch_riskweaver_full_all75_20260924.py": "43a62cb9607204f00da241533bbd1fd163dfbf780902a10d7565673eda303346",
+    "launch_riskweaver_full_all75_qwen37_20260925.py": "29d08f1eb0ede043c22dfeff526cbab6faf8fcac526b9a62ebd91e40ce20e973",
+    "launch_rl_profile_on_recovery_8_2_20260923.py": "943ca844e7d0d2b42e3cbabfa4eedbce0cc0b03dfb650c6127ae58d86f3d8d77",
+    "launch_rl_profile_paired_calibration_20260923.py": "3e38df9e4828333a2679d320f47a3218bed4019ef9ea51d7ac31084ccc3589a7",
+    "launch_rl_profile_paired_calibration_extension_20260923.py": "536f238570db55452f179ee4541ac1f547b9af929df32c87f3ad462041e10d3e",
+    "launch_rl_profile_smoke_20260923.py": "5fae25d967d3cd3923f5f313f033e996af8af2cbc1572509a8b9cb1ec2eba364",
+    "launch_scenario_dreamer_ldm_full60_20260927.py": "4799e2e1c21e0a0427ecb5ccac91c6f354a56981f118c11ce57c3a5339a69a85",
+    "launch_scenario_dreamer_ldm_full60_r2_20260927.py": "080a4dfe66beb090ae426d6ffbca85209be46e806cb6febb1198fb60af8eba1d",
+    "launch_scenario_dreamer_ldm_smoke_20260927.py": "60afcfdf9f9ddbca435fcda8eb431b21d34ff28b498a265710210e05526fc5a2",
+    "launch_scenario_dreamer_ldm_smoke_r2_20260927.py": "97e50ac540c6272d89b82233ff3d0972fb9a51426d32f3928b4e4d25044e18ef",
+    "tests/launch_bailian_profile_matrix_r2.py": "0a61c1c853fd284f9e8f543b146f05f2ec546ac1714f82ea9928ab120a0071af",
+    "tests/launch_bailian_profile_matrix_r3.py": "61c2a0ad2d3a9b66363d514803937512305e233b30d438f5630f1f588048644a",
+    "tests/launch_bailian_profile_matrix_r4.py": "e78356a2fce2e1d9de170535b35164b098952fc49eafa85fb9f0f02bfe7cc90a",
+    "tests/launch_codex_smoke.py": "95a8f0022b9d661a4e926efb6a7f876003d93b8b99f172017d8ec33adb3d2e6b",
+    "tests/launch_riskweaver_evaluation.py": "6909cea96b984f0cd28028f0e59a44b8df3481424de918534f00f1fcc48f4b4b",
+    "tests/launch_riskweaver_target_smoke.py": "8fff0762b78a87db876c07190c84fa852e630712b59f8ecd542f742406bf3c64",
+    "tests/launch_riskweaver_target_smoke_r6.py": "0a43b180a43c48e15b71b93a189f481a57096291df200350f4d6393493a98770",
+    "tests/launch_riskweaver_trajectory.py": "5e8268318250f463f453d8879be1499f44e7f4a3b56492a72a1be50e7af97db9",
+    "work/dual_track_20261105/launch_formal.py": "bea7680dc113fbffb7764e95c8e57db9f4b85ab9baaca65312aa4d7f32867973",
+    "work/launch_profile_candidate_dry_run.py": "838a73ef03f97b95daf1f1eaa78554fcda186b7458f14592b28b505c747e1751",
+    "work/launch_profile_candidate_dry_run_r2.py": "630969913a9de11411b90f9e47535167f1f484fa00616878b79b232bd8146bee",
+    "work/launch_profile_paired_pilot.py": "850f0620b62b189b04d5a3546ea4ba8d69922b8d06cfc1048c7d8ce6930d5b74",
+    "work/launch_profile_paired_pilot_r2.py": "135d19b91ebd7d56ecbd7dc53f8c103dd4d0fd36660718821fec0eb51b1959d5",
+    "work/launch_profile_projection_common_smoke.py": "790345bacd62785371d75b51303e9f0c788666612d5ddc6f93c426035f69abe0",
+    "work/multiagent_20260917/launch_before_smoke_budget.py": "9b05160bb23ee40fc385a5770474bfbd9a8f29d8010a9bd22e523374fbf99274",
+    "work/skills_event_budget_cpu_r2_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/failed_r1_original/launch_event_budget_cpu_pair.py": "1bdf88c08d3399d564f0771d65dac686f34feaec595e16747b154aed307c3b7b",
+    "work/skills_event_budget_cpu_r2_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/launch_event_budget_cpu_pair.py": "7deabdccd977d7df37f466a6e00f453424363657993e0c5a972fead8e0cbcb12",
+    "work/skills_lifecycle_dev_20261020/launch_fixed_lifecycle.py": "89ffa4061d8ffd54e5ae2d2f0c2eb83f3ae0a021d8717e53dc4cf09d3ace0bd1",
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v2_compact_dev_20261020/failed_r1_original/launch_event_budget_cpu_pair.py": "1bdf88c08d3399d564f0771d65dac686f34feaec595e16747b154aed307c3b7b",
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v2_compact_dev_20261020/launch_event_budget_cpu_pair.py": "7deabdccd977d7df37f466a6e00f453424363657993e0c5a972fead8e0cbcb12",
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v2_compact_dev_20261020/launch_frozen_cpu_development_pair.py": "d7328665a919f624f6bbd525fd962b31f6903977c0ebec52d849f525155159fe",
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v2_compact_dev_20261020/launch_readiness_cpu_smoke.py": "a30840595013d75e3699f5636d2987d5ac297bc5c1cc6eb57f0b94be17cb5b0e",
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_v3_candidate_recovery_fast_20261020/launch_fixed_recovery.py": "2a3fca2ec19b5ce3e250acb3d1d379787573022dd2473d09e80d089a010f4cc4",
+    "work/skills_readiness_cpu_r3_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/failed_r1_original/launch_event_budget_cpu_pair.py": "1bdf88c08d3399d564f0771d65dac686f34feaec595e16747b154aed307c3b7b",
+    "work/skills_readiness_cpu_r3_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/launch_event_budget_cpu_pair.py": "7deabdccd977d7df37f466a6e00f453424363657993e0c5a972fead8e0cbcb12",
+    "work/skills_readiness_cpu_r3_source_snapshot_20261020/work/skills_v2_compact_dev_20261020/launch_readiness_cpu_smoke.py": "a30840595013d75e3699f5636d2987d5ac297bc5c1cc6eb57f0b94be17cb5b0e",
+    "work/skills_v2_compact_dev_20261020/failed_r1_original/launch_event_budget_cpu_pair.py": "1bdf88c08d3399d564f0771d65dac686f34feaec595e16747b154aed307c3b7b",
+    "work/skills_v2_compact_dev_20261020/launch_event_budget_cpu_pair.py": "7deabdccd977d7df37f466a6e00f453424363657993e0c5a972fead8e0cbcb12",
+    "work/skills_v2_compact_dev_20261020/launch_frozen_cpu_development_pair.py": "d7328665a919f624f6bbd525fd962b31f6903977c0ebec52d849f525155159fe",
+    "work/skills_v2_compact_dev_20261020/launch_readiness_cpu_smoke.py": "a30840595013d75e3699f5636d2987d5ac297bc5c1cc6eb57f0b94be17cb5b0e",
+    "work/skills_v3_candidate_recovery_20261020/launch_fixed_recovery.py": "2e869988b1c5b281f90f36c14edb793dfd3be6f32872daa33fed10648fce3e59",
+    "work/skills_v3_candidate_recovery_fast_20261020/launch_fixed_recovery.py": "2a3fca2ec19b5ce3e250acb3d1d379787573022dd2473d09e80d089a010f4cc4"
+  },
+  "restore_commit": "13c99f778ac0b64b1ff330648f673f70fa21268d",
+  "scope": "standalone_GitHub_checkout_only; runtime_workspace_and_experiment_originals_unchanged",
+  "validation": {
+    "related_tests_passed": 24,
+    "remaining_code_references_to_deleted_launchers": [],
+    "all_deleted_targets_within_standalone_checkout": true
+  }
+}
