@@ -1,0 +1,40 @@
+{
+  "scenes": [
+    91,
+    100,
+    129,
+    211,
+    238,
+    241,
+    246
+  ],
+  "planned_scenes": 7,
+  "planned_path_requests": 14,
+  "source_sha256": {
+    "work/skills_common_static_gate_20261102/manifest.json": "63974ec8787fe92d245eab63aec63f0240b9ad338e99cc05dbd0e2156811b8f0",
+    "work/skills_common_static_gate_20261102/audit_seven.py": "fe417c01a86ebf5edf21c488fbbcbc7ccf9f581861d76c1611de56ae58bc1fce",
+    "work/skills_common_static_gate_20261102/test_common_gate.py": "ed20c3ca6ff97d6f70a16718ac8bcf627396a660f6e57005e90ea5ad961067ef",
+    "work/skills_common_static_gate_20261102/__init__.py": "06789f40d4f9f2a6ed4fc3a40522cf0fc6f199ef4ad2a09f7ab1289caa77bfac",
+    "work/skills_common_static_gate_20261102/COMMON_STATIC_RULE.md": "7f1f0fbf1f063ede00e09f858e810a2e9007ef767899aa4ed383f79a8b7f74f3",
+    "work/skills_common_static_gate_20261102/README.md": "ad82b8839296408490b57b90a9cfd84f6a2a835ac71046d5fd506c8103a3104d",
+    "work/skills_common_static_gate_20261102/common_gate.py": "0106938830fa9a5d52e21ad80ea72e047af020a7cd1f818ee274a18416dec59d",
+    "work/skills_static_physical15_20261102/adapter.py": "115de78791ffc49cc96844627423b80b0e6586cbeb1194d71ebd52d11d8010bd",
+    "work/skills_static_physical15_20261102/geometry.py": "b7dfe7d1b1125e0ef515f08db4811f1578804b454b51336025a9da8ebabd1fc0",
+    "work/skills_static_physical15_20261102/audit_seven_wiring.py": "b42cbdf7ef45224bf6246baf7e7388f893e5f32d1840b9b2a36c16aab8849301",
+    "work/skills_static_physical15_20261102/planner.py": "22d68def41c31ea46a204989e9a6f5ce86dbf87627c281fcf01c522a89e4e3e2",
+    "work/skills_static_physical15_20261102/manifest.json": "c264f0421f500d7bab39d9c6bff1b4d15b297c4162d133e2efd2a05a84eb4d3a",
+    "work/skills_static_physical15_20261102/SKILL.md": "31aaf84d0bc1548633d0bbe67c6494668b919b341732e9e0461932dd529e28a6",
+    "work/hybrid_public_integration_20261101/test_public_hybrid.py": "74a5dbe5599ba84b0d68960896adc709c732bc09abd80600a26063c91e13eb5a",
+    "work/skills_catalog250_20261102/audit.py": "4539288687aea77819cdde647bb8b223c30dd0ffa702f5b8072bfa59866dbd21"
+  },
+  "original250_manifest_sha256": "e2d4548ef01601c5f9430fabaea0b9d721f43c0176c6fa04b7b709790c23eeeb",
+  "config_sha256": "2fcd33cbc5051159eb4446393ab011d3bd1425417aefafdc2de3d173c8453d64",
+  "fixture": true,
+  "fixed_rule_common_to_both_paths": true,
+  "physical_API_requests": 0,
+  "env_steps": 0,
+  "D": null,
+  "scope": "static_highlevel_wiring_real_maps_not_full_temporal_factory_or_dynamic_routing",
+  "not_an_independent_generalization_sample": true,
+  "goal_complete": false
+}

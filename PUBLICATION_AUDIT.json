@@ -1,0 +1,20 @@
+{
+  "sanitized_test_fixture_files": [
+    "tests/test_skills_api_audit.py",
+    "work/skills_modelpool_budget_dev_20261022/test_physical_call_budget.py",
+    "work/skills_priority_v5_validation_20261024/frozen_pair_source_snapshot/work/skills_modelpool_budget_dev_20261022/test_physical_call_budget.py"
+  ],
+  "critical_syntax_verified": [
+    "simulator.py",
+    "scenario_generator.py",
+    "policies/llm_adversarial_planner.py",
+    "policies/skills_planner.py",
+    "policies/rag_runtime.py",
+    "experiments/comparison/run_e1_group.py",
+    "work/dual_track_20261105/run_dual_worker_v4.py",
+    "work/dual_track_20261105/scene_fault_policy.py"
+  ],
+  "live_algorithm_modified": false,
+  "credentials_env_excluded": true,
+  "old_git_history_not_copied": true
+}

@@ -1,0 +1,82 @@
+{
+  "version": "original_holdout10_rolling_contract_pair_20261029_v1",
+  "development_experiment": "experiments/skills_four_arm_provider_shared_development10_20261028_r2",
+  "smoke_experiment": "experiments/skills_rolling_contract_scene074_20261029_r1",
+  "model_source": {
+    "raw_sha256": "f620bc33ae299f174661db67fdd6ff23e9cbb08ddde2d25ec1cd871c8054f4f1",
+    "algorithm_sha256": "3bfefb1c7211f0245e86fdd4be755bdeb1db64723409bcabe7cb77d6adef32ab",
+    "active_models": [
+      "deepseek-v4.1-flash-1017",
+      "deepseek-v4.1-flash",
+      "glm-5.3",
+      "deepseek-v4-pro-0813",
+      "qwen3.8-2.4t-a95b",
+      "qwen3.8-max",
+      "qwen3.7-flash"
+    ],
+    "disabled_models": [
+      "deepseek-r1-distill-qwen-32b",
+      "deepseek-r1-distill-qwen-7b",
+      "deepseek-v4-flash-0731",
+      "glm-4.5-air",
+      "glm-5",
+      "kimi-k3",
+      "qwen-long",
+      "qwen-max",
+      "qwen-plus",
+      "qwen-plus-2025-07-28",
+      "qwen-vl-plus",
+      "qwen3-8b",
+      "qwen3-coder-480b-a35b-instruct",
+      "qwen3-coder-plus",
+      "qwen3-max-preview",
+      "qwen3-vl-235b-a22b-thinking",
+      "qwen3-vl-30b-a3b-thinking",
+      "qwen3-vl-32b-thinking",
+      "qwen3-vl-8b-thinking",
+      "qwen3.5-flash-2026-02-23",
+      "qwen3.5-plus",
+      "qwen3.6-plus",
+      "qwen3.7-max",
+      "qwen3.7-plus",
+      "qwen3.8-27b",
+      "qwen3.8-flash",
+      "qwen3.8-max-0902"
+    ]
+  },
+  "frozen_model_pool": [
+    "deepseek-v4.1-flash-1017",
+    "deepseek-v4.1-flash",
+    "glm-5.3",
+    "deepseek-v4-pro-0813",
+    "qwen3.8-2.4t-a95b",
+    "qwen3.8-max",
+    "qwen3.7-flash"
+  ],
+  "free_protection_operator_confirmed": true,
+  "planned_scenes_per_arm": 10,
+  "planned_attempts": 20,
+  "required_qualified_scenes": 6,
+  "exposure_scope": "not_used_for_this_skills_development_not_certified_project_unseen",
+  "arms": [
+    "legacy_shared_recovery",
+    "skills_full_shared_recovery"
+  ],
+  "policy": "idm",
+  "profile": "off",
+  "mode": "pure_dynamic",
+  "seed": 42,
+  "natural_end_or_max_frames": 400,
+  "physical_SDK_limit_per_scene": 4,
+  "shared_resource": {
+    "gpu": "0",
+    "cap_gib": 14,
+    "reserve_gib": 3,
+    "max_own_arms": 1
+  },
+  "automatic_launch": false,
+  "status_at_preparation": "prepared_only_new_smoke_prerequisite_pending",
+  "original_validation_manifest_sha256": "4d2f17665429dfc5ae2dcf8dbb504e05e90c3c4f9cd7f7f868d4bc2d944e3c97",
+  "runtime_claim_scope": "whole_package_operational_comparison_not_skill_text_only_or_universal_noninferiority",
+  "remaining_scope": "P1_semantics_P2_threat_and_original_A_to_E_remaining_modes_still_require_independent_evidence"
+}

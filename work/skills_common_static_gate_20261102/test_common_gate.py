@@ -1,0 +1,214 @@
+"""真实旧生成函数/公共Skills链的零API共同门控测试，不认证模型推理效果。"""
+import copy
+import importlib.util
+import math
+from pathlib import Path
+import sys
+from types import SimpleNamespace as NS
+
+import numpy as np
+import pytest
+
+ROOT = Path('/home2/zhaoyx/scenario-dreamer')
+sys.path.insert(0, str(ROOT))
+from policies.llm_adversarial_planner import LLMAdversarialPlanner, PlannerServiceFailure
+from policies.ego_profile import CandidateBuilder
+from work.skills_common_static_gate_20261102 import common_gate as gate
+
+
+def public_fixture(active=False):
+    spec = importlib.util.spec_from_file_location('common_static_public_fixture',
+        ROOT/'work/hybrid_public_integration_20261101/test_public_hybrid.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    env, planner, engine, calls = module.setup(active)
+    # 使用同一真实路线输入；不能仅改变几何检查而仍向模型发送另一条路线。
+    state = env.get_state_for_planning
+    env.get_state_for_planning = lambda: dict(state(), route=env.scenario_dict['route'].tolist())
+    return env, planner, engine, calls
+
+
+def curved(env):
+    route = np.array([[0., 0.], [10., 0.], [10., 100.]])
+    env.scenario_dict.update(route=route, lanes=np.array([route]))
+
+
+def legacy_planner(env, placements):
+    requests = []
+    def forbidden(*args, **kwargs):
+        pytest.fail('real SDK must never be called in fixture tests')
+    client = NS(chat=NS(completions=NS(create=forbidden)))
+    planner = LLMAdversarialPlanner(model_name='zero-api-common-gate-fixture',
+        model_names=['zero-api-common-gate-fixture'], client=client,
+        provider='dashscope', attack_mode='joint')
+    def reply(prompt, scene_image=None):
+        requests.append(prompt)
+        ego = env.ego_state
+        angle = math.pi/2-ego[4]
+        rotation = np.array([[math.cos(angle),-math.sin(angle)], [math.sin(angle),math.cos(angle)]])
+        local = [dict(p, center=((np.array(p['center'])-ego[:2])@rotation.T).tolist(),
+                      yaw=p['yaw']+angle) for p in placements]
+        return '', dict(attack=False,attack_target_id=-1,strategy='none',anchors=[],
+            obstacle_plan=copy.deepcopy(local),reason='DETERMINISTIC_FIXTURE_NOT_LLM')
+    planner._request_attack_plan = reply
+    return planner, requests
+
+
+def placement(center=(10., 35.), kind='disabled_vehicle'):
+    return dict(type=kind,center=list(center),yaw=math.pi/2,count=1,spacing=1.)
+
+
+def test_off_keeps_legacy_prompt_and_validator_semantics(monkeypatch):
+    env, _, _, _ = public_fixture()
+    curved(env)
+    low, requests = legacy_planner(env,[placement()])
+    # 关闭时不应加载新规则，也不增加原自由规划的15米后备能力。
+    monkeypatch.setattr(gate,'load_rule',lambda:pytest.fail('off loaded rule'))
+    instruction = ['original instruction']
+    state = env.get_state_for_planning()
+    expected = low._build_prompt(__import__('json').dumps(state,indent=2),instruction,include_image=False)
+    result = gate.plan_once(low,env,state,instruction)
+    assert requests == [expected] and instruction == ['original instruction']
+    assert result['returned_plan']['obstacle_plan'] == []
+    assert result['evaluated_plan'] == result['returned_plan']
+    assert not result['scope']['validation_calls']
+    assert '_validate_obstacle_plan' not in low.__dict__
+
+
+def test_on_legacy_uses_real_generation_and_final_common_validation():
+    env, _, _, _ = public_fixture()
+    curved(env)
+    low, requests = legacy_planner(env,[placement()])
+    state = env.get_state_for_planning()
+    result = gate.plan_once(low,env,state,'challenge',builder=CandidateBuilder(NS()),enabled=True)
+    assert len(requests) == 1 and '实验共同静态校验规则' in requests[0]
+    assert result['returned_plan']['obstacle_plan']
+    assert result['final_common_static_validation']['accepted']
+    assert result['common_rule_sha256']
+    assert '_validate_obstacle_plan' not in low.__dict__
+    assert all(min(e['initial_ego_OBB_clearances_m'])>=15
+        for e in result['scope']['geometry']['events'] if e['accepted'])
+
+
+def test_same_placements_receive_same_final_check_for_free_and_skills():
+    env, low, engine, calls = public_fixture()
+    curved(env)
+    state = env.get_state_for_planning()
+    with gate.common_scope(low,env,True):
+        published = engine.static.build_context(env,state,low)['obstacle_candidates']
+    selected = published[0]['placements']
+    free, free_requests = legacy_planner(env,selected)
+    a = gate.plan_once(free,env,state,[],builder=engine.static.builder,enabled=True)
+    b = gate.plan_once(low,env,state,[],skills_engine=engine,builder=engine.static.builder,enabled=True)
+    assert len(free_requests)==len(calls)==1
+    assert a['evaluated_plan']['obstacle_plan'] == b['evaluated_plan']['obstacle_plan']
+    assert a['final_common_static_validation'] == b['final_common_static_validation']
+    assert a['common_rule_sha256'] == b['common_rule_sha256']
+    assert a['D'] is b['D'] is None and a['collision'] is b['collision'] is None
+
+
+def test_partially_filtered_free_static_combination_is_not_complete_success():
+    env, _, _, _ = public_fixture()
+    low, requests = legacy_planner(env,[placement((30.,0.)),placement((2.,0.))])
+    result = gate.plan_once(low,env,env.get_state_for_planning(),[],builder=CandidateBuilder(NS()),enabled=True)
+    assert len(requests)==1 and result['returned_plan']['obstacle_plan']==[]
+    rows=result['scope']['validation_calls']
+    assert len(rows[0]['submitted'])==2 and len(rows[0]['accepted_before_whole_group_check'])==1
+    assert not rows[0]['whole_group_preserved']
+
+
+@pytest.mark.parametrize('kind',['background','existing_static','zero_area'])
+def test_free_plan_final_safety_cannot_be_bypassed(kind,monkeypatch):
+    env, _, _, _ = public_fixture()
+    place=placement((30.,0.))
+    if kind=='background':
+        env.agent_active[:]=True
+        env.data_dict['agent'][-1][0,:2]=[30.,0.]
+    elif kind=='existing_static':
+        # 参考点保持2米之外但真实车体足迹重叠，旧中心检查本身不足。
+        env.get_static_obstacles=lambda:[dict(id='existing',center=[32.5,0.],yaw=math.pi/2,length=8.,width=4.)]
+    else:
+        import policies.static_attack_catalog as static
+        monkeypatch.setattr(static,'geometric_grid',lambda *a,**k:dict(valid=True,points=np.empty((0,2)),resolution=.5,basis='zero'))
+    low,_=legacy_planner(env,[place])
+    result=gate.plan_once(low,env,env.get_state_for_planning(),[],builder=CandidateBuilder(NS()),enabled=True)
+    assert result['returned_plan']['obstacle_plan']
+    assert not result['final_common_static_validation']['accepted']
+    assert result['evaluated_plan']['obstacle_plan']==[]
+    assert result['static_rejection_reason']
+
+
+def test_disabled_preserves_original_partial_group_filtering():
+    env,_,_,_=public_fixture()
+    low,_=legacy_planner(env,[placement((30.,0.)),placement((2.,0.))])
+    result=gate.plan_once(low,env,env.get_state_for_planning(),[],enabled=False)
+    assert len(result['returned_plan']['obstacle_plan'])==1
+    assert result['evaluated_plan']==result['returned_plan']
+
+
+def test_rejected_static_does_not_discard_valid_dynamic_part():
+    env,_,_,_=public_fixture(True)
+    low,requests=legacy_planner(env,[])
+    def reply(prompt,scene_image=None):
+        requests.append(prompt)
+        return '',dict(attack=True,attack_target_id=0,strategy='slow_down',
+            anchors=[[0.,18.],[0.,26.],[0.,34.],[0.,42.]],
+            obstacle_plan=[dict(type='disabled_vehicle',center=[0.,2.],yaw=0.,count=1,spacing=1.)],
+            reason='DETERMINISTIC_FIXTURE_NOT_LLM')
+    low._request_attack_plan=reply
+    result=gate.plan_once(low,env,env.get_state_for_planning(),[],builder=CandidateBuilder(NS()),enabled=True)
+    assert len(requests)==1 and result['returned_plan']['attack']
+    assert result['evaluated_plan']['attack'] and not result['evaluated_plan']['obstacle_plan']
+
+
+def test_dynamic_branch_and_shared_budget_are_not_replaced():
+    env,low,engine,calls=public_fixture(True)
+    dynamic=engine.dynamic
+    result=gate.plan_once(low,env,env.get_state_for_planning(),[],skills_engine=engine,
+        builder=engine.static.builder,enabled=True)
+    assert result['evaluated_plan']['attack'] and result['evaluated_plan']['attack_kind']=='dynamic'
+    assert engine.dynamic is dynamic and engine.static.calls==0 and engine.calls==len(calls)==1
+
+
+def test_input_or_mutated_state_cannot_pass_current_state_validation():
+    env,low,engine,_=public_fixture()
+    state=env.get_state_for_planning()
+    bad=copy.deepcopy(state);bad['current_step']=50
+    with pytest.raises(ValueError,match='differs_from_current'):
+        gate.plan_once(low,env,bad,[],skills_engine=engine,builder=engine.static.builder,enabled=True)
+    original=engine.plan
+    def moved(*args,**kwargs):
+        result=original(*args,**kwargs);env.ego_state[0]+=1
+        return result
+    engine.plan=moved
+    result=gate.plan_once(low,env,state,[],skills_engine=engine,builder=engine.static.builder,enabled=True)
+    assert result['status']=='stale_planning_state' and result['evaluated_plan'] is None
+    assert result['returned_plan'] is not None
+
+
+def test_service_failure_does_not_fabricate_no_vehicle_or_static_success():
+    env,low,engine,_=public_fixture(True)
+    def fail(*a,**k):raise PlannerServiceFailure('fixture service failure')
+    low._request_attack_plan=fail
+    result=gate.plan_once(low,env,env.get_state_for_planning(),[],skills_engine=engine,
+        builder=engine.static.builder,enabled=True)
+    assert result['status']=='planner_service_failure' and result['evaluated_plan'] is None
+    assert engine.static.calls==0
+
+
+def test_exception_nested_scope_and_existing_instance_method_restore():
+    env,low,_,_=public_fixture()
+    original=low._validate_obstacle_plan
+    with pytest.raises(RuntimeError,match='fixture runtime'):
+        with gate.common_scope(low,env,True):
+            with pytest.raises(RuntimeError,match='nested_common'):
+                with gate.common_scope(low,env,True):pass
+            raise RuntimeError('fixture runtime')
+    assert low._validate_obstacle_plan==original and '_rw_common_static_gate_active' not in low.__dict__
+
+
+@pytest.mark.parametrize('flag',['on',1,None])
+def test_non_boolean_flags_are_rejected(flag):
+    env,low,engine,_=public_fixture()
+    with pytest.raises(ValueError,match='requires_boolean'):
+        gate.plan_once(low,env,env.get_state_for_planning(),[],skills_engine=engine,enabled=flag)

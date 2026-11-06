@@ -1,0 +1,12 @@
+{
+  "scenario_files": [
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/22_12.pkl"
+  ],
+  "scenario_sha256": [
+    "94b4f26f24e97a43133eddc3c0cdbef8202b2cac569a988fdad9caa00257d1a8"
+  ],
+  "seed": 42,
+  "steps": 40,
+  "max_replays": 0,
+  "purpose": "planner_diffusion_execution_smoke"
+}

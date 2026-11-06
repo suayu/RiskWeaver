@@ -1,0 +1,36 @@
+{
+  "name": "riskweaver_frozen_250_scenes",
+  "created_at_unix": 1790542615.3337908,
+  "selection_rule": "source_order_then_lexicographic_path_first_n_unique_sha256",
+  "scene_root": null,
+  "scene_roots": [
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_full60_20260927_r2/postprocessed_200m_pickles",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles"
+  ],
+  "source_unique_count": 263,
+  "source_duplicate_count": 0,
+  "scenario_count": 1,
+  "scenario_files": [
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles/2_33.pkl"
+  ],
+  "scenario_sha256": [
+    "139015cdd65e3195992f016e04aa242ee2537798dca996cbcffbec2254edb6a1"
+  ],
+  "seed": 42,
+  "simulation_steps": 400,
+  "statistical_unit": "frozen_unique_scenario",
+  "original_scenario_indices": [
+    181
+  ],
+  "comparison_scene_count": 10,
+  "selection_seed": 42,
+  "selection_basis": "source_proportional_largest_remainder_outcome_independent",
+  "source_quotas": {
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles": 5,
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_full60_20260927_r2/postprocessed_200m_pickles": 2,
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles": 3
+  },
+  "preliminary_development_comparison": true,
+  "development_exposure_note": "Development-exposed scenes; not held-out generalization"
+}

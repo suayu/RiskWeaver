@@ -1,0 +1,347 @@
+## 一、调用关系总览与层级图
+
+### 1.1 调用层级（自顶向下）
+
+| 层级 | 组件 | 职责 |
+|------|------|------|
+| **仿真循环层** | `run_adv_simulation()` | 管理多场景仿真批次，调用 `rollout_episodes` 执行闭环 rollouts。 |
+| | `rollout_episodes()` | 单个 episode 的步进循环：获取观测 → 调用策略 → 环境步进。 |
+| **策略构建层** | `build_single_policy()` / `build_dual_policies()` | 根据配置动态加载策略组合器（如 `Diffusion`），返回模型实例。 |
+| | `Diffusion` (策略组合器) | 加载 `DiffusionTrafficModel`，并可注入引导配置（`modify_config`）。 |
+| **模型封装层** | `DiffusionTrafficModel` | PyTorch Lightning 模块，封装 `RasterizedDiffusionModel`，提供 `get_action` 接口。 |
+| **模型推理层** | `RasterizedDiffusionModel` | 集成地图编码、历史编码、扩散网络，提供 `sample` 和 `forward` 方法。 |
+| **扩散采样层** | `DiffusionTraj` | 扩散去噪引擎，管理噪声调度与采样循环，支持引导与部分扩散替换。 |
+| **数据处理层** | `EnvSplitUnifiedSimulation.get_observation()` | 从仿真场景生成观测字典，包含所有智能体的状态、历史、地图等。 |
+| | `parse_scene_centric()`（推测） | 将原始场景数据解析为模型所需的字段（如 `centroid`, `yaw`, `history_positions` 等）。 |
+
+### 1.2 数据流与转换
+
+```
+外部仿真器真值数据
+   │
+   ▼
+EnvSplitUnifiedSimulation.get_observation()
+   ├─ 通过 scene.get_obs(collate=False) 获取原始 batch_element
+   ├─ collate 为批量字典（由 dataset.get_collate_fn 聚合）
+   ├─ parse_trajdata_batch() 解析为标准字段（centroid, yaw, history_positions, image, ...）
+   ├─ 添加 scene_index 和 track_id
+   └─ 输出 obs_dict（包含 agents 字段）
+   │
+   ▼
+rollout_episodes() 内转为 torch 张量（obs_to_torch）
+   │
+   ▼
+DiffusionTrafficModel.get_action(obs_dict)
+   └─ 调用 self.nets["policy"].sample(obs_dict)
+         │
+         ▼
+RasterizedDiffusionModel.sample()
+   ├─ 若启用引导：准备引导数据 (_prepare_guidance_data)
+   ├─ 调用 forward() 进行实际推理
+   │     ├─ _encode_history() 提取条件特征（地图+历史）
+   │     ├─ 调用 self.diffusion.sample() 进行扩散采样
+   │     └─ _forward_dynamics() 将控制信号转为轨迹
+   └─ 返回预测轨迹
+   │
+   ▼
+DiffusionTraj.sample()
+   ├─ 扩展 batch 样本数（num_samples）
+   ├─ 初始化噪声 a_T
+   ├─ 去噪循环（t = N → 0）：
+   │   ├─ 计算调度参数（alpha, beta, sigma）
+   │   ├─ 可选：部分扩散替换（partial diffusion）
+   │   ├─ 调用 self.net（即 TemporalUnet）预测 a0
+   │   ├─ 可选：多步引导修正（n_step_guided_p_sample）
+   │   ├─ 按 DDPM/DDIM 更新 a_next
+   │   └─ a_t = a_next.detach()
+   ├─ 可选：引导过滤选择最佳样本
+   └─ 返回采样轨迹
+```
+
+### 1.3 关键循环与分支
+
+- **仿真步循环**：`rollout_episodes` 内每步执行一次策略推理（`policy.get_action`）。
+- **多智能体处理**：模型输入 `obs_dict` 包含所有智能体的历史与状态，通过 batch 维度联合推理（模型内部不区分主体，但设计上为单主体预测，需外部构建每个主体的独立样本）。
+- **引导分支**：`RasterizedDiffusionModel.sample` 根据 `do_guidance` 决定是否注入引导损失。
+- **采样模式**：`DiffusionTraj.sample` 支持 DDPM/DDIM 切换。
+
+---
+
+## 二、模块功能与 I/O 详细表
+
+### 2.1 高层仿真函数
+
+| 函数 | 功能 | 输入 | 输出 | 关键依赖 |
+|------|------|------|------|----------|
+| `run_adv_simulation` | 组织多场景批量仿真，调用策略构建与环境初始化，循环执行 `rollout_episodes`，收集结果。 | `eval_cfg` (EvaluationConfig), `data_to_disk` (bool), `render_to_video` (bool), `import_scene_list_mode` (str), `guidance_params` (str) | `(stats, info, None, adjust_plans, trace)` | 依赖 `build_*_policy`, `rollout_episodes`, `build_environment_and_scenes` |
+| `rollout_episodes` | 单 episode 步进循环：获取观测 → 调用策略 → 环境步进，收集指标与渲染。 | `env`, `policy`, `num_episodes`, `skip_first_n`, `n_step_action`, `render`, `scene_indices`, `start_frame_index_each_episode`, `device`, `obs_to_torch`, `adjust_plan_recipe`, `init_recipe`, `control_config`, `horizon`, `seed_each_episode` | `(stats, info, renderings, adjust_plans, trace)` | 依赖 `policy.get_action`, `env.get_observation`, `env.step` |
+
+### 2.2 策略构建层
+
+| 类/函数 | 功能 | 输入 | 输出 | 关键依赖 |
+|---------|------|------|------|----------|
+| `build_single_policy` | 加载单一策略（所有智能体共享）。 | `eval_cfg`, `device`, `exp_config` | `(policy, exp_config)` | 动态导入 `policy_composers`，调用 `composer.get_policy()` |
+| `build_dual_policies` | 分别加载 ego 和 agents 策略。 | `eval_cfg`, `device`, `modify_cfg` | `(ego_policy, agent_policy, exp_config)` | 调用 `build_single_policy` 和 `Diffusion.get_policy` |
+| `Diffusion.get_policy` | 根据配置加载 `DiffusionTrafficModel`，并更新引导配置。 | `policy=None`, `modify_config` | `(DiffusionTrafficModel, exp_cfg)` | 使用 `get_checkpoint` 查找模型文件，加载 `DiffusionTrafficModel` |
+
+### 2.3 模型封装与推理层
+
+| 类 | 方法 | 功能 | 输入 | 输出 | 关键依赖 |
+|----|------|------|------|------|----------|
+| `DiffusionTrafficModel` | `get_action` | 对外推理接口，支持采样/确定性预测，可传入目标条件。 | `obs_dict` (dict), `sample` (bool), `plan_samples` (Plan) | `(Action, info)` | 调用 `self.nets["policy"].sample()` 或 `predict()` |
+| `RasterizedDiffusionModel` | `sample` | 生成轨迹样本，支持引导。 | `data_batch` (dict) | `out_dict` (包含 `predictions` 等) | 调用 `_prepare_guidance_data`, `forward`, `_forward_dynamics` |
+| | `forward` | 执行实际推理：编码特征 → 扩散采样 → 动力学解码。 | `data_batch`, `guide_sample_fn`, `data_batch_for_guidance` | `out_dict` | 调用 `_encode_history`, `self.diffusion.sample`, `_forward_dynamics` |
+| | `_encode_history` | 编码栅格地图和历史轨迹为条件特征。 | `data_batch` | `cond_feat` (Tensor [B, dim]) | 使用 `map_encoder`, `agent_history_encoder`, `other_history_encoder` |
+| `DiffusionTraj` | `sample` | 扩散去噪循环，支持引导和部分扩散。 | `context`, `num_points`, `bestof`, `num_samples`, `guide_sample_fn`, `current_states`, ... | 张量或 dict（含采样轨迹） | 使用 `self.net` (TemporalUnet) 和 `var_sched` |
+
+### 2.4 数据处理层（关键：`get_observation` 输出字段）
+
+`EnvSplitUnifiedSimulation.get_observation()` 返回的 `obs_dict` 包含 `agents` 字段（若 `split_ego=True` 还包含 `ego`），其数据结构如下（**仅列出模型必需的字段**）：
+
+| 字段名 | 形状 | 类型 | 说明 | 是否必需 |
+|--------|------|------|------|----------|
+| `image` | `[B, C, H, W]` | float32 | 栅格地图（以主体为中心） | ✅ 必需 |
+| `agent_hist` | `[B, T_hist, feat_dim]` | float32 | 主体历史轨迹（位置、速度等） | ✅ 必需 |
+| `neigh_hist` | `[B, max_neigh, T_hist, feat_dim]` | float32 | 邻居历史（填充至最大邻居数） | ✅ 必需 |
+| `centroid` | `[B, 3]` | float32 | 主体当前位置 (x, y, z) | ✅ 必需（用于动力学） |
+| `yaw` | `[B]` | float32 | 主体当前朝向（弧度） | ✅ 必需 |
+| `curr_speed` | `[B]` | float32 | 主体当前速度大小 | ✅ 必需 |
+| `extent` | `[B, 3]` | float32 | 主体尺寸 (长, 宽, 高) | ✅ 必需（用于碰撞检测） |
+| `world_from_agent` | `[B, 3, 3]` | float32 | 从主体局部到全局的齐次变换矩阵 | ✅ 必需（用于坐标变换） |
+| `raster_from_agent` | `[B, 3, 3]` | float32 | 从主体局部到栅格图的变换矩阵 | 可选（若 `image` 已对齐则不需） |
+| `agent_from_world` | `[B, 3, 3]` | float32 | 全局到主体局部的逆变换 | 可选 |
+| `extras` | dict | - | 包含 `has_lane`, `centerline_xy`, `full_fut_traj` 等 | 引导功能可能需要 |
+| `scene_index`, `track_id` | `[B]` | int64 | 场景索引和智能体ID | 用于调试，非必需 |
+
+> **注**：`feat_dim` 通常为 9（位置、速度、加速度、朝向正弦/余弦等），`T_hist` 通常为 20（2 秒 @10 Hz）。
+
+### 2.5 `parse_scene_centric` 的角色
+
+`parse_scene_centric`（推测为 `tbsim.utils.batch_utils` 中函数）用于将原始 `trajdata` 批处理字典转换为模型标准字段。它执行：
+- 从 `AgentBatch` 中提取 `centroid`, `yaw`, `history_positions`, `history_yaws` 等。
+- 处理坐标变换（如从全局到主体局部）。
+- 生成掩码（`history_availabilities`）。
+- 为栅格地图添加仿射变换矩阵（`raster_from_world` 等）。
+
+**对外部适配的影响**：若外部仿真器能直接提供与 `get_observation` 输出格式一致的数据，则可省去此解析步骤；否则需手动实现类似逻辑。
+
+---
+
+## 三、最简调用层级选择与数据适配方案
+
+### 3.1 调用层级选择
+
+**选择层级**：**直接调用 `RasterizedDiffusionModel.sample`**（或 `forward`），跳过 `DiffusionTrafficModel` 和策略构建层。
+
+**理由**：
+- `RasterizedDiffusionModel` 已封装完整推理流程（编码 → 扩散采样 → 动力学解码），是模型的核心。
+- 调用 `sample` 可直接生成轨迹样本，无需经过 `get_action` 的额外逻辑（如 `plan_samples` 处理、多模态选择）。
+- 只需构造符合 `data_batch` 格式的输入字典，避免依赖 `build_*_policy` 和环境交互，降低集成复杂度。
+- 该层级仍支持引导（通过 `guide_sample_fn`），为后续攻击者锚点引导预留接口。
+
+**保留的最小依赖**：
+- 模型权重文件（`.ckpt`）和对应配置文件（`.yaml` 或 `.json`）。
+- `RasterizedDiffusionModel` 及其依赖的 `TemporalUnet`、`DiffusionTraj`、`VarianceSchedule`、地图编码器、历史编码器等（均在 `tbsim` 包内）。
+- 坐标变换和栅格化工具（如 `transform_points_tensor`, `get_drivable_region_map` 等）。
+
+### 3.2 输入数据提取与组织
+
+外部仿真器需提供以下原始信息，并转换为模型输入：
+
+| 外部提供 | 模型对应字段 | 转换方法 |
+|----------|-------------|----------|
+| 所有智能体当前与历史状态（x, y, yaw, speed, length, width） | 为每个主体构造 `agent_hist`（主体自己的历史）、`neigh_hist`（其他智能体历史） | 将历史坐标转换到主体局部坐标系（通过 `world_from_agent` 逆变换） |
+| 路网地图（矢量或栅格） | `image`（栅格图） | 以主体为中心裁剪栅格图，分辨率与训练一致（如 0.2 m/pixel，尺寸 224×224） |
+| 自车与其他智能体身份 | `scene_index`, `track_id`（可省略） | 用于区分，非必需 |
+
+**具体构造步骤（对每个主体）：**
+
+1. **确定主体索引**：遍历所有需要预测的智能体（除自车外），每个作为一个主体。
+2. **提取主体历史**：收集其最近 `T_hist` 帧的位置 `(x, y)` 和朝向 `yaw`，以及速度、尺寸等。
+3. **提取邻居历史**：其余智能体的同样历史数据，填充到固定最大邻居数（如 `max_neigh=50`），不足补零。
+4. **坐标变换**：
+   - 计算主体当前时刻的变换矩阵 `world_from_agent`（旋转+平移）。
+   - 将所有其他智能体的历史位置转换到主体局部坐标系（使用 `world_from_agent` 的逆矩阵）。
+   - 主体自身历史也转换到局部坐标系（通常以自身当前位置为原点）。
+5. **生成栅格图**：
+   - 以主体当前位置为中心，裁剪地图区域（尺寸与训练相同，如 224×224 像素）。
+   - 利用地图真值绘制车道线、道路边界等，生成多通道栅格图（RGB 或语义通道）。
+   - 构造 `raster_from_world` 和 `raster_from_agent` 仿射变换矩阵。
+6. **组装 `data_batch` 字典**：包含 `image`, `agent_hist`, `neigh_hist`, `centroid`（主体当前全局位置）, `yaw`, `curr_speed`, `extent`, `world_from_agent`, `raster_from_agent` 等字段。
+
+**批次组织**：将所有主体的数据堆叠为 batch 维度（`B = num_agents_to_predict`），使模型一次前向传播同时预测所有主体。
+
+### 3.3 复用现有逻辑
+
+可直接复用 `EnvSplitUnifiedSimulation.get_observation` 中的数据转换链，但外部仿真器没有 `SimulationScene` 对象。可借鉴其核心操作：
+
+- 使用 `parse_trajdata_batch`（若可导入）解析原始数据。
+- 使用 `batch_utils().get_current_states` 获取当前状态。
+- 使用 `get_drivable_region_map` 等生成地图特征。
+
+**建议**：在外部仿真器中实现一个适配函数，模仿 `get_observation` 的输出格式，但数据来源替换为仿真器的真值。
+
+---
+
+## 四、外部调用流程代码示例
+
+```python
+import torch
+import numpy as np
+from tbsim.models.diffusion import RasterizedDiffusionModel  # 假设路径
+from tbsim.configs import load_config
+
+# ============ 初始化模型 ============
+def load_diffusion_model(ckpt_path, config_path, device='cuda:0'):
+    # 加载配置（假设为 ExperimentConfig 或类似）
+    cfg = load_config(config_path)  # 需根据实际实现
+    # 实例化模型
+    model = RasterizedDiffusionModel(
+        model_arch=cfg.algo.model_architecture,
+        input_image_shape=cfg.algo.input_image_shape,  # (C, H, W)
+        map_feature_dim=cfg.algo.map_feature_dim,
+        dynamics_config=cfg.algo.dynamics_config,
+        history_encoder_config=cfg.algo.history_encoder_config,
+        diffnet_config=cfg.algo.diffnet_config,
+        diffuse_config=cfg.algo.diffuse_config,
+        weights_scaling=cfg.algo.weights_scaling,
+        do_guidance=False,  # 初始不启用引导
+        guide_config=cfg.algo.guide_config
+    )
+    # 加载权重
+    state_dict = torch.load(ckpt_path, map_location='cpu')
+    model.load_state_dict(state_dict, strict=True)
+    model.to(device).eval()
+    return model
+
+# ============ 数据适配函数 ============
+def build_model_input(simulator_state, config):
+    """
+    simulator_state: 包含所有智能体实时信息与历史轨迹的字典。
+    config: 模型配置（历史帧数、栅格尺寸等）。
+    返回 data_batch 字典，每个主体为一个样本。
+    """
+    agents = simulator_state['agents']  # list of dict, each has id, x, y, yaw, speed, length, width, history (list of frames)
+    num_agents = len(agents)
+    T_hist = config['history_frames']
+    max_neigh = config['max_neighbors']
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    # 准备容器
+    image_list = []
+    agent_hist_list = []
+    neigh_hist_list = []
+    centroid_list = []
+    yaw_list = []
+    speed_list = []
+    extent_list = []
+    world_from_agent_list = []
+    raster_from_agent_list = []
+
+    # 对每个需要预测的智能体（此处假设预测所有，可过滤自车）
+    for idx, agent in enumerate(agents):
+        # 1. 提取主体历史（最近 T_hist 帧）
+        hist = agent['history'][-T_hist:] if len(agent['history']) >= T_hist else agent['history']
+        hist = pad_history(hist, T_hist)  # 补零并添加有效性掩码（需额外字段）
+        agent_hist = np.array([[f['x'], f['y'], f['yaw'], f['speed']] for f in hist], dtype=np.float32)  # 简化，实际需更多特征
+        agent_hist = torch.from_numpy(agent_hist).unsqueeze(0)  # [1, T_hist, feat]
+
+        # 2. 构建邻居历史（其余智能体）
+        neigh_hist = []
+        for j, other in enumerate(agents):
+            if j == idx:
+                continue
+            o_hist = other['history'][-T_hist:] if len(other['history']) >= T_hist else other['history']
+            o_hist = pad_history(o_hist, T_hist)
+            # 坐标变换到主体局部坐标系（需计算主体当前 world_from_agent）
+            # 假设主体当前位姿为 (x, y, yaw)
+            world_from_agent = get_transform_matrix(agent['x'], agent['y'], agent['yaw'])  # [3,3]
+            # 将邻居历史位置转换到主体局部
+            o_positions = np.array([[f['x'], f['y']] for f in o_hist])  # [T_hist, 2]
+            # 使用逆变换
+            agent_from_world = np.linalg.inv(world_from_agent)
+            o_pos_local = transform_points(o_positions, agent_from_world)  # 假设函数存在
+            # 还需转换 yaw 等，此处简化
+            neigh_hist.append(o_pos_local)
+        # 填充至 max_neigh
+        neigh_hist = pad_to_max(neigh_hist, max_neigh, T_hist, feat_dim)  # [max_neigh, T_hist, feat]
+        neigh_hist = torch.from_numpy(neigh_hist).unsqueeze(0)  # [1, max_neigh, T_hist, feat]
+
+        # 3. 生成栅格图（以主体为中心）
+        image = render_raster_map(simulator_state['map'], agent['x'], agent['y'], agent['yaw'],
+                                   config['raster_size'], config['pixels_per_meter'])  # [C, H, W]
+        image = torch.from_numpy(image).unsqueeze(0)  # [1, C, H, W]
+
+        # 4. 当前状态
+        centroid = np.array([agent['x'], agent['y'], 0.0], dtype=np.float32)
+        yaw = agent['yaw']
+        speed = agent['speed']
+        extent = np.array([agent['length'], agent['width'], 2.0], dtype=np.float32)
+        # 变换矩阵
+        world_from_agent = get_transform_matrix(agent['x'], agent['y'], agent['yaw'])  # [3,3]
+        raster_from_agent = get_raster_transform(agent['x'], agent['y'], agent['yaw'],
+                                                 config['pixels_per_meter'], config['raster_size'])  # [3,3]
+
+        # 收集
+        image_list.append(image)
+        agent_hist_list.append(agent_hist)
+        neigh_hist_list.append(neigh_hist)
+        centroid_list.append(torch.from_numpy(centroid))
+        yaw_list.append(torch.tensor(yaw))
+        speed_list.append(torch.tensor(speed))
+        extent_list.append(torch.from_numpy(extent))
+        world_from_agent_list.append(torch.from_numpy(world_from_agent))
+        raster_from_agent_list.append(torch.from_numpy(raster_from_agent))
+
+    # 堆叠为 batch
+    data_batch = {
+        'image': torch.cat(image_list, dim=0).to(device),  # [B, C, H, W]
+        'agent_hist': torch.cat(agent_hist_list, dim=0).to(device),  # [B, T_hist, feat]
+        'neigh_hist': torch.cat(neigh_hist_list, dim=0).to(device),  # [B, max_neigh, T_hist, feat]
+        'centroid': torch.stack(centroid_list, dim=0).to(device),  # [B, 3]
+        'yaw': torch.stack(yaw_list, dim=0).to(device),  # [B]
+        'curr_speed': torch.stack(speed_list, dim=0).to(device),  # [B]
+        'extent': torch.stack(extent_list, dim=0).to(device),  # [B, 3]
+        'world_from_agent': torch.stack(world_from_agent_list, dim=0).to(device),  # [B, 3, 3]
+        'raster_from_agent': torch.stack(raster_from_agent_list, dim=0).to(device),  # [B, 3, 3]
+        # 可选：添加 extras 如果引导需要
+        'extras': {'has_lane': ..., 'centerline_xy': ...}  # 需构造
+    }
+    return data_batch
+
+# ============ 仿真集成 ============
+def simulator_step(simulator, model, config):
+    # 获取当前状态
+    sim_state = simulator.get_state()  # 自定义
+    # 构建模型输入
+    data_batch = build_model_input(sim_state, config)
+    # 调用模型预测
+    with torch.no_grad():
+        out_dict = model.sample(data_batch)  # 若 do_guidance=False，sample内部调用forward
+    # 解析输出：out_dict['predictions']['positions'] 形状 [B, num_samples, T, 2]
+    # 取第一个样本（或最优）和第一帧（作为下一帧）
+    pred_positions = out_dict['predictions']['positions'][:, 0, 0, :]  # [B, 2]
+    # 更新仿真器中的每个智能体（注意顺序与输入一致）
+    for i, agent in enumerate(simulator.agents):  # 假设顺序一致
+        agent.x = pred_positions[i, 0].item()
+        agent.y = pred_positions[i, 1].item()
+        # 若有 yaw 输出，需从 out_dict['predictions']['yaws'] 获取
+    # 执行仿真器步进（通常由外部控制）
+    simulator.step()
+```
+
+**异常处理与设备管理**：
+- 确保所有张量位于同一设备（`device`）。
+- 若 `data_batch` 中 `neigh_hist` 为空（如无邻居），需构造零张量并确保 `max_neigh` > 0。
+- 若模型期望 `extras` 字段，需尽量提供，否则可能引发 KeyError。
+
+**并行推理**：通过 `batch_size = num_agents_to_predict` 实现多智能体同时推理，无需循环。
+
+**注意事项**：
+- 若模型训练时使用了特定归一化（如速度、位置），需在构建输入时应用相同归一化。
+- 栅格图渲染参数（尺寸、分辨率、坐标系）必须与训练一致。
+- `get_transform_matrix` 和 `render_raster_map` 等函数需参考 `tbsim` 实现，或使用其提供的工具（如 `transform_points_tensor`, `Rasterizer` 类）。
+
+---
+
+以上方案基于提供的代码分析，对于未给出的辅助函数（如 `render_raster_map`, `get_transform_matrix`）需根据 `tbsim` 源码实现或复用。若无法复用，可参考 `EnvNuscBuilder` 中 `UnifiedDataset` 的栅格化参数进行自定义。

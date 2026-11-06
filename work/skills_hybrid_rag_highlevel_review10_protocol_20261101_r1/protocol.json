@@ -1,0 +1,94 @@
+{
+  "version": "hybrid_rag_highlevel_review10_v1",
+  "arms": [
+    "skills_no_rag",
+    "skills_rag"
+  ],
+  "scenes": [
+    6,
+    28,
+    45,
+    102,
+    114,
+    143,
+    146,
+    185,
+    229,
+    232
+  ],
+  "planned": 20,
+  "source_scope": "original_previously_examined_review_ten_initial_states_not_project_unseen",
+  "dynamic_catalog_scope": "same_previous_frozen_published_dynamic_catalogs; static_catalogs_rebuilt_from_current_state_and_map",
+  "maximum_physical_requests_per_state_arm": 4,
+  "maximum_physical_requests": 80,
+  "common_transport": {
+    "timeout_seconds": 180,
+    "max_tokens": 8192,
+    "reasoning_effort": "low",
+    "SDK_retries": 0
+  },
+  "inputs_sha256": "7d71295ec07e050d1a578f95d5219e0de74d5253d40a9dd84e3bc197e4d1abc5",
+  "config_sha256": "1b6d351a5b04b6a94eb92259242768f7896bd8fbe2a14ce25ea2f870455a19a9",
+  "inherited_seed_sha256": "ccb5c5f7adce56d97666844dbffe3f8817ad04e4a90e35f420670df5d70ea67d",
+  "inherited_records": 11,
+  "seed_source": "/home2/zhaoyx/scenario-dreamer/experiments/skills_rag_two_arm_development2_20261030_r2/skills_rag/rag_knowledge/attack_knowledge_773aa1e879814970a5db9ee8a7ca90a5_04c6c7c636eb4203807132b527789a16.json",
+  "frozen_model_pool": [
+    "glm-5.3",
+    "qwen3.8-2.4t-a95b"
+  ],
+  "model_source": {
+    "raw_sha256": "e9944664554f2b895ec19a38294cb1545597669044863eb7240df6ece3a4dc3b",
+    "algorithm_sha256": "3bfefb1c7211f0245e86fdd4be755bdeb1db64723409bcabe7cb77d6adef32ab",
+    "active_models": [
+      "deepseek-v4.1-flash-1017",
+      "glm-5.3",
+      "qwen3.8-2.4t-a95b"
+    ],
+    "disabled_models": [
+      "deepseek-r1-distill-qwen-32b",
+      "deepseek-r1-distill-qwen-7b",
+      "deepseek-v4-flash-0731",
+      "deepseek-v4-pro-0813",
+      "deepseek-v4.1-flash",
+      "glm-4.5-air",
+      "glm-5",
+      "kimi-k3",
+      "qwen-long",
+      "qwen-max",
+      "qwen-plus",
+      "qwen-plus-2025-07-28",
+      "qwen-vl-plus",
+      "qwen3-8b",
+      "qwen3-coder-480b-a35b-instruct",
+      "qwen3-coder-plus",
+      "qwen3-max-preview",
+      "qwen3-vl-235b-a22b-thinking",
+      "qwen3-vl-30b-a3b-thinking",
+      "qwen3-vl-32b-thinking",
+      "qwen3-vl-8b-thinking",
+      "qwen3.5-flash-2026-02-23",
+      "qwen3.5-plus",
+      "qwen3.6-plus",
+      "qwen3.7-flash",
+      "qwen3.7-max",
+      "qwen3.7-plus",
+      "qwen3.8-27b",
+      "qwen3.8-flash",
+      "qwen3.8-max",
+      "qwen3.8-max-0902"
+    ]
+  },
+  "free_protection_receipt": "work/bailian_pool_protection_confirmed_20261023.json",
+  "static_fallback_enabled": true,
+  "source_fact_contract_enabled": true,
+  "attack_mode": "joint",
+  "common_instruction": [
+    "存在可行车辆候选时优先车辆攻击；无可用车辆候选时从已验证的静态组合目录选择道路拦截方案。自车未来只是预测假设，计划不等于实际执行。"
+  ],
+  "KB_scope": "separate_new_inherited_KB_per_arm; frozen_planning_observations_saved_separately_not_fake_executed_attack_cases",
+  "target_accepted_per_arm": 10,
+  "new_execution_frames": 0,
+  "D": null,
+  "majority_correct_not_automatically_certified": true,
+  "goal_complete": false
+}

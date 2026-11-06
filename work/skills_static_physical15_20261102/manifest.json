@@ -1,0 +1,9 @@
+{
+  "version": "static-route-physical15-v1-20261102",
+  "default_enabled": false,
+  "application_skill_not_Codex_skill": true,
+  "scope": "static_branch_only; original_success_path_preserved",
+  "files": {
+    "SKILL.md": "31aaf84d0bc1548633d0bbe67c6494668b919b341732e9e0461932dd529e28a6"
+  }
+}

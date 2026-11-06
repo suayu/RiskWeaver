@@ -1,0 +1,57 @@
+{
+  "name": "riskweaver_frozen_250_scenes",
+  "created_at_unix": 1790542615.3337908,
+  "selection_rule": "source_order_then_lexicographic_path_first_n_unique_sha256",
+  "scene_root": null,
+  "scene_roots": [
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_full60_20260927_r2/postprocessed_200m_pickles",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles"
+  ],
+  "source_unique_count": 263,
+  "source_duplicate_count": 0,
+  "scenario_count": 10,
+  "scenario_files": [
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/11_5.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/1_3.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/27_13.pkl",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_full60_20260927_r2/postprocessed_200m_pickles/3_6.pkl",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_full60_20260927_r2/postprocessed_200m_pickles/5_21.pkl",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles/0_47.pkl",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles/0_5.pkl",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles/2_44.pkl",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles/5_29.pkl",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles/5_51.pkl"
+  ],
+  "scenario_sha256": [
+    "9906b333179dec54bc8def0c80cb14fe4cafb7e14cf3301206558b237d50ad8b",
+    "990276433047adf8be5d073a4f19c731d735112aa13f460433cc1c205eae8c99",
+    "f066fe484966f35dea0b8c851cc923abd53ca1f6054089948f656fefe8cae79a",
+    "98185073c101378ed65826c6c0817a3117be63fff08a7dd75626fedb90f4914a",
+    "4948e0413f218b09f0f766202926041c2aa85c1ab487f402c610d890056a9e8a",
+    "93d02805a142c5765a63fe594befe2956c917b368218ad2b6932af1a5078f758",
+    "298d96241b7745054d47a801812d2e2391ba0638c738d1771ace10bb55c3ac29",
+    "a1735dbc5c18565f4c51a7c392c89432ab3b5d79675be6aa4126d5b8946979d3",
+    "b5e3be6b96c35163e2f38bc66f96c7bd37f6cfc720751cbdb776e4f7cd1e223a",
+    "110a753252e53374b39ad4b5c0a3eecaa6ccd6ffc32949f6762e0d667dbe76f2"
+  ],
+  "seed": 42,
+  "simulation_steps": 400,
+  "statistical_unit": "frozen_unique_scenario",
+  "comparison_scene_count": 10,
+  "original_scenario_indices": [
+    6,
+    28,
+    45,
+    102,
+    114,
+    143,
+    146,
+    185,
+    229,
+    232
+  ],
+  "selection_seed": 20261020,
+  "selection_basis": "source_stratified_3_2_5_exclude_skills_development10_outcome_independent",
+  "development_exposure_note": "Not used in this skills development; prior project-wide exposure is not excluded or claimed absent"
+}

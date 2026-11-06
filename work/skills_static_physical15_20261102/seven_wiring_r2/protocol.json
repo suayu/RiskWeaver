@@ -1,0 +1,36 @@
+{
+  "planned_scenes": [
+    91,
+    100,
+    129,
+    211,
+    238,
+    241,
+    246
+  ],
+  "source_sha256": {
+    "runtime.py": "05fb5639bd60d2d02e1f0549d7e1847e653897a0bc22cccac2134453e714d2e3",
+    "manifest.json": "c264f0421f500d7bab39d9c6bff1b4d15b297c4162d133e2efd2a05a84eb4d3a",
+    "test_entry.py": "5f0a0c5ac3d4816078a8413d8e60eaf2da6bf5b9256725cdaebeeddacdb99d86",
+    "__init__.py": "2f94b3d606949fbfb33b195ebaac111fe795ee28b7b18aaae17b972b8ba344fb",
+    "test_planner.py": "ed1ddae681bdb03884b63f1cd1c9dce072f9eba5a5b7d8a877a23c5577f8708a",
+    "planner.py": "22d68def41c31ea46a204989e9a6f5ce86dbf87627c281fcf01c522a89e4e3e2",
+    "geometry.py": "b7dfe7d1b1125e0ef515f08db4811f1578804b454b51336025a9da8ebabd1fc0",
+    "run_worker.py": "42a302002cc04e62df3350579ff9c9e72da43b38a42c0c66f23b5725087b5c6a",
+    "README.md": "139f64cf6d86b82a56203f66ebef30f1af521f50d338b80364872edb2828267c",
+    "audit_seven_wiring.py": "b42cbdf7ef45224bf6246baf7e7388f893e5f32d1840b9b2a36c16aab8849301",
+    "SKILL.md": "31aaf84d0bc1548633d0bbe67c6494668b919b341732e9e0461932dd529e28a6",
+    "adapter.py": "115de78791ffc49cc96844627423b80b0e6586cbeb1194d71ebd52d11d8010bd"
+  },
+  "manifest_sha256": "e2d4548ef01601c5f9430fabaea0b9d721f43c0176c6fa04b7b709790c23eeeb",
+  "config_sha256": "b252dad7d9edc34f837253def15c56ab0d15ba50d2ad64db4d95417888cef619",
+  "configuration_change": "source_fact_contract_enabled=True; geometry unchanged",
+  "resolved_config_sha256": "2fcd33cbc5051159eb4446393ab011d3bd1425417aefafdc2de3d173c8453d64",
+  "previous_catalog_stage_sha256": "333b0a337a7d7bb5204835d3e45e4aafb42e7dd55d7c6126f671e278e80b1618",
+  "physical_API_requests": 0,
+  "env_step_calls": 0,
+  "D": null,
+  "collision": null,
+  "scope": "public_static_branch_wiring_only; not_fresh_LLM_or_full_temporal_factory",
+  "goal_complete": false
+}

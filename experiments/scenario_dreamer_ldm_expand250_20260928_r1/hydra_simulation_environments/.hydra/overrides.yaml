@@ -1,0 +1,14 @@
+- dataset_name=waymo
+- model_name=ldm
+- ldm.model.num_l2l_blocks=3
+- ldm.eval.run_name=scenario_dreamer_ldm_large_waymo_riskweaver_expand140_20260928_r1
+- ldm.model.autoencoder_run_name=scenario_dreamer_autoencoder_waymo
+- ldm.eval.seed=43
+- ldm.eval.mode=simulation_environments
+- ldm.eval.num_samples=140
+- ldm.eval.batch_size=8
+- ldm.eval.visualize=false
+- ldm.eval.sim_envs.route_length=200
+- ldm.eval.sim_envs.overhead_factor=3
+- ldm.eval.sim_envs.num_inpainting_candidates=8
+- ldm.eval.sim_envs.nocturne_compatible_only=true

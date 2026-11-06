@@ -1,0 +1,77 @@
+{
+  "version": "lossless_factored_wire_four_development_states_20261030_r1",
+  "scenes": [
+    53,
+    56,
+    74,
+    182
+  ],
+  "arms": [
+    "original_wire_view",
+    "factored_wire_view"
+  ],
+  "planned_state_arms": 8,
+  "frozen_model_pool": [
+    "deepseek-v4-pro-0813",
+    "glm-5.3",
+    "qwen3.8-2.4t-a95b",
+    "qwen3.8-max",
+    "qwen3.7-flash",
+    "deepseek-v4.1-flash-1017"
+  ],
+  "model_source": {
+    "raw_sha256": "3c089f178f752fe0461e2642b377a3bb0918ff05e5f4a4a5fa56a0bbc45c8fce",
+    "algorithm_sha256": "3bfefb1c7211f0245e86fdd4be755bdeb1db64723409bcabe7cb77d6adef32ab",
+    "active_models": [
+      "deepseek-v4.1-flash-1017",
+      "glm-5.3",
+      "qwen3.8-2.4t-a95b",
+      "qwen3.8-max",
+      "qwen3.7-flash"
+    ],
+    "disabled_models": [
+      "deepseek-r1-distill-qwen-32b",
+      "deepseek-r1-distill-qwen-7b",
+      "deepseek-v4-flash-0731",
+      "deepseek-v4-pro-0813",
+      "deepseek-v4.1-flash",
+      "glm-4.5-air",
+      "glm-5",
+      "kimi-k3",
+      "qwen-long",
+      "qwen-max",
+      "qwen-plus",
+      "qwen-plus-2025-07-28",
+      "qwen-vl-plus",
+      "qwen3-8b",
+      "qwen3-coder-480b-a35b-instruct",
+      "qwen3-coder-plus",
+      "qwen3-max-preview",
+      "qwen3-vl-235b-a22b-thinking",
+      "qwen3-vl-30b-a3b-thinking",
+      "qwen3-vl-32b-thinking",
+      "qwen3-vl-8b-thinking",
+      "qwen3.5-flash-2026-02-23",
+      "qwen3.5-plus",
+      "qwen3.6-plus",
+      "qwen3.7-max",
+      "qwen3.7-plus",
+      "qwen3.8-27b",
+      "qwen3.8-flash",
+      "qwen3.8-max-0902"
+    ]
+  },
+  "free_protection_receipt": "work/bailian_pool_protection_confirmed_20261023.json",
+  "inputs_sha256": "d4714d3859429238f02760805ee86bbfe6bbf601e25808a76179c6f7bd1390f4",
+  "physical_limit_per_state_arm": 4,
+  "maximum_total_physical_requests": 32,
+  "maximum_logical_requests": 2,
+  "original_identity_candidates_validator_and_diffusion_unchanged": true,
+  "source_data_not_used_as_model_answer": true,
+  "scope": "development_diagnostic; shared_default_view_and_reading_skill_package; not_full_skill_ablation_or_generalization",
+  "view_default": "legacy",
+  "no_API_in_preparation": true,
+  "new_execution_frames": 0,
+  "D": null,
+  "goal_complete": false
+}

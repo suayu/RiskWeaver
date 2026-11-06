@@ -1,0 +1,94 @@
+{
+  "version": "frozen_four_state_typed_fact_pair_20261028_v1",
+  "cases": [
+    [
+      56,
+      22
+    ],
+    [
+      140,
+      0
+    ],
+    [
+      140,
+      44
+    ],
+    [
+      74,
+      11
+    ]
+  ],
+  "planned_attempts": 8,
+  "max_repairs": 1,
+  "max_physical_requests_per_attempt": 4,
+  "max_physical_requests_total": 32,
+  "frozen_model_pool": [
+    "kimi-k3",
+    "qwen3.8-max-0902",
+    "deepseek-v4.1-flash-1017",
+    "deepseek-v4.1-flash",
+    "glm-5.3",
+    "deepseek-v4-pro-0813",
+    "qwen3.8-2.4t-a95b",
+    "qwen3.8-max",
+    "qwen3.7-flash"
+  ],
+  "model_source": {
+    "raw_sha256": "303cd9484963dc9432b3797519c6343f7058b9952caa376c0425833a8a865e4d",
+    "algorithm_sha256": "3bfefb1c7211f0245e86fdd4be755bdeb1db64723409bcabe7cb77d6adef32ab",
+    "active_models": [
+      "kimi-k3",
+      "qwen3.8-max-0902",
+      "deepseek-v4.1-flash-1017",
+      "deepseek-v4.1-flash",
+      "glm-5.3",
+      "deepseek-v4-pro-0813",
+      "qwen3.8-2.4t-a95b",
+      "qwen3.8-max",
+      "qwen3.7-flash"
+    ],
+    "disabled_models": [
+      "deepseek-r1-distill-qwen-32b",
+      "deepseek-r1-distill-qwen-7b",
+      "deepseek-v4-flash-0731",
+      "glm-4.5-air",
+      "glm-5",
+      "qwen-long",
+      "qwen-max",
+      "qwen-plus",
+      "qwen-plus-2025-07-28",
+      "qwen-vl-plus",
+      "qwen3-8b",
+      "qwen3-coder-480b-a35b-instruct",
+      "qwen3-coder-plus",
+      "qwen3-max-preview",
+      "qwen3-vl-235b-a22b-thinking",
+      "qwen3-vl-30b-a3b-thinking",
+      "qwen3-vl-32b-thinking",
+      "qwen3-vl-8b-thinking",
+      "qwen3.5-flash-2026-02-23",
+      "qwen3.5-plus",
+      "qwen3.6-plus",
+      "qwen3.7-max",
+      "qwen3.7-plus",
+      "qwen3.8-27b",
+      "qwen3.8-flash"
+    ]
+  },
+  "free_protection_receipt": "work/bailian_pool_protection_confirmed_20261023.json",
+  "inputs_sha256": "fd251337236e9f24c6b6acf3061b4f33c03ebb77b6058a3dabc6abbe452704c7",
+  "historical_trace_sha256": {
+    "/home2/zhaoyx/scenario-dreamer/experiments/skills_four_arm_incremental_development10_20261026_r2/skills_full_shared_recovery/movies/scenario_056/execution_trace.jsonl": "43faef01a8fca2fd7b5e47588f186a2bf28284b9228365e4d0fadcfa46ede682",
+    "/home2/zhaoyx/scenario-dreamer/experiments/skills_four_arm_incremental_development10_20261026_r2/skills_full_shared_recovery/movies/scenario_140/execution_trace.jsonl": "b3035c71ad9b9af572a516922675ecad6fe7ff797ecc1c06c2c3d5fc8630570d",
+    "/home2/zhaoyx/scenario-dreamer/experiments/skills_four_arm_incremental_development10_20261026_r2/skills_full_shared_recovery/movies/scenario_074/execution_trace.jsonl": "3b3e8259ec044e409685264aa6853321701c58c904015cba485737136dd37818"
+  },
+  "selection_basis": "three_preidentified_fact_error_states_plus_one_diagnostic_control; not_random_or_unseen_test",
+  "unchanged_candidates_per_paired_state": true,
+  "randomized_requests_not_replayed_outputs": true,
+  "candidate_source": "same_raw_historical_request_catalog_for_both_arms",
+  "interpretation": "typed_contract_and_selected_reason_diagnostic_only; no_executed_attack_or_generalization_claim",
+  "no_GPU": true,
+  "new_execution_frames": 0,
+  "D": null,
+  "goal_complete": false
+}

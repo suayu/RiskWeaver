@@ -1,0 +1,28 @@
+{
+  "version": "supplementary_body_frame_raw_W1_v1_20261027",
+  "reference_source_files": 100,
+  "legacy_reference_sha256": "eeb7be9486af31e12d8c2c321e41e16d7d48e8a7021d17b6378900cf2f383c6f",
+  "legacy_source_manifest_sha256": "2021f340a1fda6a72f2a6b4a52fa02350be1bdfe1d7d7afc764178cb9e68c236",
+  "source_sha256": {
+    "/home2/zhaoyx/scenario-dreamer/work/skills_physical_realism_reference_20261027/physical_realism.py": "f1ec8731cdba589e2931147e975923726aeb20f0a8a17d5354286dbfaf3d5005",
+    "/home2/zhaoyx/scenario-dreamer/scripts/build_realism_reference_waymo_perception.py": "fb7dc52944fde3a854155b9c892ee66d66e82ba03ffc7678c2dd89f8955ecee4",
+    "/home2/zhaoyx/scenario-dreamer/work/realism_reference_waymo_perception_validation100_20260924/reference.json": "eeb7be9486af31e12d8c2c321e41e16d7d48e8a7021d17b6378900cf2f383c6f"
+  },
+  "legacy_metric_unchanged": true,
+  "dt_seconds": 0.1,
+  "feature_definitions": {
+    "velocity": "norm of backward position-difference velocity",
+    "lon_accel": "dot(backward difference velocity acceleration, current vehicle heading)",
+    "lat_accel": "dot(backward difference velocity acceleration, current left normal)",
+    "jerk_norm": "norm(backward difference global acceleration vector)"
+  },
+  "distance": "empirical raw W1 per feature, full signed support; no histogram tail exclusion",
+  "metric_aggregation": "report four distances separately; no ad-hoc combined physical score",
+  "scene_aggregation": "equal scene, pooled full, common observed prefix all reported",
+  "smoothing": "none; finite differences sensitive to measurement noise, disclosed",
+  "filters": "same TYPE_VEHICLE positive lidar points; contiguous frames only; no ego labels",
+  "CPU_only": true,
+  "new_API_requests": 0,
+  "new_simulation_frames": 0,
+  "started_at": 1793072735.5801635
+}

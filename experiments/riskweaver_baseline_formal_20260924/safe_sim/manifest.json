@@ -1,0 +1,203 @@
+{
+  "protocol_version": 1,
+  "purpose": "RiskWeaver IDM/RL profile paired formal candidate list",
+  "selection_source": "/home2/zhaoyx/scenario-dreamer/experiments/artifacts/e0/manifest_seed20260831.json",
+  "selection_source_sha256": "86ba942a1e740c4b98191fce649a24ff3a395899683de2e907a36d357f429c54",
+  "split_seed": 20260831,
+  "selection_rule": "all 12 test-split scenes after excluding six current-development pilot scenes, plus eight validation scenes with nearest initial vehicle; frozen before the new formal outcomes",
+  "excluded_pilot_scenarios": [
+    "10_11",
+    "12_7",
+    "1_1",
+    "31_11",
+    "5_8",
+    "8_2"
+  ],
+  "scenario_files": [
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/10_3.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/11_5.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/15_1.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/16_7.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/1_13.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/1_3.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/20_8.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/26_2.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/29_0.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/5_10.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/7_11.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/8_4.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/23_5.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/4_12.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/28_9.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/24_6.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/28_77.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/25_0.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/30_6.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/0_2.pkl"
+  ],
+  "scenario_sha256": [
+    "8adc5cfc4ef2b2b4b834b28f97d37f1c8dd1db1e2aca3f5ffeeea68975a222c6",
+    "9906b333179dec54bc8def0c80cb14fe4cafb7e14cf3301206558b237d50ad8b",
+    "48d746ce3a211f31919930cb56c9c7f96623414f0c77d141652b1260857de8f5",
+    "36a5dbd0153e01f4775d50d3b13dad45b961d649a1db1138b9153b347d2a450a",
+    "eecd0833ce04c371a61b539194f91244b36fb435b16720aeb76d5b755ce11432",
+    "990276433047adf8be5d073a4f19c731d735112aa13f460433cc1c205eae8c99",
+    "d930c3d126feb876cb9e073c418f2ea2f17825b339a86a604e08a4b31987670e",
+    "53d636f83ea87c935e8944274ed441bf15c4ccaabf0972c8dc81fa5b1dcd9366",
+    "f99d80377da5520e249d3895ad1a2716b6f395389394d590694dc3fd7f208a2e",
+    "79949fbafcc0d8b951b87270ab551fdf225ba34cf690a2a206eea2c2a52ee4ff",
+    "45435e8c789fb978f6ec2a1c174ca6424d0d0e6845165f3e7cb93a2ea610594d",
+    "671c22b458dc1e5c41f8e59676b74f059dbd7a58cb555e53cab1c2204b370ea6",
+    "936359094ef5746b47c716767e4c272be05e32ebfd07f5822d26a4b8b96f45dc",
+    "c500dfc55273811baf1bc6e4b2d58b268be183d71e0c2f6ceb8a924be20ad1e7",
+    "7d4c2ab8585c0efc113a16c765b4be1e7bc9d8b2fa94063f83e7481cb0c99257",
+    "2ea01240778f044b8b7282a28f9cf997014c3a2910bc21fa353999fcf650b733",
+    "49b37904e3bb2b693881fbf1aa36b9b85b34568c3a2f0b6bdd9f5a2140bafd81",
+    "90b4e1413b0269ffa68ec396866e33cb54cbefaa6a429a20cda508fd5f7a624e",
+    "2f94ddbf9bdfde1dd8df2fcca4cc54715cc59ffd0d7bfa7043c0fa4c23bde2ac",
+    "21ee071d8759455db6c3d2e5e275e2ef7b349f5eadca0c0a7c8daeedca038fd7"
+  ],
+  "scenario_metadata": [
+    {
+      "scenario_id": "10_3",
+      "split": "test",
+      "vehicle_count": 17,
+      "ego_speed_mps": 0.30437582749094977,
+      "nearest_vehicle_m": 9.166037885271107
+    },
+    {
+      "scenario_id": "11_5",
+      "split": "test",
+      "vehicle_count": 11,
+      "ego_speed_mps": 3.321875154536418,
+      "nearest_vehicle_m": 55.279582685282925
+    },
+    {
+      "scenario_id": "15_1",
+      "split": "test",
+      "vehicle_count": 13,
+      "ego_speed_mps": 2.685508037943724,
+      "nearest_vehicle_m": 7.256383094784896
+    },
+    {
+      "scenario_id": "16_7",
+      "split": "test",
+      "vehicle_count": 15,
+      "ego_speed_mps": 1.3644753695087986,
+      "nearest_vehicle_m": 72.7253995900342
+    },
+    {
+      "scenario_id": "1_13",
+      "split": "test",
+      "vehicle_count": 13,
+      "ego_speed_mps": 0.19356528106481266,
+      "nearest_vehicle_m": 9.381795048045447
+    },
+    {
+      "scenario_id": "1_3",
+      "split": "test",
+      "vehicle_count": 8,
+      "ego_speed_mps": 0.18753861104832353,
+      "nearest_vehicle_m": 42.77490228564324
+    },
+    {
+      "scenario_id": "20_8",
+      "split": "test",
+      "vehicle_count": 33,
+      "ego_speed_mps": 3.403232356452084,
+      "nearest_vehicle_m": 7.624325333930252
+    },
+    {
+      "scenario_id": "26_2",
+      "split": "test",
+      "vehicle_count": 39,
+      "ego_speed_mps": 0.035996724282520036,
+      "nearest_vehicle_m": 6.229269606603058
+    },
+    {
+      "scenario_id": "29_0",
+      "split": "test",
+      "vehicle_count": 82,
+      "ego_speed_mps": 6.220986872032885,
+      "nearest_vehicle_m": 3.4470773125280494
+    },
+    {
+      "scenario_id": "5_10",
+      "split": "test",
+      "vehicle_count": 12,
+      "ego_speed_mps": 4.130671046613152,
+      "nearest_vehicle_m": 12.10045056448876
+    },
+    {
+      "scenario_id": "7_11",
+      "split": "test",
+      "vehicle_count": 60,
+      "ego_speed_mps": 0.01916289162214513,
+      "nearest_vehicle_m": 6.3729564191909045
+    },
+    {
+      "scenario_id": "8_4",
+      "split": "test",
+      "vehicle_count": 67,
+      "ego_speed_mps": 0.13106656103463168,
+      "nearest_vehicle_m": 3.2095086323238933
+    },
+    {
+      "scenario_id": "23_5",
+      "split": "validation",
+      "vehicle_count": 78,
+      "ego_speed_mps": 0.0038386986132691262,
+      "nearest_vehicle_m": 3.9440911193946397
+    },
+    {
+      "scenario_id": "4_12",
+      "split": "validation",
+      "vehicle_count": 49,
+      "ego_speed_mps": 3.6871669401140608,
+      "nearest_vehicle_m": 5.838512080490128
+    },
+    {
+      "scenario_id": "28_9",
+      "split": "validation",
+      "vehicle_count": 41,
+      "ego_speed_mps": 3.0453961638760436,
+      "nearest_vehicle_m": 6.792299773884724
+    },
+    {
+      "scenario_id": "24_6",
+      "split": "validation",
+      "vehicle_count": 72,
+      "ego_speed_mps": 2.7200698846354877e-05,
+      "nearest_vehicle_m": 6.883013475089676
+    },
+    {
+      "scenario_id": "28_77",
+      "split": "validation",
+      "vehicle_count": 17,
+      "ego_speed_mps": 0.03485089541079078,
+      "nearest_vehicle_m": 8.334730254431745
+    },
+    {
+      "scenario_id": "25_0",
+      "split": "validation",
+      "vehicle_count": 49,
+      "ego_speed_mps": 0.020247519212026513,
+      "nearest_vehicle_m": 9.412868128917227
+    },
+    {
+      "scenario_id": "30_6",
+      "split": "validation",
+      "vehicle_count": 70,
+      "ego_speed_mps": 14.571401115295316,
+      "nearest_vehicle_m": 10.400665737028731
+    },
+    {
+      "scenario_id": "0_2",
+      "split": "validation",
+      "vehicle_count": 6,
+      "ego_speed_mps": 0.5037299452170002,
+      "nearest_vehicle_m": 10.756086984555212
+    }
+  ],
+  "seed": 42
+}

@@ -1,0 +1,6 @@
+- dataset_name=waymo
+- postprocess_sim_envs.run_name=scenario_dreamer_ldm_large_waymo_riskweaver_full60_20260927_r2
+- postprocess_sim_envs.pre_path=/home2/zhaoyx/scenario-dreamer/checkpoints/scenario_dreamer_ldm_large_waymo_riskweaver_full60_20260927_r2/complete_sim_envs
+- postprocess_sim_envs.post_path=/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_full60_20260927_r2/postprocessed_200m_pickles
+- postprocess_sim_envs.route_length=200
+- postprocess_sim_envs.max_num_envs=-1

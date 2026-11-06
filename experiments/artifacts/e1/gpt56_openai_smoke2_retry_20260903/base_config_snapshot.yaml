@@ -1,0 +1,180 @@
+seed: 0 # random seed for reproducibility
+mode: scenario_dreamer # [waymo_ctrl_sim, waymo_log_replay, scenario_dreamer]
+dataset_path: ${project_root}/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles # path to set of simulation environments
+json_path: ${project_root}/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_jsons # path to the json files
+policy: idm # or rl (policy being evaluated)
+rl_model_path: ${project_root}/metadata/gpudrive_checkpoint # path to the RL model
+rl_model_name: pretrained # name of the RL model
+polyline_reduction_threshold: 0.1 # from gpudrive 
+visualize: False # create videos of the simulation?
+lightweight: False # lightweight visualization (runs faster, less dpi and lower frame rate)
+movie_path: ${project_root}/movies # path to save visualization movies
+visualization:
+  show_llm_anchors: True # 是否绘制 LLM 生成的稀疏轨迹锚点
+  show_diffusion_trajectory: True # 是否绘制 Safe-Sim 生成的攻击者未来细化轨迹
+verbose: True # report metrics after each simulation?
+steps: 400 # number of steps in each simulation
+dt: 0.1 # time delta between simulation steps
+simulate_vehicles_only: True # 当前 Safe-Sim 权重仅支持车辆，因此只将车辆纳入闭环仿真
+agent_scale: 1.0 # agent scale for collision checking (GPUDrive uses 0.7)
+behaviour_model:
+  run_name: ctrl_sim_waymo_1M_steps # run name of the behaviour model to load
+  model_path: ${scratch_root}/checkpoints/${sim.behaviour_model.run_name}/last.ckpt # path to the behaviour model checkpoint
+  tilt: 10 # exponential tilting value for return sampling
+  action_temperature: 1.0 # action sampling temperature
+  use_rtg: True # whether behaviour model conditions on return-to-go
+  predict_rtgs: True # whether behaviour model predicts return-to-go
+  compute_metrics: False # compute metrics for behaviour model?
+traffic_model:
+  backend: safe_sim_diffusion # 可选后端：safe_sim_diffusion、ctrl_sim、log_replay
+  safe_sim_root: ${project_root}/safe-sim
+  config_path: ${sim.traffic_model.safe_sim_root}/safesim_checkpoints/safesim_fut32/test/run0/config.json
+  checkpoint_path: ${sim.traffic_model.safe_sim_root}/safesim_checkpoints/safesim_fut32/test/run0/checkpoints/iter70000.ckpt
+  device: cuda:0
+  history_frames: 11 # 权重所需历史帧数加当前帧
+  prediction_horizon: 32
+  max_neighbors: 20
+  # 默认性能配置：100 个训练步中每隔 4 步采样，即 25 次反向扩散。
+  num_samples: 8
+  sample_step: 4
+  # 每次预测连续执行两帧；仍保持全参与者完整引导与单卡 FP32 推理。
+  replan_interval_steps: 2
+  diffusion_agent_limit: 0
+  # guided 保持所有车辆完整引导；unguided_diffusion 仅引导目标及邻车。
+  far_agent_mode: guided
+  mixed_precision: False
+  multi_gpu_devices: []
+  # 两项独立关闭；关闭时不改变既有攻击路径。
+  iterative_adversarial:
+    profile_enabled: false
+    escalation_enabled: false
+    full_method_enabled: false # 仅在轨迹迭代开启时叠加 CAT 记忆与候选画像匹配
+  guidance:
+    # 启动时只需覆盖 mode：unguided、default、llm_joint、manual。
+    mode: unguided
+    params:
+      inner_lr: 0.2 # 每个反向扩散步中的引导梯度步长
+      inner_beta: 0.5 # 单次引导对控制量的最大修正幅度
+      n_guide_steps: 2 # 每个反向扩散步执行两次引导，平衡锚点约束和推理时延
+      scale_grad_by_std: True # 按当前扩散噪声方差缩放梯度
+      grad_wrt: clean_guide
+    default:
+      # 顺序固定为：几何防重叠、道路中心线、自车 TTC 风险。
+      weights: [2.0, 1.0, 2.0]
+      configs: {}
+    llm_joint:
+      # 顺序固定为：几何防重叠、道路中心线、自车 TTC 风险、LLM 锚点。
+      # 具名静态权重变量；当前运行期间不更新，供后续迭代策略接入。
+      weight_variables:
+        scenario_collision: 1.5
+        route: 1.0
+        scenario_ttc: 2.0
+        llm_anchor: 4.0
+      # 顺序与 Safe-Sim 的引导函数严格对应。
+      weights: ["${..weight_variables.scenario_collision}", "${..weight_variables.route}", "${..weight_variables.scenario_ttc}", "${..weight_variables.llm_anchor}"]
+      configs: {}
+    loss_configs:
+      scenario_collision:
+        safety_margin: 0.5
+        temperature: 0.5
+        loss_timesteps: 20
+        filter_timesteps: 20
+        loss_scale: 1.0
+        attack_protection_frames: 2 # LLM 发起攻击后的第 0–1 帧完整保持攻击者—自车安全间距
+        attack_relaxation_frames: 6 # 第 2–7 帧线性减弱安全间距约束，第 7 帧降为零
+        attack_contact_ramp_frames: 2 # 第 8–9 帧增强受控接触，并将接触目标移到下一预测步
+        controlled_contact_penetration: 0.05 # 接触目标仅允许五厘米几何重叠，避免高速穿模
+        max_contact_penetration: 0.15 # 全阶段保留的硬穿透上限，防止攻击者穿过自车
+        contact_loss_scale: 1.0 # 末段受控接触损失强度
+        penetration_loss_scale: 5.0 # 深度穿透惩罚强度
+        safety_penetration_loss_scale: 100.0 # 背景车互撞和非攻击车撞自车的强穿透屏障
+        background_pair_penetration_loss_scale: 300.0 # 背景交通参与者之间的独立强穿透屏障，避免非目标交通互撞
+        max_speed: 20.0 # 所有背景车辆允许的最大速度，单位为米每秒
+        max_acceleration: 6.0 # 所有背景车辆允许的最大加速度模长，单位为米每二次方秒
+        max_jerk: 12.0 # 所有背景车辆允许的最大加加速度模长，单位为米每三次方秒
+        max_step_distance: 2.0 # 单帧最大位移，单位为米，用于直接拦截瞬移
+        kinematics_loss_scale: 1.0 # 运动学异常惩罚强度
+      route:
+        lane_margin: 1.0
+        nonlinear_factor: 5.0
+        loss_timesteps: 32
+        filter_timesteps: 32
+        loss_scale: 1.0
+      scenario_ttc:
+        distance_bandwidth: 2.0
+        time_bandwidth: 2.0
+        min_velocity_diff: 0.1
+        max_ttc: 6.0
+        loss_timesteps: 20
+        filter_timesteps: 20
+        loss_scale: 1.0
+    manual:
+      # 手动模式完全按照下列列表、权重和逐项配置构造组合损失。
+      functions: [scenario_collision, route, scenario_ttc]
+      weights: [2.0, 1.0, 2.0]
+      configs: {}
+  anchor_guidance:
+    enabled: False # 旧版兼容开关；存在 guidance.mode 时以 mode 为准
+    strength: 0.8 # 锚点损失权重；已在联合引导闭环场景中验证
+    anchor_interval_seconds: 1.0 # LLM 相邻锚点的时间间隔
+    robust_delta: 1.0 # 径向 Huber 损失由二次区间切换到线性区间的距离阈值，单位为米
+    inner_lr: 0.2 # 每个反向扩散步中的引导梯度步长
+    max_update: 0.5 # 单次引导对控制量的最大修正幅度
+    guide_steps: 1 # 每个反向扩散步执行的引导更新次数
+    scale_grad_by_std: True # 按当前扩散噪声方差缩放梯度
+llm:
+  model_name: gpt-5.6 # 默认通过官方 OpenAI API 调用 GPT-5.6
+  # 不再轮换至阿里云模型，避免 GPT-5.6 调用失败时悄然切回原服务。
+  model_names:
+    - gpt-5.6
+  multimodal: False # False 为纯文本模式；True 为当前帧图像加结构化场景数据
+  attack_mode: trajectory_only # trajectory_only、obstacle_only、joint；决定每次查询允许的攻击类型
+  max_consecutive_failures: 3 # 连续服务/API失败达到该次数后，本场景不再调用 LLM
+  obstacles:
+    enabled: False # 兼容旧配置；新逻辑以 llm.attack_mode 为准
+evaluation:
+  autonomous_driving:
+    # 未完成场景的已行驶路线进度折算系数：0 不给部分分，1 为全额进度分。
+    partial_progress_coefficient: 0.5
+  # 0 表示遍历全部数据集；正数时仅运行前 N 个场景，适合可复现的批量评测。
+  max_scenarios: 0
+  composite:
+    # 各项先归一化到零到一，再按有效权重重新归一化并求加权平均。
+    weights:
+      collision: 0.30
+      near_miss: 0.15
+      min_ttc: 0.15
+      max_ea: 0.12
+      mean_ea: 0.04
+      max_reachability_difficulty: 0.12
+      mean_reachability_difficulty: 0.04
+      unsolvable: 0.05
+      off_route: 0.01
+      incomplete: 0.01
+      low_progress: 0.01
+    ttc_scale_seconds: 3.0 # TTC 危险度达到 0.5 时对应的 TTC
+    ea_scale_mps2: 3.0 # EA 指数饱和映射的特征尺度
+  ea:
+    enabled: True # 保留 TTC 的同时，额外计算二维联合规避加速度
+    horizon_seconds: 7.0 # 与 EA 论文实验设置一致的预测时域
+    timestep_seconds: 0.02 # 使用论文公开实现的精细碰撞检查步长
+    max_acceleration: 100.0
+    coarse_directions: 72
+    fine_directions: 51
+    fine_half_window_degrees: 5.0
+    tolerance: 0.001
+  reachability:
+    enabled: True
+    horizon_seconds: 3.0 # 与 Safe-Sim 3.2 秒短时预测基本对齐
+    timestep_seconds: 0.5
+    longitudinal_resolution: 1.0
+    lateral_resolution: 0.5
+    speed_resolution: 1.0
+    lateral_speed_resolution: 0.5
+    lane_half_width: 4.0 # 以自车路由为中心的可行驶带半宽
+    max_speed: 25.0
+    max_lateral_speed: 3.0
+    longitudinal_accelerations: [-4.0, -2.0, 0.0, 2.0]
+    lateral_accelerations: [-2.5, 0.0, 2.5]
+save_carla_data: True # whether to save out .dat files for CARLA replay (for visualizing in CARLA)
+scenario_data_output_path: './carla_maps' # 保存 CARLA 回放数据的目录

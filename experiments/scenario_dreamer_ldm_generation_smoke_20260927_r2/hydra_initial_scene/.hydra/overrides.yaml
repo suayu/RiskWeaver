@@ -1,0 +1,11 @@
+- dataset_name=waymo
+- model_name=ldm
+- ldm.model.num_l2l_blocks=3
+- ldm.eval.run_name=scenario_dreamer_ldm_large_waymo_riskweaver_smoke_20260927_r2
+- ldm.model.autoencoder_run_name=scenario_dreamer_autoencoder_waymo
+- ldm.eval.seed=42
+- ldm.eval.batch_size=2
+- ldm.eval.mode=initial_scene
+- ldm.eval.num_samples=4
+- ldm.eval.cache_samples=true
+- ldm.eval.visualize=true

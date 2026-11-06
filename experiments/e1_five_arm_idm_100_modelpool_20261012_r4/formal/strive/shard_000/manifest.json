@@ -1,0 +1,57 @@
+{
+  "name": "riskweaver_frozen_250_scenes",
+  "created_at_unix": 1790542615.3337908,
+  "selection_rule": "source_order_then_lexicographic_path_first_n_unique_sha256",
+  "scene_root": null,
+  "scene_roots": [
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_full60_20260927_r2/postprocessed_200m_pickles",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles"
+  ],
+  "source_unique_count": 263,
+  "source_duplicate_count": 0,
+  "scenario_count": 10,
+  "scenario_files": [
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/0_7.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/10_3.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/12_7.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/13_10.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/13_8.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/14_5.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/15_1.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/15_6.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/15_7.pkl",
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/17_6.pkl"
+  ],
+  "scenario_sha256": [
+    "edb234ca46b02f19f1229325c3ff6fa576bc646722c75e57d67742a3b766efaa",
+    "8adc5cfc4ef2b2b4b834b28f97d37f1c8dd1db1e2aca3f5ffeeea68975a222c6",
+    "2e0caa72deb3904020547d826e44c4152d971c9bb8d7e78573408681c51caccd",
+    "84e4407fa5de7def0e3982ce7ff84586ff254232509306ad632496d83d9e101e",
+    "c82234654a19f06ed427098368f4ae54ef422e4e6f9956256839638b8f261222",
+    "679cfb8f83ee11088237e4739ad44830afa6586c805ebe9b77a98808da922555",
+    "48d746ce3a211f31919930cb56c9c7f96623414f0c77d141652b1260857de8f5",
+    "0fb0932c00a9424f6fa3102ffab85d7858f9fa992c3b3c7ce3c8b7a49adf5efa",
+    "dc0bf67fa522992f594bc044a315aee152ac619321a261254d87982124a4e102",
+    "7fe2ed7bce24f528fa25cf937877d4efbb2d81c2c3b85ef8556179f378c2ad40"
+  ],
+  "seed": 42,
+  "simulation_steps": 400,
+  "statistical_unit": "frozen_unique_scenario",
+  "original_scenario_indices": [
+    1,
+    3,
+    8,
+    10,
+    12,
+    13,
+    15,
+    16,
+    17,
+    20
+  ],
+  "selection_seed": 42,
+  "selection_basis": "source_stratified_30_22_48_outcome_independent",
+  "preliminary_development_comparison": true,
+  "development_exposure_note": "Existing scenes have prior development/test exposure; this is not a held-out generalization claim"
+}

@@ -1,0 +1,7 @@
+{
+  "version": "common-highlevel-static-gate-v1-20261102",
+  "default_enabled": false,
+  "files": {
+    "COMMON_STATIC_RULE.md": "7f1f0fbf1f063ede00e09f858e810a2e9007ef767899aa4ed383f79a8b7f74f3"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": "skills-v1-dev-20261020+rag-v1+45m-events-v1",
+  "files": {
+    "rw-benchmark/SKILL.md": "06b052c6176212ab87010ff902c0f13e071e2f2c2b152861ec1cdb9e9aae4a72",
+    "rw-dynamic-attack/SKILL.md": "42a2325cbf8b1feffc7f4055cf6a1e2f727c88b08b425804fe98fd163203d783",
+    "rw-plan-repair/SKILL.md": "2088d239175223d711906b9394f9906c209e3040207dc6e2fd39816dedf8f449",
+    "rw-scene-analysis/SKILL.md": "33972f6e609f65fca68c7d0818e542c7414c2e600933f5b7e354b3bcf8eba28a",
+    "rw-static-layout/SKILL.md": "b873ad9d6bab317ff5941326f39758ef3aa607303421fae4329e43bf916f84bf",
+    "shared/contract.md": "bce9f0bb3e6cfd79708338780253f1975dcef805dbb65996539912d08e143ae3",
+    "shared/recipes.md": "475093c715351c411824df765e85ecb07b5a04a5033521c8519613a5e17f8cef",
+    "rw-current-fact-reasoning/SKILL.md": "fa3e48c05aa2dee8d86de218843c377722b9ca214a17927b1da248aaafdfade6",
+    "rw-case-evidence/SKILL.md": "c7a280fbc48876444841fd639fba8e231e193bb7ca43bdd82dee10155cd35d76",
+    "rw-source-facts/SKILL.md": "775ae8d2016279ca57c947987ea7791a96dfd050627e47231492268f1419d5e5",
+    "rw-static-fallback/SKILL.md": "ef0fc1cdad67e2ebeb0dceb12ab596336ae1b0fda458ed74d9bc41ce48d2311e"
+  },
+  "evidence_status": "implementation_pending_validation"
+}

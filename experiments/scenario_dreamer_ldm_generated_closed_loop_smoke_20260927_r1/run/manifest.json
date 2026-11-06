@@ -1,0 +1,13 @@
+{
+  "name": "scenario_dreamer_ldm_generated_closed_loop_smoke_20260927_r1",
+  "selection_rule": "the sole format-valid scene from the accepted LDM R2 generation smoke; no outcome selection",
+  "scenario_count": 1,
+  "scenario_files": [
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_generation_smoke_20260927_r2/postprocessed_200m_pickles/1_1.pkl"
+  ],
+  "scenario_sha256": [
+    "d4fcb38dfe8d311487ba54cdd62e41c32c2deae660feec40a185a8a74ed11b23"
+  ],
+  "seed": 42,
+  "simulation_steps": 400
+}

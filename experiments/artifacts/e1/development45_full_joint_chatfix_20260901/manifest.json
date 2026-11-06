@@ -1,0 +1,756 @@
+{
+  "protocol_version": 1,
+  "split_seed": 20260831,
+  "scenarios": [
+    {
+      "scenario_index": 0,
+      "scenario_id": "0_2",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/0_2.pkl",
+      "split": "validation",
+      "agent_count": 68,
+      "vehicle_count": 6,
+      "ego_speed_mps": 0.5037299452170002,
+      "nearest_vehicle_m": 10.756086984555212
+    },
+    {
+      "scenario_index": 1,
+      "scenario_id": "0_7",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/0_7.pkl",
+      "split": "development",
+      "agent_count": 84,
+      "vehicle_count": 56,
+      "ego_speed_mps": 0.019077889661144935,
+      "nearest_vehicle_m": 4.145965621940942
+    },
+    {
+      "scenario_index": 2,
+      "scenario_id": "10_11",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/10_11.pkl",
+      "split": "development",
+      "agent_count": 63,
+      "vehicle_count": 62,
+      "ego_speed_mps": 5.526512163596089,
+      "nearest_vehicle_m": 4.622422752933885
+    },
+    {
+      "scenario_index": 3,
+      "scenario_id": "10_3",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/10_3.pkl",
+      "split": "test",
+      "agent_count": 47,
+      "vehicle_count": 17,
+      "ego_speed_mps": 0.30437582749094977,
+      "nearest_vehicle_m": 9.166037885271107
+    },
+    {
+      "scenario_index": 4,
+      "scenario_id": "10_4",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/10_4.pkl",
+      "split": "development",
+      "agent_count": 80,
+      "vehicle_count": 24,
+      "ego_speed_mps": 0.042513956246651954,
+      "nearest_vehicle_m": 9.297112843610728
+    },
+    {
+      "scenario_index": 5,
+      "scenario_id": "11_13",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/11_13.pkl",
+      "split": "development",
+      "agent_count": 89,
+      "vehicle_count": 79,
+      "ego_speed_mps": 0.0,
+      "nearest_vehicle_m": 3.6812996244763663
+    },
+    {
+      "scenario_index": 6,
+      "scenario_id": "11_5",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/11_5.pkl",
+      "split": "test",
+      "agent_count": 49,
+      "vehicle_count": 11,
+      "ego_speed_mps": 3.321875154536418,
+      "nearest_vehicle_m": 55.279582685282925
+    },
+    {
+      "scenario_index": 7,
+      "scenario_id": "11_6",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/11_6.pkl",
+      "split": "development",
+      "agent_count": 103,
+      "vehicle_count": 84,
+      "ego_speed_mps": 0.011281489420519987,
+      "nearest_vehicle_m": 2.78603069921581
+    },
+    {
+      "scenario_index": 8,
+      "scenario_id": "12_7",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/12_7.pkl",
+      "split": "development",
+      "agent_count": 107,
+      "vehicle_count": 89,
+      "ego_speed_mps": 5.737077734694189,
+      "nearest_vehicle_m": 4.7852053412150966
+    },
+    {
+      "scenario_index": 9,
+      "scenario_id": "12_8",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/12_8.pkl",
+      "split": "validation",
+      "agent_count": 82,
+      "vehicle_count": 13,
+      "ego_speed_mps": 7.381565667971788,
+      "nearest_vehicle_m": 19.80119341623726
+    },
+    {
+      "scenario_index": 10,
+      "scenario_id": "13_10",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/13_10.pkl",
+      "split": "development",
+      "agent_count": 116,
+      "vehicle_count": 88,
+      "ego_speed_mps": 2.793644438928625,
+      "nearest_vehicle_m": 22.055835922041226
+    },
+    {
+      "scenario_index": 11,
+      "scenario_id": "13_6",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/13_6.pkl",
+      "split": "development",
+      "agent_count": 55,
+      "vehicle_count": 16,
+      "ego_speed_mps": 0.7162861841201578,
+      "nearest_vehicle_m": 18.614533191947835
+    },
+    {
+      "scenario_index": 12,
+      "scenario_id": "13_8",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/13_8.pkl",
+      "split": "development",
+      "agent_count": 60,
+      "vehicle_count": 11,
+      "ego_speed_mps": 0.04446294163313118,
+      "nearest_vehicle_m": 15.56083836612401
+    },
+    {
+      "scenario_index": 13,
+      "scenario_id": "14_5",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/14_5.pkl",
+      "split": "development",
+      "agent_count": 38,
+      "vehicle_count": 16,
+      "ego_speed_mps": 0.43206268639799367,
+      "nearest_vehicle_m": 9.42269896280825
+    },
+    {
+      "scenario_index": 14,
+      "scenario_id": "14_9",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/14_9.pkl",
+      "split": "development",
+      "agent_count": 70,
+      "vehicle_count": 15,
+      "ego_speed_mps": 0.008017405868378766,
+      "nearest_vehicle_m": 16.081139716379482
+    },
+    {
+      "scenario_index": 15,
+      "scenario_id": "15_1",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/15_1.pkl",
+      "split": "test",
+      "agent_count": 56,
+      "vehicle_count": 13,
+      "ego_speed_mps": 2.685508037943724,
+      "nearest_vehicle_m": 7.256383094784896
+    },
+    {
+      "scenario_index": 16,
+      "scenario_id": "15_6",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/15_6.pkl",
+      "split": "development",
+      "agent_count": 78,
+      "vehicle_count": 15,
+      "ego_speed_mps": 0.16243237257019444,
+      "nearest_vehicle_m": 21.693752267715023
+    },
+    {
+      "scenario_index": 17,
+      "scenario_id": "15_7",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/15_7.pkl",
+      "split": "validation",
+      "agent_count": 44,
+      "vehicle_count": 21,
+      "ego_speed_mps": 0.04622079016185337,
+      "nearest_vehicle_m": 15.81766717183853
+    },
+    {
+      "scenario_index": 18,
+      "scenario_id": "16_11",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/16_11.pkl",
+      "split": "validation",
+      "agent_count": 74,
+      "vehicle_count": 9,
+      "ego_speed_mps": 0.7481416065503764,
+      "nearest_vehicle_m": 18.059540824271274
+    },
+    {
+      "scenario_index": 19,
+      "scenario_id": "16_7",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/16_7.pkl",
+      "split": "test",
+      "agent_count": 76,
+      "vehicle_count": 15,
+      "ego_speed_mps": 1.3644753695087986,
+      "nearest_vehicle_m": 72.7253995900342
+    },
+    {
+      "scenario_index": 20,
+      "scenario_id": "17_6",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/17_6.pkl",
+      "split": "development",
+      "agent_count": 70,
+      "vehicle_count": 14,
+      "ego_speed_mps": 2.66224789777891,
+      "nearest_vehicle_m": 10.903157280937188
+    },
+    {
+      "scenario_index": 21,
+      "scenario_id": "17_7",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/17_7.pkl",
+      "split": "development",
+      "agent_count": 47,
+      "vehicle_count": 15,
+      "ego_speed_mps": 1.5603365913922373,
+      "nearest_vehicle_m": 16.785998851265365
+    },
+    {
+      "scenario_index": 22,
+      "scenario_id": "18_12",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/18_12.pkl",
+      "split": "development",
+      "agent_count": 48,
+      "vehicle_count": 13,
+      "ego_speed_mps": 2.8196110889538186,
+      "nearest_vehicle_m": 15.583891147919678
+    },
+    {
+      "scenario_index": 23,
+      "scenario_id": "19_13",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/19_13.pkl",
+      "split": "development",
+      "agent_count": 80,
+      "vehicle_count": 75,
+      "ego_speed_mps": 19.673105871213515,
+      "nearest_vehicle_m": 15.235641905211365
+    },
+    {
+      "scenario_index": 24,
+      "scenario_id": "1_0",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/1_0.pkl",
+      "split": "development",
+      "agent_count": 67,
+      "vehicle_count": 11,
+      "ego_speed_mps": 9.881612792011689,
+      "nearest_vehicle_m": 23.05803598283024
+    },
+    {
+      "scenario_index": 25,
+      "scenario_id": "1_1",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/1_1.pkl",
+      "split": "test",
+      "agent_count": 103,
+      "vehicle_count": 70,
+      "ego_speed_mps": 12.452704430237274,
+      "nearest_vehicle_m": 16.378413427559746
+    },
+    {
+      "scenario_index": 26,
+      "scenario_id": "1_11",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/1_11.pkl",
+      "split": "development",
+      "agent_count": 94,
+      "vehicle_count": 24,
+      "ego_speed_mps": 13.235186914056628,
+      "nearest_vehicle_m": 13.950994210059251
+    },
+    {
+      "scenario_index": 27,
+      "scenario_id": "1_13",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/1_13.pkl",
+      "split": "test",
+      "agent_count": 45,
+      "vehicle_count": 13,
+      "ego_speed_mps": 0.19356528106481266,
+      "nearest_vehicle_m": 9.381795048045447
+    },
+    {
+      "scenario_index": 28,
+      "scenario_id": "1_3",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/1_3.pkl",
+      "split": "test",
+      "agent_count": 72,
+      "vehicle_count": 8,
+      "ego_speed_mps": 0.18753861104832353,
+      "nearest_vehicle_m": 42.77490228564324
+    },
+    {
+      "scenario_index": 29,
+      "scenario_id": "20_8",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/20_8.pkl",
+      "split": "test",
+      "agent_count": 89,
+      "vehicle_count": 33,
+      "ego_speed_mps": 3.403232356452084,
+      "nearest_vehicle_m": 7.624325333930252
+    },
+    {
+      "scenario_index": 30,
+      "scenario_id": "21_13",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/21_13.pkl",
+      "split": "development",
+      "agent_count": 97,
+      "vehicle_count": 30,
+      "ego_speed_mps": 15.597982573085966,
+      "nearest_vehicle_m": 4.918430407181666
+    },
+    {
+      "scenario_index": 31,
+      "scenario_id": "22_11",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/22_11.pkl",
+      "split": "development",
+      "agent_count": 61,
+      "vehicle_count": 11,
+      "ego_speed_mps": 2.453741096857224,
+      "nearest_vehicle_m": 7.633316153391033
+    },
+    {
+      "scenario_index": 32,
+      "scenario_id": "22_12",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/22_12.pkl",
+      "split": "validation",
+      "agent_count": 68,
+      "vehicle_count": 12,
+      "ego_speed_mps": 5.030174479981881,
+      "nearest_vehicle_m": 38.86060379479091
+    },
+    {
+      "scenario_index": 33,
+      "scenario_id": "23_5",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/23_5.pkl",
+      "split": "validation",
+      "agent_count": 92,
+      "vehicle_count": 78,
+      "ego_speed_mps": 0.0038386986132691262,
+      "nearest_vehicle_m": 3.9440911193946397
+    },
+    {
+      "scenario_index": 34,
+      "scenario_id": "23_6",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/23_6.pkl",
+      "split": "development",
+      "agent_count": 69,
+      "vehicle_count": 4,
+      "ego_speed_mps": 0.34965138186132544,
+      "nearest_vehicle_m": 3.1386462326685236
+    },
+    {
+      "scenario_index": 35,
+      "scenario_id": "23_8",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/23_8.pkl",
+      "split": "development",
+      "agent_count": 56,
+      "vehicle_count": 12,
+      "ego_speed_mps": 0.7074502112544951,
+      "nearest_vehicle_m": 9.702686888831561
+    },
+    {
+      "scenario_index": 36,
+      "scenario_id": "24_14",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/24_14.pkl",
+      "split": "development",
+      "agent_count": 83,
+      "vehicle_count": 10,
+      "ego_speed_mps": 6.7037310610350636,
+      "nearest_vehicle_m": 15.65134228426808
+    },
+    {
+      "scenario_index": 37,
+      "scenario_id": "24_6",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/24_6.pkl",
+      "split": "validation",
+      "agent_count": 91,
+      "vehicle_count": 72,
+      "ego_speed_mps": 2.7200698846354877e-05,
+      "nearest_vehicle_m": 6.883013475089676
+    },
+    {
+      "scenario_index": 38,
+      "scenario_id": "25_0",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/25_0.pkl",
+      "split": "validation",
+      "agent_count": 56,
+      "vehicle_count": 49,
+      "ego_speed_mps": 0.020247519212026513,
+      "nearest_vehicle_m": 9.412868128917227
+    },
+    {
+      "scenario_index": 39,
+      "scenario_id": "25_5",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/25_5.pkl",
+      "split": "development",
+      "agent_count": 38,
+      "vehicle_count": 14,
+      "ego_speed_mps": 0.1724558366917293,
+      "nearest_vehicle_m": 7.974290946846897
+    },
+    {
+      "scenario_index": 40,
+      "scenario_id": "25_6",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/25_6.pkl",
+      "split": "development",
+      "agent_count": 76,
+      "vehicle_count": 48,
+      "ego_speed_mps": 1.7932059780211536,
+      "nearest_vehicle_m": 4.44422797567637
+    },
+    {
+      "scenario_index": 41,
+      "scenario_id": "26_10",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/26_10.pkl",
+      "split": "development",
+      "agent_count": 78,
+      "vehicle_count": 49,
+      "ego_speed_mps": 0.003753696337348332,
+      "nearest_vehicle_m": 8.117471605815833
+    },
+    {
+      "scenario_index": 42,
+      "scenario_id": "26_2",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/26_2.pkl",
+      "split": "test",
+      "agent_count": 81,
+      "vehicle_count": 39,
+      "ego_speed_mps": 0.035996724282520036,
+      "nearest_vehicle_m": 6.229269606603058
+    },
+    {
+      "scenario_index": 43,
+      "scenario_id": "26_6",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/26_6.pkl",
+      "split": "development",
+      "agent_count": 59,
+      "vehicle_count": 13,
+      "ego_speed_mps": 2.7165065045157335,
+      "nearest_vehicle_m": 3.871450674055209
+    },
+    {
+      "scenario_index": 44,
+      "scenario_id": "26_8",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/26_8.pkl",
+      "split": "development",
+      "agent_count": 95,
+      "vehicle_count": 39,
+      "ego_speed_mps": 1.267365617090207,
+      "nearest_vehicle_m": 6.667001897582685
+    },
+    {
+      "scenario_index": 45,
+      "scenario_id": "27_13",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/27_13.pkl",
+      "split": "development",
+      "agent_count": 54,
+      "vehicle_count": 43,
+      "ego_speed_mps": 0.004977418624721167,
+      "nearest_vehicle_m": 3.3366106680888974
+    },
+    {
+      "scenario_index": 46,
+      "scenario_id": "27_2",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/27_2.pkl",
+      "split": "development",
+      "agent_count": 79,
+      "vehicle_count": 32,
+      "ego_speed_mps": 0.010312465040978226,
+      "nearest_vehicle_m": 3.1686031595150355
+    },
+    {
+      "scenario_index": 47,
+      "scenario_id": "28_77",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/28_77.pkl",
+      "split": "validation",
+      "agent_count": 56,
+      "vehicle_count": 17,
+      "ego_speed_mps": 0.03485089541079078,
+      "nearest_vehicle_m": 8.334730254431745
+    },
+    {
+      "scenario_index": 48,
+      "scenario_id": "28_9",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/28_9.pkl",
+      "split": "validation",
+      "agent_count": 66,
+      "vehicle_count": 41,
+      "ego_speed_mps": 3.0453961638760436,
+      "nearest_vehicle_m": 6.792299773884724
+    },
+    {
+      "scenario_index": 49,
+      "scenario_id": "29_0",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/29_0.pkl",
+      "split": "test",
+      "agent_count": 89,
+      "vehicle_count": 82,
+      "ego_speed_mps": 6.220986872032885,
+      "nearest_vehicle_m": 3.4470773125280494
+    },
+    {
+      "scenario_index": 50,
+      "scenario_id": "2_2",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/2_2.pkl",
+      "split": "development",
+      "agent_count": 64,
+      "vehicle_count": 14,
+      "ego_speed_mps": 1.1976093393404297,
+      "nearest_vehicle_m": 17.393774141429027
+    },
+    {
+      "scenario_index": 51,
+      "scenario_id": "2_3",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/2_3.pkl",
+      "split": "validation",
+      "agent_count": 35,
+      "vehicle_count": 19,
+      "ego_speed_mps": 0.05972253171975115,
+      "nearest_vehicle_m": 22.110379393458118
+    },
+    {
+      "scenario_index": 52,
+      "scenario_id": "30_5",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/30_5.pkl",
+      "split": "development",
+      "agent_count": 71,
+      "vehicle_count": 18,
+      "ego_speed_mps": 0.024378626687794867,
+      "nearest_vehicle_m": 5.00320383438581
+    },
+    {
+      "scenario_index": 53,
+      "scenario_id": "30_6",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/30_6.pkl",
+      "split": "validation",
+      "agent_count": 89,
+      "vehicle_count": 70,
+      "ego_speed_mps": 14.571401115295316,
+      "nearest_vehicle_m": 10.400665737028731
+    },
+    {
+      "scenario_index": 54,
+      "scenario_id": "31_11",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/31_11.pkl",
+      "split": "development",
+      "agent_count": 59,
+      "vehicle_count": 26,
+      "ego_speed_mps": 2.920352273506513,
+      "nearest_vehicle_m": 5.512030887843434
+    },
+    {
+      "scenario_index": 55,
+      "scenario_id": "3_7",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/3_7.pkl",
+      "split": "validation",
+      "agent_count": 72,
+      "vehicle_count": 63,
+      "ego_speed_mps": 13.971430801915917,
+      "nearest_vehicle_m": 14.516700744974868
+    },
+    {
+      "scenario_index": 56,
+      "scenario_id": "4_12",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/4_12.pkl",
+      "split": "validation",
+      "agent_count": 64,
+      "vehicle_count": 49,
+      "ego_speed_mps": 3.6871669401140608,
+      "nearest_vehicle_m": 5.838512080490128
+    },
+    {
+      "scenario_index": 57,
+      "scenario_id": "4_4",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/4_4.pkl",
+      "split": "development",
+      "agent_count": 83,
+      "vehicle_count": 10,
+      "ego_speed_mps": 4.919022213888865,
+      "nearest_vehicle_m": 6.873882461786978
+    },
+    {
+      "scenario_index": 58,
+      "scenario_id": "4_7",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/4_7.pkl",
+      "split": "validation",
+      "agent_count": 62,
+      "vehicle_count": 10,
+      "ego_speed_mps": 2.3005874213546043,
+      "nearest_vehicle_m": 12.818908606576942
+    },
+    {
+      "scenario_index": 59,
+      "scenario_id": "4_9",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/4_9.pkl",
+      "split": "development",
+      "agent_count": 41,
+      "vehicle_count": 16,
+      "ego_speed_mps": 0.3150827038826907,
+      "nearest_vehicle_m": 12.35161251411588
+    },
+    {
+      "scenario_index": 60,
+      "scenario_id": "5_1",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/5_1.pkl",
+      "split": "development",
+      "agent_count": 94,
+      "vehicle_count": 61,
+      "ego_speed_mps": 15.081791164578235,
+      "nearest_vehicle_m": 4.051988813749159
+    },
+    {
+      "scenario_index": 61,
+      "scenario_id": "5_10",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/5_10.pkl",
+      "split": "test",
+      "agent_count": 73,
+      "vehicle_count": 12,
+      "ego_speed_mps": 4.130671046613152,
+      "nearest_vehicle_m": 12.10045056448876
+    },
+    {
+      "scenario_index": 62,
+      "scenario_id": "5_8",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/5_8.pkl",
+      "split": "test",
+      "agent_count": 131,
+      "vehicle_count": 94,
+      "ego_speed_mps": 4.8249416360711255,
+      "nearest_vehicle_m": 9.502082086144206
+    },
+    {
+      "scenario_index": 63,
+      "scenario_id": "6_0",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/6_0.pkl",
+      "split": "development",
+      "agent_count": 76,
+      "vehicle_count": 34,
+      "ego_speed_mps": 12.157485962828186,
+      "nearest_vehicle_m": 24.039690917654443
+    },
+    {
+      "scenario_index": 64,
+      "scenario_id": "6_5",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/6_5.pkl",
+      "split": "development",
+      "agent_count": 69,
+      "vehicle_count": 19,
+      "ego_speed_mps": 6.269978600653084,
+      "nearest_vehicle_m": 22.799078404276443
+    },
+    {
+      "scenario_index": 65,
+      "scenario_id": "7_10",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/7_10.pkl",
+      "split": "development",
+      "agent_count": 101,
+      "vehicle_count": 15,
+      "ego_speed_mps": 6.052702916976517,
+      "nearest_vehicle_m": 11.406141995912199
+    },
+    {
+      "scenario_index": 66,
+      "scenario_id": "7_11",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/7_11.pkl",
+      "split": "test",
+      "agent_count": 64,
+      "vehicle_count": 60,
+      "ego_speed_mps": 0.01916289162214513,
+      "nearest_vehicle_m": 6.3729564191909045
+    },
+    {
+      "scenario_index": 67,
+      "scenario_id": "7_14",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/7_14.pkl",
+      "split": "development",
+      "agent_count": 44,
+      "vehicle_count": 15,
+      "ego_speed_mps": 0.05864130926759178,
+      "nearest_vehicle_m": 7.852208745741781
+    },
+    {
+      "scenario_index": 68,
+      "scenario_id": "7_7",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/7_7.pkl",
+      "split": "development",
+      "agent_count": 111,
+      "vehicle_count": 50,
+      "ego_speed_mps": 1.8512353755100799,
+      "nearest_vehicle_m": 5.367525339166146
+    },
+    {
+      "scenario_index": 69,
+      "scenario_id": "7_9",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/7_9.pkl",
+      "split": "development",
+      "agent_count": 111,
+      "vehicle_count": 83,
+      "ego_speed_mps": 8.921380066563515,
+      "nearest_vehicle_m": 10.877159026281074
+    },
+    {
+      "scenario_index": 70,
+      "scenario_id": "8_2",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/8_2.pkl",
+      "split": "test",
+      "agent_count": 59,
+      "vehicle_count": 33,
+      "ego_speed_mps": 6.721969171453279,
+      "nearest_vehicle_m": 8.123508347594463
+    },
+    {
+      "scenario_index": 71,
+      "scenario_id": "8_4",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/8_4.pkl",
+      "split": "test",
+      "agent_count": 81,
+      "vehicle_count": 67,
+      "ego_speed_mps": 0.13106656103463168,
+      "nearest_vehicle_m": 3.2095086323238933
+    },
+    {
+      "scenario_index": 72,
+      "scenario_id": "8_8",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/8_8.pkl",
+      "split": "development",
+      "agent_count": 54,
+      "vehicle_count": 12,
+      "ego_speed_mps": 4.297345639279586,
+      "nearest_vehicle_m": 8.807317746628057
+    },
+    {
+      "scenario_index": 73,
+      "scenario_id": "9_2",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/9_2.pkl",
+      "split": "development",
+      "agent_count": 103,
+      "vehicle_count": 79,
+      "ego_speed_mps": 0.01656741482409905,
+      "nearest_vehicle_m": 3.4408301470326053
+    },
+    {
+      "scenario_index": 74,
+      "scenario_id": "9_4",
+      "scenario_file": "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/9_4.pkl",
+      "split": "development",
+      "agent_count": 63,
+      "vehicle_count": 10,
+      "ego_speed_mps": 10.35240851171488,
+      "nearest_vehicle_m": 33.22358447575211
+    }
+  ]
+}

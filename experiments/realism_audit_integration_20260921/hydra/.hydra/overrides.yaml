@@ -1,0 +1,13 @@
+- sim.seed=42
+- sim.evaluation.max_scenarios=1
+- sim.steps=20
+- +sim.scenario_manifest=/home2/zhaoyx/scenario-dreamer/experiments/riskweaver_profile_deferred_r2_1789929437881315105/smoke_scenario_manifest.json
+- +sim.attack_request_file=/home2/zhaoyx/scenario-dreamer/experiments/realism_audit_integration_20260921/empty_instruction.txt
+- sim.llm.max_planning_calls=1
+- sim.traffic_model.guidance.mode=default
+- sim.realism_audit.enabled=true
+- sim.realism_audit.reference_histogram_path=/home2/zhaoyx/scenario-dreamer/work/realism_reference_integration_20260921/synthetic_reference.json
+- sim.visualize=false
+- sim.lightweight=true
+- sim.movie_path=/home2/zhaoyx/scenario-dreamer/experiments/realism_audit_integration_20260921/movies
+- sim.scenario_data_output_path=/home2/zhaoyx/scenario-dreamer/experiments/realism_audit_integration_20260921/carla

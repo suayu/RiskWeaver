@@ -1,0 +1,689 @@
+dataset_name:
+  name: waymo
+ae:
+  dataset:
+    dataset_path: /home2/zhaoyx/scenario-dreamer/metadata/scenario_dreamer_waymo
+    max_num_agents: 30
+    max_num_lanes: 100
+    upsample_lane_num_points: 1000
+    remove_offroad_agents: true
+    offroad_threshold: 1.5
+    fov: 64
+    num_points_per_lane: 20
+    num_agent_types: 3
+    num_lane_types: 0
+    num_lane_connection_types: 6
+    num_map_ids: 2
+    min_speed: 0
+    max_speed: 114.088
+    min_length: -0.098
+    max_length: 22.929
+    min_width: 0.096
+    max_width: 12.527
+    min_lane_x: -32
+    max_lane_x: 32
+    min_lane_y: -32
+    max_lane_y: 32
+    preprocess: true
+    preprocess_dir: /home2/zhaoyx/scenario-dreamer/metadata/scenario_dreamer_ae_preprocess_waymo
+    generate_only_vehicles: false
+    remove_left_right_connections: false
+  train:
+    seed: 0
+    save_dir: /home2/zhaoyx/scenario-dreamer/checkpoints/
+    run_name: scenario_dreamer_autoencoder_waymo
+    wandb_project: scenario-dreamer
+    wandb_entity: null
+    track: false
+    accelerator: auto
+    devices: 1
+    precision: 32-true
+    check_val_every_n_epoch: 1
+    limit_train_batches: 1.0
+    limit_val_batches: 1.0
+    num_samples_to_visualize: 10
+    viz_dir: /home2/zhaoyx/scenario-dreamer/viz_val_scenario_dreamer_autoencoder_waymo
+    max_steps: 350000
+    warmup_steps: 1000
+    lr_schedule: linear
+    lr: 0.0001
+    beta_1: 0.9
+    beta_2: 0.999
+    epsilon: 1.0e-07
+    weight_decay: 0.0001
+    gradient_clip_val: 10.0
+    loss_type: l2
+    lane_weight: 10
+    lane_conn_weight: 0.1
+  eval:
+    seed: 0
+    save_dir: /home2/zhaoyx/scenario-dreamer/checkpoints/
+    run_name: scenario_dreamer_autoencoder_waymo
+    num_samples_to_visualize: 50
+    visualize_lane_graph: false
+    viz_dir: /home2/zhaoyx/scenario-dreamer/viz_eval_scenario_dreamer_autoencoder_waymo
+    cache_latents:
+      enable_caching: false
+      split_name: train
+      latent_dir: /home2/zhaoyx/scenario-dreamer/scenario_dreamer_autoencoder_latents_waymo
+      nocturne_train_filenames_path: /home2/zhaoyx/scenario-dreamer/metadata/nocturne_train_filenames.pkl
+      nocturne_val_filenames_path: /home2/zhaoyx/scenario-dreamer/metadata/nocturne_val_filenames.pkl
+  model:
+    hidden_dim: 512
+    num_encoder_blocks: 2
+    num_decoder_blocks: 2
+    lane_attr: 2
+    num_heads: 4
+    dropout: 0
+    dim_f: 2048
+    state_dim: 7
+    num_agent_types: 3
+    lane_conn_attr: 6
+    num_lane_types: 0
+    agent_hidden_dim: 256
+    agent_num_heads: 4
+    agent_dim_f: 1024
+    lane_conn_hidden_dim: 64
+    lane_latent_dim: 24
+    agent_latent_dim: 8
+    kl_weight: 0.01
+    lane_weight: 10
+    lane_conn_weight: 10
+    cond_dis_weight: 0.1
+    num_points_per_lane: 20
+    max_num_lanes: 100
+  datamodule:
+    train_batch_size: 128
+    val_batch_size: 128
+    num_workers: 6
+    pin_memory: true
+    persistent_workers: true
+    _target_: datamodules.waymo.waymo_datamodule_autoencoder.WaymoDataModuleAutoEncoder
+    dataset_cfg: null
+ldm:
+  dataset:
+    dataset_path: /home2/zhaoyx/scenario-dreamer/metadata/scenario_dreamer_autoencoder_latents_waymo
+    max_num_agents: 30
+    max_num_lanes: 100
+    upsample_lane_num_points: 1000
+    remove_offroad_agents: true
+    offroad_threshold: 1.5
+    fov: 64
+    num_points_per_lane: 20
+    num_agent_types: 3
+    num_lane_types: 0
+    num_lane_connection_types: 6
+    num_map_ids: 2
+    min_speed: 0
+    max_speed: 114.088
+    min_length: -0.098
+    max_length: 22.929
+    min_width: 0.096
+    max_width: 12.527
+    min_lane_x: -32
+    max_lane_x: 32
+    min_lane_y: -32
+    max_lane_y: 32
+    latent_stats_dir: /home2/zhaoyx/scenario-dreamer/metadata/latent_stats
+    latent_stats_path: /home2/zhaoyx/scenario-dreamer/metadata/latent_stats/scenario_dreamer_autoencoder_waymo.pkl
+    agent_latents_mean: null
+    agent_latents_std: null
+    lane_latents_mean: null
+    lane_latents_std: null
+  train:
+    seed: 0
+    save_dir: /home2/zhaoyx/scenario-dreamer/checkpoints/
+    run_name: scenario_dreamer_ldm_base_waymo
+    wandb_project: scenario-dreamer
+    wandb_entity: null
+    track: false
+    accelerator: auto
+    devices: 4
+    precision: 32-true
+    check_val_every_n_epoch: 2
+    limit_train_batches: 1.0
+    limit_val_batches: 1.0
+    num_samples_to_visualize: 10
+    viz_dir: /home2/zhaoyx/scenario-dreamer/viz_val_scenario_dreamer_ldm_base_waymo
+    max_steps: 165000
+    warmup_steps: 500
+    lr_schedule: constant
+    lr: 0.0001
+    beta_1: 0.9
+    beta_2: 0.999
+    epsilon: 1.0e-07
+    weight_decay: 1.0e-05
+    gradient_clip_val: 10.0
+    loss_type: l2
+    lane_weight: 10
+    lane_conn_weight: 0.1
+    save_top_k: 0
+    ema_decay: 0.9999
+    guidance_scale: 4.0
+    num_batches_compute_stats: 250
+    batch_size_compute_stats: 1024
+  eval:
+    seed: 0
+    save_dir: /home2/zhaoyx/scenario-dreamer/checkpoints/
+    run_name: scenario_dreamer_ldm_base_waymo
+    mode: initial_scene
+    num_samples: 100
+    init_prob_matrix_path: /home2/zhaoyx/scenario-dreamer/metadata/initial_prob_matrix_waymo.pt
+    inpainting_prob_matrix_path: /home2/zhaoyx/scenario-dreamer/metadata/inpainting_prob_matrix_waymo.pt
+    batch_size: 32
+    visualize: false
+    viz_dir: /home2/zhaoyx/scenario-dreamer/viz_gen_samples_scenario_dreamer_ldm_base_waymo
+    cache_samples: false
+    conditioning_path: null
+    sim_envs:
+      num_inpainting_candidates: 8
+      overhead_factor: 5
+      route_length: 500
+      nocturne_compatible_only: true
+    metrics:
+      samples_path: /home2/zhaoyx/scenario-dreamer/metadata/checkpoints/scenario_dreamer_ldm_base_waymo/initial_scene_samples
+      metrics_save_path: /home2/zhaoyx/scenario-dreamer/metadata/checkpoints/scenario_dreamer_ldm_base_waymo
+      eval_set: /home2/zhaoyx/scenario-dreamer/metadata/waymo_eval_set.pkl
+      gt_test_dir: /home2/zhaoyx/scenario-dreamer/metadata/scenario_dreamer_ae_preprocess_waymo/test
+  model:
+    autoencoder_run_name: scenario_dreamer_autoencoder_waymo
+    autoencoder_path: /home2/zhaoyx/scenario-dreamer/checkpoints/scenario_dreamer_autoencoder_waymo/last.ckpt
+    hidden_dim: 2048
+    num_heads: 16
+    agent_hidden_dim: 512
+    agent_num_heads: 8
+    num_factorized_dit_blocks: 2
+    lane_latent_dim: 24
+    agent_latent_dim: 8
+    dropout: 0
+    label_dropout: 0.1
+    num_l2l_blocks: 1
+    n_diffusion_timesteps: 100
+    lane_sampling_temperature: 0.75
+    diffusion_clip: 5
+  datamodule:
+    train_batch_size: 256
+    val_batch_size: 256
+    num_workers: 6
+    pin_memory: true
+    persistent_workers: true
+    _target_: datamodules.waymo.waymo_datamodule_ldm.WaymoDataModuleLDM
+    dataset_cfg: null
+ctrl_sim:
+  dataset:
+    preprocess: true
+    preprocess_dir: /home2/zhaoyx/scenario-dreamer/metadata/scenario_dreamer_ctrl_sim_preprocess
+    dataset_path: /home2/zhaoyx/scenario-dreamer/metadata/scenario_dreamer_waymo
+    train_context_length: 32
+    max_num_lanes: 100
+    max_num_agents: 24
+    lane_fov: 300
+    fov: 80
+    num_points_per_lane: 50
+    upsample_lane_num_points: 1000
+    simulation_hz: 10
+    value_fn_horizon: 20
+    offroad_threshold: 2.5
+    moving_threshold: 0
+    normalize_to_random_timestep: true
+    rew_multiplier: 10
+    max_veh_ego_distance: 10
+    min_rtg_veh: -10
+    max_rtg_veh: 0
+    rtg_discretization: 350
+    create_gpudrive_dataset: false
+    gpudrive_training_set_dir: /home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/gpudrive_training_set_pickles
+    gpudrive_evaluation_set_dir: /home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/waymo_sim_test_pickles
+    collect_state_transitions: false
+    k_disks_vocab_path: /home2/zhaoyx/scenario-dreamer/metadata/k_disks_vocab_384_10Hz_seed42.pkl
+    vocab_size: 384
+    k_disks_eps: 0.035
+    tokenize_with_nucleus_sampling: true
+    tokenization_temperature: 0.008
+    tokenization_nucleus: 0.95
+  train:
+    seed: 0
+    save_dir: /home2/zhaoyx/scenario-dreamer/checkpoints/
+    run_name: ctrl_sim_waymo
+    wandb_project: scenario-dreamer
+    wandb_entity: null
+    track: false
+    accelerator: auto
+    devices: 4
+    precision: 32-true
+    check_val_every_n_epoch: 1
+    limit_train_batches: 1.0
+    limit_val_batches: 1.0
+    num_samples_to_visualize: null
+    viz_dir: null
+    max_steps: 1000000
+    warmup_steps: 500
+    lr_schedule: null
+    lr: 0.0005
+    beta_1: 0.9
+    beta_2: 0.999
+    epsilon: 1.0e-07
+    weight_decay: 0.0001
+    gradient_clip_val: 10.0
+    loss_type: l2
+    lane_weight: 10
+    lane_conn_weight: 0.1
+  model:
+    hidden_dim: 256
+    map_attr: 3
+    num_road_types: 1
+    num_heads: 8
+    num_reward_components: 1
+    dim_feedforward: 1024
+    dropout: 0
+    state_dim: 13
+    predict_rtg: true
+    num_transformer_encoder_layers: 2
+    num_decoder_layers: 4
+    loss_action_coef: 1.0
+    encode_initial_state: true
+    trajeglish: false
+    ctrl_sim: true
+    il: false
+  datamodule:
+    train_batch_size: 16
+    val_batch_size: 16
+    num_workers: 6
+    pin_memory: true
+    persistent_workers: true
+    _target_: datamodules.waymo.waymo_datamodule_ctrl_sim.WaymoDataModuleCtRLSim
+    dataset_cfg: null
+sim:
+  seed: 42
+  mode: scenario_dreamer
+  dataset_path: /home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles
+  json_path: /home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_jsons
+  policy: idm
+  ego_profile:
+    policy_id: ''
+    alpha: 0.05
+    reservoir_size: 2048
+    block_frames: 20
+    history_paths: []
+    background_margin_m: 0.5
+    lane_half_width_m: 1.8
+    ttc_range_s:
+    - 1.0
+    - 5.0
+    low_speed_decelerations_mps2: []
+    candidate_expansion_enabled: false
+    candidate_expansion_longitudinal_range_m:
+    - 2.0
+    - 60.0
+    candidate_expansion_lateral_limit_m: 10.0
+    candidate_expansion_heading_limit_rad: 1.2
+    rear_approach_accelerations_mps2: []
+  rl_model_path: /home2/zhaoyx/scenario-dreamer/metadata/gpudrive_checkpoint
+  rl_model_name: pretrained
+  polyline_reduction_threshold: 0.1
+  visualize: true
+  lightweight: true
+  movie_path: /home2/zhaoyx/scenario-dreamer/experiments/e1_five_arm_idm_10_modelpool_20261014_r1/formal/scenario_dreamer/shard_000/movies
+  visualization:
+    show_llm_anchors: true
+    show_diffusion_trajectory: true
+    show_diffusion_candidates: false
+  realism_audit:
+    enabled: false
+    reference_histogram_path: null
+    minimum_samples: 8
+    velocity_bins:
+    - 0.0
+    - 1.5
+    - 3.0
+    - 4.5
+    - 6.0
+    - 7.5
+    - 9.0
+    - 10.5
+    - 12.0
+    - 13.5
+    - 15.0
+    - 16.5
+    - 18.0
+    - 19.5
+    - 21.0
+    - 22.5
+    - 24.0
+    - 25.5
+    - 27.0
+    - 28.5
+    - 30.0
+    lon_accel_bins:
+    - 0.0
+    - 0.5
+    - 1.0
+    - 1.5
+    - 2.0
+    - 2.5
+    - 3.0
+    - 3.5
+    - 4.0
+    - 4.5
+    - 5.0
+    - 5.5
+    - 6.0
+    - 6.5
+    - 7.0
+    - 7.5
+    - 8.0
+    - 8.5
+    - 9.0
+    - 9.5
+    - 10.0
+    lat_accel_bins:
+    - 0.0
+    - 0.5
+    - 1.0
+    - 1.5
+    - 2.0
+    - 2.5
+    - 3.0
+    - 3.5
+    - 4.0
+    - 4.5
+    - 5.0
+    - 5.5
+    - 6.0
+    - 6.5
+    - 7.0
+    - 7.5
+    - 8.0
+    - 8.5
+    - 9.0
+    - 9.5
+    - 10.0
+    jerk_bins:
+    - 0.0
+    - 1.0
+    - 2.0
+    - 3.0
+    - 4.0
+    - 5.0
+    - 6.0
+    - 7.0
+    - 8.0
+    - 9.0
+    - 10.0
+    - 11.0
+    - 12.0
+    - 13.0
+    - 14.0
+    - 15.0
+    - 16.0
+    - 17.0
+    - 18.0
+    - 19.0
+    - 20.0
+  verbose: true
+  steps: 400
+  dt: 0.1
+  simulate_vehicles_only: true
+  agent_scale: 1.0
+  behaviour_model:
+    run_name: ctrl_sim_waymo_1M_steps
+    model_path: /home2/zhaoyx/scenario-dreamer/checkpoints/ctrl_sim_waymo_1M_steps/last.ckpt
+    tilt: -10
+    action_temperature: 1.0
+    use_rtg: true
+    predict_rtgs: true
+    compute_metrics: false
+  traffic_model:
+    dynamics_projection:
+      enabled: false
+      max_deviation_m: 0.25
+      max_seconds_per_vehicle: 2.0
+    backend: ctrl_sim
+    safe_sim_root: /home2/zhaoyx/scenario-dreamer/safe-sim
+    config_path: /home2/zhaoyx/scenario-dreamer/safe-sim/safesim_checkpoints/safesim_fut32/test/run0/config.json
+    checkpoint_path: /home2/zhaoyx/scenario-dreamer/safe-sim/safesim_checkpoints/safesim_fut32/test/run0/checkpoints/iter70000.ckpt
+    device: cuda:0
+    history_frames: 11
+    prediction_horizon: 32
+    max_neighbors: 20
+    num_samples: 8
+    sample_step: 4
+    replan_interval_steps: 2
+    diffusion_agent_limit: 0
+    far_agent_mode: guided
+    mixed_precision: false
+    multi_gpu_devices: []
+    iterative_adversarial:
+      profile_enabled: false
+      escalation_enabled: false
+      full_method_enabled: false
+    attack_route_weight: null
+    attack_route_lane_margin: null
+    guidance:
+      mode: unguided
+      params:
+        inner_lr: 0.2
+        inner_beta: 0.5
+        n_guide_steps: 2
+        scale_grad_by_std: true
+        grad_wrt: clean_guide
+      default:
+        weights:
+        - 2.0
+        - 1.0
+        - 2.0
+        configs: {}
+      llm_joint:
+        weight_variables:
+          scenario_collision: 1.5
+          route: 1.0
+          scenario_ttc: 2.0
+          llm_anchor: 4.0
+        weights:
+        - 1.5
+        - 1.0
+        - 2.0
+        - 4.0
+        configs: {}
+      loss_configs:
+        scenario_collision:
+          safety_margin: 0.5
+          temperature: 0.5
+          loss_timesteps: 32
+          filter_timesteps: 32
+          loss_scale: 1.0
+          attack_protection_frames: 2
+          attack_relaxation_frames: 6
+          attack_contact_ramp_frames: 2
+          controlled_contact_penetration: 0.05
+          max_contact_penetration: 0.15
+          contact_loss_scale: 1.0
+          penetration_loss_scale: 5.0
+          safety_penetration_loss_scale: 100.0
+          background_pair_penetration_loss_scale: 2000.0
+          background_pair_safety_loss_scale: 50.0
+          max_speed: 20.0
+          max_acceleration: 6.0
+          max_jerk: 20.0
+          max_step_distance: 2.0
+          kinematics_loss_scale: 1.0
+        route:
+          lane_margin: 1.0
+          nonlinear_factor: 5.0
+          loss_timesteps: 32
+          filter_timesteps: 32
+          loss_scale: 1.0
+        scenario_ttc:
+          distance_bandwidth: 2.0
+          time_bandwidth: 2.0
+          min_velocity_diff: 0.1
+          max_ttc: 6.0
+          attraction_max_clearance: 20.0
+          loss_timesteps: 20
+          filter_timesteps: 20
+          loss_scale: 1.0
+      manual:
+        functions:
+        - scenario_collision
+        - route
+        - scenario_ttc
+        weights:
+        - 2.0
+        - 1.0
+        - 2.0
+        configs: {}
+    anchor_guidance:
+      enabled: false
+      strength: 0.8
+      anchor_interval_seconds: 1.0
+      robust_delta: 1.0
+      inner_lr: 0.2
+      max_update: 0.5
+      guide_steps: 1
+      scale_grad_by_std: true
+      anchor_drive_enabled: false
+      phase_weights:
+      - 0.75
+      - 1.25
+      - 1.75
+      candidate_score_weight: 0.25
+  llm:
+    multiagent:
+      mode: single
+      timeout_seconds: 60
+      memory_path: null
+    provider: dashscope
+    model_name: qwen-plus
+    model_names: null
+    max_planning_calls: 30
+    profile_candidate_dry_run: false
+    profile_allow_partial_ranking: false
+    multimodal: false
+    attack_mode: trajectory_only
+    max_consecutive_failures: 3
+    obstacles:
+      enabled: false
+  evaluation:
+    autonomous_driving:
+      partial_progress_coefficient: 0.5
+    max_scenarios: 0
+    difficulty_control:
+      mode: 'off'
+      target_difficulty: 0.5
+      tolerance: 0.1
+      max_replays: 0
+      ability_progress_alpha: 0.15
+      reachability_every_queries: 3
+      smoke_acceptance: false
+      controller:
+        initial_intensity: 0.5
+        gain: 0.5
+        max_step: 0.15
+        collision_step: 0.15
+        fixed_optimizer:
+          inner_lr: 0.14
+          inner_beta: 0.35
+          n_guide_steps: 3
+        bounds:
+          llm_anchor:
+          - 0.5
+          - 6.0
+          scenario_ttc:
+          - 0.0
+          - 3.0
+          inner_lr:
+          - 0.03
+          - 0.25
+          inner_beta:
+          - 0.1
+          - 0.6
+          n_guide_steps:
+          - 2
+          - 4
+    composite:
+      weights:
+        collision: 0.3
+        near_miss: 0.15
+        min_ttc: 0.15
+        max_ea: 0.12
+        mean_ea: 0.04
+        max_reachability_difficulty: 0.12
+        mean_reachability_difficulty: 0.04
+        unsolvable: 0.05
+        off_route: 0.01
+        incomplete: 0.01
+        low_progress: 0.01
+      ttc_scale_seconds: 3.0
+      ea_scale_mps2: 3.0
+    ea:
+      enabled: true
+      horizon_seconds: 7.0
+      timestep_seconds: 0.02
+      max_acceleration: 100.0
+      coarse_directions: 72
+      fine_directions: 51
+      fine_half_window_degrees: 5.0
+      tolerance: 0.001
+    reachability:
+      enabled: true
+      backend: route_grid
+      commonroad_python: /home2/zhaoyx/venvs/riskweaver-commonroad-reach-2025.2.1/bin/python
+      commonroad_timeout_seconds: 120
+      horizon_seconds: 3.0
+      timestep_seconds: 0.5
+      longitudinal_resolution: 1.0
+      lateral_resolution: 0.5
+      speed_resolution: 1.0
+      lateral_speed_resolution: 0.5
+      lane_half_width: 4.0
+      max_speed: 25.0
+      max_lateral_speed: 3.0
+      longitudinal_accelerations:
+      - -4.0
+      - -2.0
+      - 0.0
+      - 2.0
+      lateral_accelerations:
+      - -2.5
+      - 0.0
+      - 2.5
+  save_carla_data: true
+  scenario_data_output_path: /home2/zhaoyx/scenario-dreamer/experiments/e1_five_arm_idm_10_modelpool_20261014_r1/formal/scenario_dreamer/shard_000/carla
+scratch_root: /home2/zhaoyx/scenario-dreamer
+dataset_root: /home2/zhaoyx/scenario-dreamer/metadata
+project_root: /home2/zhaoyx/scenario-dreamer
+waymo_data_folder: /home2/zhaoyx/scenario-dreamer/metadata/waymo_open_dataset_motion_v_1_1_0
+waymo_train_folder: /home2/zhaoyx/scenario-dreamer/metadata/waymo_open_dataset_motion_v_1_1_0/training
+waymo_val_folder: /home2/zhaoyx/scenario-dreamer/metadata/waymo_open_dataset_motion_v_1_1_0/validation
+waymo_test_folder: /home2/zhaoyx/scenario-dreamer/metadata/waymo_open_dataset_motion_v_1_1_0/testing
+generate_waymo_dataset:
+  output_data_folder_train: /home2/zhaoyx/scenario-dreamer/metadata/scenario_dreamer_waymo/train
+  output_data_folder_val: /home2/zhaoyx/scenario-dreamer/metadata/scenario_dreamer_waymo/val
+  output_data_folder_test: /home2/zhaoyx/scenario-dreamer/metadata/scenario_dreamer_waymo/test
+  num_workers: 20
+  mode: train
+  chunk_idx: -1
+  chunk_size: 50
+preprocess_waymo:
+  stage: scenario_dreamer
+  num_workers: 10
+  mode: train
+  chunk_idx: -1
+  chunk_size: 50000
+preprocess_nuplan:
+  num_workers: 10
+  mode: train
+  chunk_idx: -1
+  chunk_size: 50000
+postprocess_sim_envs:
+  run_name: scenario_dreamer_ldm_large_waymo
+  pre_path: /home2/zhaoyx/scenario-dreamer/checkpoints/scenario_dreamer_ldm_large_waymo/complete_sim_envs
+  post_path: /home2/zhaoyx/scenario-dreamer/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles
+  route_length: 200
+  max_num_envs: -1
+convert_pickles_to_jsons:
+  directory: scenario_dreamer_waymo_200m
+  path_to_pickles: /home2/zhaoyx/scenario-dreamer/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles
+  path_to_jsons: /home2/zhaoyx/scenario-dreamer/simulation_environment_datasets/scenario_dreamer_waymo_200m_jsons
+  dataset_size: 250
+model_name: autoencoder

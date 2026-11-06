@@ -1,0 +1,9 @@
+{
+  "model": "qwen3.8-omni-flash",
+  "provider": "dashscope",
+  "scene": 74,
+  "planned": 2,
+  "free_protection_user_confirmed": true,
+  "max_physical_per_arm": 4,
+  "scope": "frozen_dynamic_initial_catalog_replay"
+}

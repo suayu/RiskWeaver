@@ -1,0 +1,1 @@
+Generate a physically executable adversarial interaction that probes the ego driving strategy. The attacker may leave the road topology. Preserve non-target background safety and a positive theoretical drivable region for the ego.

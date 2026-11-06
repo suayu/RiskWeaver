@@ -1,0 +1,28 @@
+# Credentials and local environments
+.env
+.env.*
+*.env
+*.pem
+*.key
+*credentials*
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# External data, weights and produced artifacts
+checkpoints/
+scratch/
+outputs/
+output/
+logs/
+lightning_logs/
+movies/
+*.mp4
+*.ckpt
+*.pt
+*.pth
+*.tfrecord*
+# Keep work/ source files versioned; generated logs remain excluded.
+*.log
+*.jsonl

@@ -1,0 +1,65 @@
+{
+  "version": "skills-v1-dev-20261020",
+  "created_at": 1792494867.1344097,
+  "provider": "dashscope",
+  "model": "qwen3.8-flash",
+  "policy": "idm",
+  "seed": 42,
+  "max_frames": 400,
+  "max_api_calls_per_scene": 4,
+  "skills_default": false,
+  "solver": {
+    "inner_lr": 0.2,
+    "inner_beta": 0.5,
+    "n_guide_steps": 2
+  },
+  "attack_duration_frames": 10,
+  "development_indices": [
+    53,
+    56,
+    74,
+    80,
+    103,
+    140,
+    181,
+    182,
+    207,
+    220
+  ],
+  "validation_indices": [
+    6,
+    28,
+    45,
+    102,
+    114,
+    143,
+    146,
+    185,
+    229,
+    232
+  ],
+  "source_composition": [
+    3,
+    2,
+    5
+  ],
+  "coverage_denominator": "all planned scenes, including failures",
+  "minimum_actual_attack_scenes": 6,
+  "background_collision_limit": 0,
+  "arms": [
+    "legacy",
+    "catalog_expanded_without_knowledge",
+    "skills_no_expansion",
+    "skills_expanded"
+  ],
+  "selection_note": "Development outcomes already inspected; prospective validation list fixed without its skills outcomes",
+  "stages": [
+    "A replay completed",
+    "B frozen state completed",
+    "C factorial completed",
+    "D smoke running; ten-scene paired next",
+    "E validation pending"
+  ],
+  "instrumentation_revision": "api_usage_and_artifact_audit_v2",
+  "queue_revision": "pidfd_compat_only; method remains v1"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "45m_event_acceptance20",
+  "created_at_unix": 1790542615.3337908,
+  "selection_rule": "source_order_then_lexicographic_path_first_n_unique_sha256",
+  "scene_root": null,
+  "scene_roots": [
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_full60_20260927_r2/postprocessed_200m_pickles",
+    "/home2/zhaoyx/scenario-dreamer/experiments/scenario_dreamer_ldm_expand250_20260928_r1/postprocessed_200m_pickles"
+  ],
+  "source_unique_count": 263,
+  "source_duplicate_count": 0,
+  "scenario_count": 1,
+  "scenario_files": [
+    "/home2/zhaoyx/scenario-dreamer/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles/15_1.pkl"
+  ],
+  "scenario_sha256": [
+    "48d746ce3a211f31919930cb56c9c7f96623414f0c77d141652b1260857de8f5"
+  ],
+  "seed": 42,
+  "simulation_steps": 400,
+  "statistical_unit": "frozen_unique_scenario",
+  "comparison_scene_count": 1,
+  "original_scenario_indices": [
+    15
+  ],
+  "selection_basis": "predeclared source quota 6/4/10 seed42; no outcome-based replacement"
+}

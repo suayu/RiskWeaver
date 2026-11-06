@@ -1,0 +1,1 @@
+20-scenario E1 development evaluation; joint trajectory+obstacle attack; llm_joint full guidance; full iterative method; background pair penetration=300; steps=45; seed from base config.
