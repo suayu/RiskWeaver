@@ -678,6 +678,12 @@ class IDMPolicy:
             # Compute next velocity
             ego_accel = accelerations[ego_id]
             ego_next_vel = ego_speed + (ego_accel * self.dt)
+            if bool(getattr(getattr(getattr(self, 'cfg', None), 'sim', None), 'idm_nonnegative_speed', False)) and ego_next_vel < 0:
+                # IDM表示前进速度；强制动跨过零速时在停车时刻结束积分。
+                # 负速度被下帧取模会变成异常正速度，因此不能继续传递。
+                stopping_time = ego_speed / (-ego_accel)
+                dist_covered = min(dist_covered, 0.5 * ego_speed * stopping_time)
+                ego_next_vel = 0.0
 
             # Find which point on the path best corresponds to this distance
             cumul_dist = 0.0

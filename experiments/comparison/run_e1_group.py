@@ -90,11 +90,16 @@ def run_episode(env,policy,index,global_index,args,forecaster=None):
     failure=runtime_failure=None
     started=time.monotonic()
     env.render_state(name=f'scenario_{global_index:03d}',movie_path=str(out))
-    for _ in range(args.steps):
+    rejected_attempts = []
+    reachable_area_observations = []
+    passive_pending = False
+    while count < args.steps:
         expect=forecaster is not None or args.group!='scenario_dreamer'
         try:
             observer.begin_frame(env,expect_joint_prediction=expect)
-            if generator is not None:
+            passive_frame = passive_pending
+            passive_pending = False
+            if generator is not None and not passive_frame:
                 if (args.stop_file and args.stop_file.exists()):
                     raise RuntimeError('shared_planner_service_stop')
                 generator.step(env,env.current_step)
@@ -123,7 +128,13 @@ def run_episode(env,policy,index,global_index,args,forecaster=None):
                 joint=slice_joint(cache,env.current_step,offset)
                 env.inject_joint_trajectory(joint)
             else:
-                joint=env.prepare_background_traffic()
+                if passive_frame:
+                    # 拒绝候选不推进状态；恢复时显式生成无攻击CV未来。
+                    from policies.attack_recovery import passive_joint
+                    joint = passive_joint(env)
+                    env.inject_joint_trajectory(joint)
+                else:
+                    joint=env.prepare_background_traffic()
             trace.append({'kind':'proposal_prediction','step':int(env.current_step),'joint':prediction_record(joint)})
             if joint is not None:
                 trace.append({'kind':'trajectory_diagnostics','step':int(env.current_step),
@@ -136,9 +147,18 @@ def run_episode(env,policy,index,global_index,args,forecaster=None):
                 env.inject_joint_trajectory(corrected)
                 joint=corrected
                 trace.append({'kind':'dynamics_projection','step':int(env.current_step),'audit':joint.metadata['dynamics_projection']})
-                gate.validate_joint(env)
+                joint_verdict = gate.validate_joint(env)
+                trace.append(dict(kind='joint_trajectory_check', step=int(env.current_step), **joint_verdict))
             if joint is not None:
-                validate_execution_prefix(env.data_dict['agent'][-1],joint,env.get_scenario_frame().static_obstacles_global)
+                try:
+                    validate_execution_prefix(env.data_dict['agent'][-1],joint,env.get_scenario_frame().static_obstacles_global,
+                                              check_background_pairs=not passive_frame)
+                except NoSafeJointCandidate as error:
+                    trace.append(dict(kind='execution_prefix_check', step=int(env.current_step),
+                                      passed=False, reason=str(error),
+                                      enforcement_enabled=bool(getattr(env.cfg.sim, 'joint_trajectory_gate_enabled', True))))
+                    if bool(getattr(env.cfg.sim, 'joint_trajectory_gate_enabled', True)):
+                        raise
             # 修正并通过门控后的联合轨迹才是执行未来，原始候选单独保留。
             trace.append({'kind':'execution_prediction','step':int(env.current_step),'joint':prediction_record(joint)})
             if forecaster is not None:
@@ -162,11 +182,23 @@ def run_episode(env,policy,index,global_index,args,forecaster=None):
                     # 相对指标无效与实际无可执行区域分开；默认仍使用历史严格策略。
                     area_policy=str(getattr(env.cfg.sim.evaluation.reachability,'execution_gate_policy','legacy_relative'))
                     verdict=assess_reachability_execution(event,area_policy)
-                    trace.append({'kind':'reachability_execution_gate','step':int(env.current_step),**verdict})
-                    if not verdict['allowed']:
+                    trace.append({'kind':'reachability_execution_gate','step':int(env.current_step),**verdict,
+                        'enforcement_enabled':bool(getattr(env.cfg.sim, 'reachable_area_gate_enabled', True)),
+                        'allowed_to_execute':bool(verdict['allowed'] or not getattr(env.cfg.sim, 'reachable_area_gate_enabled', True))})
+                    if event is None:
+                        reachable_area_observations.append(dict(step=int(env.current_step),
+                            area_m2=None, zero_area=False, area_unknown=True,
+                            enforcement_enabled=bool(getattr(env.cfg.sim, 'reachable_area_gate_enabled', True))))
+                    if not verdict['allowed'] and bool(getattr(env.cfg.sim, 'reachable_area_gate_enabled', True)):
                         raise NoSafeJointCandidate('riskweaver_zero_or_invalid_theoretical_reachable_area')
                 else:
-                    generator.evaluate_reachability(env)
+                    event = generator.evaluate_reachability(env)
+                if event is not None:
+                    reachable_area_observations.append(dict(step=int(env.current_step),
+                        area_m2=event.get('dangerous_area_m2'),
+                        zero_area=event.get('dangerous_area_m2') == 0,
+                        area_unknown=event.get('dangerous_area_m2') is None,
+                        enforcement_enabled=bool(getattr(env.cfg.sim, 'reachable_area_gate_enabled', True))))
                 generator.set_diffusion_trajectory(env.get_attack_target_prediction())
                 trace.prediction(env,generator,time.monotonic()-started)
             env.render_state(name=f'scenario_{global_index:03d}',movie_path=str(out))
@@ -193,6 +225,12 @@ def run_episode(env,policy,index,global_index,args,forecaster=None):
             if terminated:
                 break
         except NoSafeJointCandidate as error:
+            if (generator is not None and not passive_frame and int(env.current_step) == count
+                    and bool(getattr(env.cfg.sim, 'continue_rejected_attacks', True))):
+                from policies.attack_recovery import cancel_attempt
+                rejected_attempts.append(cancel_attempt(env, generator, trace, str(error)))
+                passive_pending = True
+                continue
             failure=str(error)
             if generator is not None and getattr(generator,'rag_runtime',None) is not None:
                 generator.rag_runtime.note_failure(failure)
@@ -262,6 +300,14 @@ def run_episode(env,policy,index,global_index,args,forecaster=None):
                 if audit.get('successful_model'): successes[audit['successful_model']]+=1
         result['llm_successful_model_counts']=dict(successes)
         result['llm_attempted_model_counts']=dict(attempts)
+    # 零面积不剔除场景，也不自动提升危险得分。
+    result['reachable_area_observations'] = reachable_area_observations
+    result['zero_reachable_area_observed'] = any(row['zero_area'] for row in reachable_area_observations)
+    result['unknown_reachable_area_observed'] = any(row['area_unknown'] for row in reachable_area_observations)
+    result['joint_trajectory_gate_enabled'] = bool(getattr(env.cfg.sim, 'joint_trajectory_gate_enabled', True))
+    result['reachable_area_gate_enabled'] = bool(getattr(env.cfg.sim, 'reachable_area_gate_enabled', True))
+    result['rejected_attack_attempts'] = rejected_attempts
+    result['rejected_attack_attempt_count'] = len(rejected_attempts)
     result=sanitize_nonfinite(result)
     dump_json(out/'attempt_result.json',result)
     return result

@@ -3,7 +3,7 @@ from itertools import product
 import hashlib,json
 import numpy as np
 
-VERSION='reference_library_dual_v1'
+VERSION='obb_ttc_pressure_dual_v5'
 
 
 def ability_score(challenge,completed,collision,off_route,progress,alpha=.5):
@@ -16,8 +16,8 @@ def ability_score(challenge,completed,collision,off_route,progress,alpha=.5):
 
 
 def outcome_score(result):
-    if not result.get('executed_steps') or any(result.get(k) is None for k in ['collision','off_route','completed','progress']):return None
-    return .5*bool(result['collision'])+.2*bool(result['off_route'])+.2*(1-bool(result['completed']))+.1*(1-float(np.clip(result['progress'],0,1)))
+    """R 引用当前协议逐帧综合危险度，保留无有效帧时的缺失值。"""
+    return result.get("scenario_danger_score")
 
 
 def overlap(centers,yaws,ego_size,others,other_yaws,sizes):
@@ -89,7 +89,7 @@ class ReferenceChallenge:
     def evaluate(self,snapshot):
         try:
             road,safe,cost=self._evaluate(snapshot)
-            base=int(road.sum());count=int(safe.sum());out=dict(version=VERSION,reference_library_size=len(self.library),baseline_task_controls=base,safe_task_controls=count,measure='uniform_finite_two_phase_control_sequences',collision_outcome_used=False,off_route_outcome_used=False,scope='conditional_source_snapshot_reference_challenge_not_global_policy_independent_truth')
+            base=int(road.sum());count=int(safe.sum());out=dict(version='reference_library_dual_v1',reference_library_size=len(self.library),baseline_task_controls=base,safe_task_controls=count,measure='uniform_finite_two_phase_control_sequences',collision_outcome_used=False,off_route_outcome_used=False,scope='conditional_source_snapshot_reference_challenge_not_global_policy_independent_truth')
             if not base:return dict(out,valid=False,score=None,reason='reference_task_infeasible')
             compression=1-count/base
             if not count:return dict(out,valid=False,score=None,control_space_loss=compression,min_effort=None,reason='reference_library_exhausted_not_proven_physical_unsolvable')
@@ -100,7 +100,7 @@ class ReferenceChallenge:
                 survival.append(bool(sa.any()))
             fragility=1-sum(w*int(s) for w,s in zip(weights,survival));score=.5*compression+.3*efforts/(1+efforts)+.2*fragility
             return dict(out,valid=True,score=float(score),score_100=100*float(score),control_space_loss=compression,min_effort=efforts,fragility=float(fragility),weights=[.5,.3,.2],perturbation_weights=weights,reason=None)
-        except (ValueError,KeyError,IndexError,TypeError) as error:return dict(version=VERSION,valid=False,score=None,reason='invalid_reference_input:'+type(error).__name__)
+        except (ValueError,KeyError,IndexError,TypeError) as error:return dict(version='reference_library_dual_v1',valid=False,score=None,reason='invalid_reference_input:'+type(error).__name__)
 
 
 def apply_result(result,challenge):

@@ -37,7 +37,7 @@ case "$provider" in
     ;;
   deepseek)
     : "${DEEPSEEK_API_KEY:?请先在 $env_file 设置 DEEPSEEK_API_KEY}"
-    export LLM_MODEL_NAME="${requested_model_name:-deepseek-v4-pro}"
+    export LLM_MODEL_NAME="${requested_model_name:-deepseek-flash}"
     ;;
   dashscope)
     : "${DASHSCOPE_API_KEY:?请先在 $env_file 设置 DASHSCOPE_API_KEY}"
@@ -51,7 +51,10 @@ esac
 
 export LLM_PROVIDER="$provider"
 # 百炼未显式指定列表时使用规划器活动池；其他提供方固定单模型以避免跨平台轮换。
-if [[ -n "$configured_model_names" ]]; then
+# DeepSeek显式单池，不继承持久文件中的旧百炼候选。
+if [[ "$provider" == "deepseek" ]]; then
+  export LLM_MODEL_NAMES="${requested_model_names:-$LLM_MODEL_NAME}"
+elif [[ -n "$configured_model_names" ]]; then
   export LLM_MODEL_NAMES="$configured_model_names"
 elif [[ "$provider" == "dashscope" ]]; then
   unset LLM_MODEL_NAMES

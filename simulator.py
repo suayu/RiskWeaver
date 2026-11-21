@@ -178,10 +178,13 @@ class Simulator:
         self.adversarial_agent_id = None
         self.adversarial_traj = None
         self.adversarial_step_idx = 0
-        # 车辆与路线共用观察半径；旧冻结配置缺省时仍可复现35米路径。
+        # 交通参与者沿用原观察半径；路网使用独立参数，旧配置缺省保持原行为。
         self.nearby_distance = float(getattr(self.cfg.sim, "planning_observation_radius_m", 35.0))
         if not np.isfinite(self.nearby_distance) or self.nearby_distance <= 0:
             raise ValueError("planning_observation_radius_m必须为正有限数")
+        self.planning_road_radius_m = float(getattr(self.cfg.sim, "llm_road_observation_radius_m", self.nearby_distance))
+        if not np.isfinite(self.planning_road_radius_m) or self.planning_road_radius_m <= 0:
+            raise ValueError("llm_road_observation_radius_m必须为正有限数")
 
         self.activate_agent_ids = []  # 用于存储当前场景中活跃的交通参与者索引
         self.current_scene_id = None
@@ -1187,7 +1190,7 @@ class Simulator:
         for point in self.scenario_dict['route']:
             route_x, route_y = point[:2]
             distance = np.sqrt((route_x - ego_x)**2 + (route_y - ego_y)**2)
-            if distance <= self.nearby_distance:
+            if distance <= getattr(self, "planning_road_radius_m", self.nearby_distance):
                 route_info.append([float(route_x), float(route_y)])
 
         return {

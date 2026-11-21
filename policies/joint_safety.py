@@ -46,7 +46,7 @@ def safe_joint_candidates(positions, yaws, transforms, extents, margin=0.0):
     return safe
 
 
-def validate_execution_prefix(states, joint, static_obstacles):
+def validate_execution_prefix(states, joint, static_obstacles, check_background_pairs=True):
     """执行前复核真实起点、首点及中点；不宣称连续扫掠体保证。"""
     if not len(joint.agent_ids):
         return
@@ -56,7 +56,17 @@ def validate_execution_prefix(states, joint, static_obstacles):
     positions = np.stack((current[:, :2], joint.positions_global[:, 0]), axis=1)[:, None]
     yaws = np.stack((current[:, 4], joint.yaws_global[:, 0, 0]), axis=1)[:, None, :, None]
     transforms = np.broadcast_to(np.eye(3), (len(current), 3, 3))
-    if not safe_joint_candidates(positions, yaws, transforms, current[:, 5:7])[0]:
+    # 已发生的背景车对碰撞继续记录，不作为自车攻击碰撞。
+    pairs_safe = True
+    if check_background_pairs:
+        for i in range(len(current)):
+            for j in range(i):
+                initial = np.column_stack((current[[i,j], :2], current[[i,j], 4:7]))
+                if obb_clearance(initial[0], initial[1]) < 0:
+                    continue
+                pairs_safe &= bool(safe_joint_candidates(
+                    positions[[i,j]], yaws[[i,j]], transforms[[i,j]], current[[i,j], 5:7])[0])
+    if not pairs_safe:
         raise NoSafeJointCandidate('执行前复核：背景车辆在真实起点至首帧存在重叠或无效几何')
     if not len(static_obstacles):
         return

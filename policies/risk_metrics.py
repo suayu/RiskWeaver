@@ -513,9 +513,13 @@ class AdversarialRiskMetrics:
         backend = _config_value(reach_config, "backend", "route_grid")
         if backend == "route_grid":
             self.reachability = RouteReachability(reach_config)
-        elif backend == "commonroad":
+        elif backend in ("commonroad", "commonroad_circle"):
             # 独立进程环境，不向主仿真环境安装CommonRoad依赖。
             from policies.commonroad_reachability import CommonRoadReachability
+            # 显式外接圆别名固定模式2，原配置不受影响。
+            if backend == "commonroad_circle":
+                reach_config = dict(reach_config)
+                reach_config["commonroad_inflation_mode"] = 2
             self.reachability = CommonRoadReachability(reach_config)
         else:
             raise ValueError("unsupported reachability backend")

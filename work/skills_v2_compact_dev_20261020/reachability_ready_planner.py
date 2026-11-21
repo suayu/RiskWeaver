@@ -24,6 +24,9 @@ def baseline_readiness(env, config):
 class ReachabilityReadyPlanner(CompactSkillsPlanner):
     def build_context(self, env, state, planner, profile_context=None):
         context = super().build_context(env, state, planner, profile_context)
+        if not bool(getattr(env.cfg.sim, 'reachable_area_gate_enabled', True)):
+            context['measurement_preflight'] = dict(ready=None, reason='area_gate_suspended_by_configuration')
+            return context
         if not bool(getattr(self.settings, 'reachability_preflight_enabled', False)):
             return context
         if not context['candidates'] and not context.get('obstacle_candidates'):

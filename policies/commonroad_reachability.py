@@ -1,4 +1,4 @@
-"""CommonRoad-Reach隔离进程适配器；原网格后端仍是默认实现。"""
+"""CommonRoad-Reach隔离进程适配器；原网格后端保留为显式可选项。"""
 import json
 import select
 import subprocess

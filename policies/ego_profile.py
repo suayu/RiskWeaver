@@ -365,7 +365,7 @@ class CandidateBuilder:
             clearance = min(clearance,distance)
         for obstacle in env.get_static_obstacles():
             clearance = min(clearance,float(np.min(obb_clearance(boxes,np.broadcast_to(obstacle_box(obstacle),boxes.shape)))))
-        if clearance < self.margin:
+        if clearance < self.margin and bool(getattr(getattr(getattr(env, 'cfg', None), 'sim', None), 'joint_trajectory_gate_enabled', True)):
             return None,'background_margin'
         nominal = _box(ego,ego[:2]+times[:,None]*ego[2:4])
         gap = obb_clearance(boxes,nominal)
@@ -380,7 +380,7 @@ class CandidateBuilder:
                           if ttc is not None else None)
         return dict(estimated_risk=estimated_risk,
                     estimated_ttc_s=ttc,avoidability=dict(witness=None,
-                        requirement='theoretical_drivable_area_must_remain_positive'),
+                        requirement=('theoretical_drivable_area_must_remain_positive' if bool(getattr(getattr(getattr(env, 'cfg', None), 'sim', None), 'reachable_area_gate_enabled', True)) else 'area_recorded_without_rejection')),
                     background_safety_margin_m=finite(clearance),
                     ttc_band_gate_enabled=False,
                     screening_model='constant_velocity_others; 0.05s samples; background OBB margin; attacker road topology exempt; TTC band recorded but not gated; not continuous safety guarantee'),None
@@ -399,8 +399,9 @@ class JointTrajectorySafetyGate:
         from types import SimpleNamespace
         settings = getattr(sim_cfg,'ego_profile',SimpleNamespace())
         collision_cfg = getattr(getattr(getattr(getattr(sim_cfg,'traffic_model',None),'guidance',None),'loss_configs',None),'scenario_collision',None)
+        self.enforce_joint_gate = bool(getattr(sim_cfg, 'joint_trajectory_gate_enabled', True))
         self.dynamic_limits = {name:float(getattr(collision_cfg,name,default)) for name,default in
-                               (('max_speed',20.),('max_acceleration',6.),('max_jerk',20.),('max_step_distance',2.))}
+                               (('max_speed',80.),('max_acceleration',8.),('max_jerk',20.),('max_step_distance',8.))}
         if any(not np.isfinite(v) or v<=0 for v in self.dynamic_limits.values()):
             raise ValueError('画像硬门槛需要有效且为正的动力学边界')
         # 保留与拒绝可视化审计兼容的最小几何配置。
@@ -410,7 +411,18 @@ class JointTrajectorySafetyGate:
         )
 
     def validate_joint(self, env):
-        """对实际联合预测施加动力学和背景硬门槛；不使用道路距离拒绝。"""
+        """观察模式保留原检查理由，只在显式启用时拒绝。"""
+        from policies.joint_safety import NoSafeJointCandidate
+        try:
+            self._check_joint(env)
+            return dict(passed=True, enforcement_enabled=self.enforce_joint_gate, reason=None)
+        except NoSafeJointCandidate as error:
+            if self.enforce_joint_gate:
+                raise
+            return dict(passed=False, enforcement_enabled=False, reason=str(error))
+
+    def _check_joint(self, env):
+        """原联合轨迹检查，供强制模式和观察模式共用。"""
         from policies.joint_safety import NoSafeJointCandidate
         joint = env.pending_joint_trajectory
         if joint is None or joint.positions_global.shape[1]<2 or not joint.valid_mask.all():
@@ -445,7 +457,9 @@ class JointTrajectorySafetyGate:
             yaw = np.r_[yaw,(yaw[1:]+yaw[:-1])/2]
             boxes.append(np.column_stack((pos,yaw,np.full(len(pos),s[5]),np.full(len(pos),s[6]))))
         for i,box in enumerate(boxes):
-            if any(np.min(obb_clearance(box,other))<self.builder.margin for other in boxes[:i]):
+            # 当前已经重叠的背景车对不阻断当前攻击。
+            if any(obb_clearance(box[0], other[0]) >= 0
+                   and np.min(obb_clearance(box,other)) < self.builder.margin for other in boxes[:i]):
                 raise NoSafeJointCandidate('profile_joint_background_margin')
             if any(np.min(obb_clearance(box,np.broadcast_to(obstacle_box(o),box.shape)))<self.builder.margin for o in env.get_static_obstacles()):
                 raise NoSafeJointCandidate('profile_joint_static_margin')

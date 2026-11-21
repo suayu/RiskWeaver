@@ -70,10 +70,10 @@ def validate_placements(env, planner, builder, placements, grid=None):
             box=obstacle_box(primitive)
             clearance=float(np.min(obb_clearance(predicted,np.broadcast_to(box,predicted.shape))))
             minimum=min(minimum,clearance)
-            if clearance<builder.margin:return dict(accepted=False,reason='background_CV_clearance',margin_m=clearance)
+            if clearance<builder.margin and bool(getattr(getattr(getattr(env, 'cfg', None), 'sim', None), 'joint_trajectory_gate_enabled', True)):return dict(accepted=False,reason='background_CV_clearance',margin_m=clearance)
     grid=grid if grid is not None else geometric_grid(env)
     remaining=free_area(grid,existing+primitives)
-    if remaining is None or remaining<=0:
+    if (remaining is None or remaining<=0) and bool(getattr(getattr(getattr(env, 'cfg', None), 'sim', None), 'reachable_area_gate_enabled', True)):
         return dict(accepted=False,reason='nonpositive_or_unknown_geometric_free_area',area_m2=remaining)
     return dict(accepted=True,reason=None,geometric_free_area_m2=remaining,
         geometric_area_basis=grid['basis'],area_resolution_m=grid['resolution'],

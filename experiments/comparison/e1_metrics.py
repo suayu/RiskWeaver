@@ -156,7 +156,7 @@ class ExecutionMetrics:
         first = self.collisions[0] if self.collisions else {}
         return {"metric_protocol": METRIC_PROTOCOL, "min_ttc_s": finite(self.min_ttc),
                 "min_ttc_capped_7s": min(self.min_ttc, 7.) if self.frames else None,
-                "min_tca_s": finite(self.min_tca), "ttc_basis": "constant_velocity_fixed_yaw_continuous_OBB_contact",
+                "ttc_basis": "constant_velocity_fixed_yaw_continuous_OBB_contact",
                 "ttc_horizon_s": 7.0, "ttc_valid_frame_count": self.ttc_valid_frames,
                 "ttc_no_contact_in_horizon": self.frames > 0 and not np.isfinite(self.min_ttc),
                 "min_center_distance_m": finite(self.min_distance), "ego_collision_events": self.collisions,
@@ -198,7 +198,7 @@ def aggregate_attempts(records, planned_count=None):
         "danger_total_frame_count": sum(int(r.get('executed_steps',0)) for r in records),
         "background_collision_frames": sum(r.get('feasibility',{}).get('background_collision_frames',0) for r in records),
         "background_static_collision_frames": sum(r.get('feasibility',{}).get('background_static_collision_frames',0) for r in records)}
-    for k in ['min_ttc_s','min_ttc_capped_7s','min_tca_s','mean_evasive_acceleration_mps2','max_evasive_acceleration_mps2',
+    for k in ['min_ttc_s','min_ttc_capped_7s','mean_evasive_acceleration_mps2','max_evasive_acceleration_mps2',
               'scenario_danger_score','progress','relative_collision_speed_mps','mean_reachable_area_m2','runtime_seconds']:
         result['mean_'+k] = mean(k)
         result[k+'_observed_count'] = len(values(k))

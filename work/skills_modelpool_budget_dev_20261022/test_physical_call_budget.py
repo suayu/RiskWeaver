@@ -12,7 +12,7 @@ def response(model='unit-response',text='{"attack":false}'):
     return NS(model=model,choices=[NS(message=NS(content=text),finish_reason='stop')],usage=None)
 
 
-def client(create):return NS(api_key='TEST_CREDENTIAL_PLACEHOLDER_0001',chat=NS(completions=NS(create=create)))
+def client(create):return NS(api_key='secret-not-to-be-recorded',chat=NS(completions=NS(create=create)))
 
 
 def test_failed_transport_still_consumes_budget_and_reset_is_per_scene():
@@ -76,7 +76,7 @@ def test_sdk_budget_sits_outside_audit_so_blocked_send_is_not_http(tmp_path):
     blocked=(tmp_path/'run_budget_events.jsonl').read_text()
     assert len(http.splitlines())==1 and len(blocked.splitlines())==1
     assert actual==['healthy'] and json.loads(blocked)['transport_calls']==1
-    assert 'TEST_CREDENTIAL_PLACEHOLDER_0001' not in http+blocked and 'api_key' not in http+blocked
+    assert 'secret-not-to-be-recorded' not in http+blocked and 'api_key' not in http+blocked
 
 
 @pytest.mark.parametrize('invalid',[0,31,True,1.5])

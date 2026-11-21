@@ -90,3 +90,8 @@ python work/dual_track_20261105/run_pair.py --protocol /path/to/verified/protoco
 ## 启动脚本整理
 
 已删除无剩余代码/测试调用的历史一次性launch_启动器，保留通用入口、当前配对入口和仍被导入的辅助模块。历史日期协议不代表当前可直接运行。具体保留清单与恢复方式见[启动文件清理记录](docs/LAUNCHER_CLEANUP_20261106.md)。
+
+
+## Official preset evaluation (2026-11-21)
+
+Current runtime uses a 60 m road observation radius, 45 m traffic observation radius and the CommonRoad reachability backend. The natural-termination campaign in `work/skills_natural_rollback_20261121/` evaluates full Skills with dynamic generation and static fallback, without an extra language directive or RAG. The remaining 50 presets run only if at least 8 of the first 10 are hazardous and at least 6 are dynamically hazardous.

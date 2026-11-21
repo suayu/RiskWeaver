@@ -10,6 +10,12 @@ from policies.risk_metrics import (
 )
 
 
+def has_positive_reachable_area(event):
+    """只有有效的正终端面积才允许进入新协议的评分或执行。"""
+    area = event.get("dangerous_area_m2") if event is not None else None
+    return area is not None and np.isfinite(area) and area > 0
+
+
 class FormalRiskObserver:
     """按帧对齐干预前基线、未来联合预测和执行后自车响应。"""
 
@@ -68,7 +74,7 @@ class FormalRiskObserver:
             self._pending_reachability = self.risk.evaluate_dangerous_reachability(evaluation_env)
         return self._pending_reachability
 
-    def finish_transition(self, info, min_ttc):
+    def finish_transition(self, info, min_ttc, *, feasible_only=False):
         """在状态转移后合并响应指标，并生成一帧有效或无效的审计记录。"""
         event = self._pending_reachability
         ea = self._pending_ea
@@ -87,6 +93,12 @@ class FormalRiskObserver:
         elif ea is None or not np.isfinite(ea):
             reason = "invalid_ea"
 
+        if valid and feasible_only:
+            if not has_positive_reachable_area(event):
+                valid, reason = False, "nonpositive_or_invalid_reachable_area"
+            elif min_ttc is None or np.isnan(min_ttc) or min_ttc < 0:
+                valid, reason = False, "invalid_obb_ttc"
+
         danger = None
         metrics = None
         if valid:
@@ -101,8 +113,10 @@ class FormalRiskObserver:
                 "reachability_event_count": 1,
                 "reachability_difficulty": float(event["difficulty"]),
                 "mean_reachability_difficulty": float(event["difficulty"]),
-                "dangerous_scene_solvable": float(event["dangerous_solvable"]),
             }
+            # 历史观察器继续按原公式，新协议把可行性作为门控。
+            if not feasible_only:
+                metrics["dangerous_scene_solvable"] = float(event["dangerous_solvable"])
             danger = float(
                 compute_scenario_danger_score(
                     metrics, self.evaluation_cfg.composite

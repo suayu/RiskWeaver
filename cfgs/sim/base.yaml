@@ -1,6 +1,13 @@
+# IDM停车时防止数值积分产生负前进速度；false复现旧行为。
+idm_nonnegative_speed: true
 seed: 0 # random seed for reproducibility
 # 仅扩大高级规划车辆/路线观察，不改变模型原生FOV、输入格式或可视化。
 planning_observation_radius_m: 45.0
+# 仅扩大传给LLM的路线点范围，参与者半径仍为45米。
+llm_road_observation_radius_m: 60.0
+joint_trajectory_gate_enabled: false # 仅记录联合轨迹违规，不拒绝攻击
+reachable_area_gate_enabled: false # 零面积与无效面积单独标记，场景继续统计
+continue_rejected_attacks: true # false restores historical rejection termination
 mode: scenario_dreamer # [waymo_ctrl_sim, waymo_log_replay, scenario_dreamer]
 dataset_path: ${project_root}/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_pickles # path to set of simulation environments
 json_path: ${project_root}/metadata/simulation_environment_datasets/scenario_dreamer_waymo_200m_jsons # path to the json files
@@ -128,10 +135,10 @@ traffic_model:
         safety_penetration_loss_scale: 100.0 # 背景车互撞和非攻击车撞自车的强穿透屏障
         background_pair_penetration_loss_scale: 2000.0 # 基于 OBB 穿透深度的强屏障，避免非目标交通互撞
         background_pair_safety_loss_scale: 50.0 # 增强边界接近阶段的梯度，不能仅依赖穿透后惩罚
-        max_speed: 20.0 # 所有背景车辆允许的最大速度，单位为米每秒
-        max_acceleration: 6.0 # 所有背景车辆允许的最大加速度模长，单位为米每二次方秒
+        max_speed: 80.0 # 所有背景车辆允许的最大速度，单位为米每秒
+        max_acceleration: 8.0 # 所有背景车辆允许的最大加速度模长，单位为米每二次方秒
         max_jerk: 20.0 # 非历史攻击车允许的最大加加速度模长，单位为米每三次方秒
-        max_step_distance: 2.0 # 单帧最大位移，单位为米，用于直接拦截瞬移
+        max_step_distance: 8.0 # 单帧最大位移，单位为米，用于直接拦截瞬移
         kinematics_loss_scale: 1.0 # 运动学异常惩罚强度
       route:
         lane_margin: 1.0
@@ -266,9 +273,10 @@ evaluation:
     tolerance: 0.001
   reachability:
     enabled: True
-    backend: route_grid # 保留原实现；可显式切换commonroad独立进程后端
+    backend: commonroad # 默认外接圆后端；设为route_grid可切回原网格法
     commonroad_python: /home2/zhaoyx/venvs/riskweaver-commonroad-reach-2025.2.1/bin/python
     commonroad_timeout_seconds: 120
+    commonroad_inflation_mode: 2 # circumscribed circle backend
     horizon_seconds: 3.0 # 与 Safe-Sim 3.2 秒短时预测基本对齐
     timestep_seconds: 0.5
     longitudinal_resolution: 1.0

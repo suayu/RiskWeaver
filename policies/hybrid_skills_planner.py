@@ -76,6 +76,16 @@ class DynamicFirstStaticPlanner:
         self.dynamic.reset_episode();self.static.reset_episode()
 
     def plan(self,planner,env,state,instruction,profile_context=None,scene_image=None):
+        # 同场景动态执行失败后，下一次有预算的请求进入原静态目录。
+        recovery = getattr(env, 'rejected_dynamic_attempt', None)
+        if recovery and recovery['scene_id'] == str(env.current_scene_id):
+            env.rejected_dynamic_attempt = None
+            original_allow = getattr(planner, 'allow_trajectory', True)
+            planner.allow_trajectory = False
+            try:
+                return self._plan_in_context(planner,env,state,instruction,profile_context,scene_image)
+            finally:
+                planner.allow_trajectory = original_allow
         if self.dynamic_first_in_plan:
             return self._plan_in_context(planner,env,state,instruction,profile_context,scene_image)
         original_use=planner.use_obstacles;original_allow=getattr(planner,'allow_trajectory',True)
