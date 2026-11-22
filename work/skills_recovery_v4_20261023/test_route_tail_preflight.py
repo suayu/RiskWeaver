@@ -38,7 +38,7 @@ def test_invalid_duration_rejected(duration):
 
 
 def test_other_backend_is_not_silently_replaced_by_route_grid():
-    with pytest.raises(ValueError,match='backend_not_supported'):route_tail_readiness(env(),NS(backend='commonroad'))
+    with pytest.raises(ValueError,match='backend_not_supported'):route_tail_readiness(env(),NS(backend='unknown'))
 
 
 def test_route_tail_decline_keeps_catalog_and_makes_no_LLM_request(monkeypatch):
@@ -51,9 +51,20 @@ def test_route_tail_decline_keeps_catalog_and_makes_no_LLM_request(monkeypatch):
     model=NS(last_trace={})
     def forbidden(*a,**k):raise AssertionError('declined opportunity must not call LLM')
     model._request_attack_plan=forbidden
-    skills=object.__new__(module.RouteTailReadyPlanner);skills.calls=0
+    skills=object.__new__(module.RouteTailReadyPlanner);skills.calls=0;skills.source_fact_contract=None
     e=NS(cfg=NS(sim=NS(evaluation=NS(reachability=NS()))))
     result=skills.plan(model,e,{},[])
     assert not result['attack'] and skills.calls==0
     assert model.last_trace['stage']=='route_tail_preflight_decline'
     assert model.last_trace['context']['route_tail_withheld_candidates']==[candidate]
+
+
+@pytest.mark.parametrize('backend', ['commonroad', 'commonroad_circle'])
+def test_commonroad_evaluation_preserves_legacy_route_tail_probe(backend):
+    for scenario in (env(120, 10), env(5, 10)):
+        expected = route_tail_readiness(scenario, NS())
+        config = NS(backend=backend)
+        result = route_tail_readiness(scenario, config)
+        assert result.pop('evaluation_backend') == config.backend == backend
+        expected.pop('evaluation_backend')
+        assert result == expected

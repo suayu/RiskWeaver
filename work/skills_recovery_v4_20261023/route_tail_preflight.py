@@ -10,13 +10,16 @@ from reachability_ready_planner import ReachabilityReadyPlanner
 def route_tail_readiness(env,config,duration_frames=10):
     """以沿路线匀速前进的名义状态检查攻击有效期末，不能作为未来安全保证。"""
     if isinstance(duration_frames,bool) or not isinstance(duration_frames,int) or not 1<=duration_frames<=100:raise ValueError('invalid duration')
-    if str(getattr(config,'backend','route_grid'))!='route_grid':raise ValueError('route_tail_backend_not_supported')
+    evaluation_backend = str(getattr(config, 'backend', 'route_grid'))
+    if evaluation_backend not in {'route_grid', 'commonroad', 'commonroad_circle'}:
+        raise ValueError('route_tail_backend_not_supported')
+    # 名义路线余量沿用原 Frenet 网格探针；正式面积仍由配置选择的后端计算。
     reach=RouteReachability(config);route,arc,tangent=reach._route_geometry(env.scenario_dict['route'])
     ego=np.asarray(env.ego_state,float);nearest=int(np.argmin(np.linalg.norm(route-ego[:2],axis=1)))
     direction=tangent[min(nearest,len(tangent)-1)];normal=np.array([-direction[1],direction[0]])
     s=float(arc[nearest]);d=float((ego[:2]-route[nearest])@normal)
     speed=max(0.,float(ego[2:4]@direction));duration=duration_frames*float(env.dt);future_s=s+speed*duration
-    common=dict(duration_frames=duration_frames,lookahead_seconds=duration,remaining_route_m=float(arc[-1]-s),
+    common=dict(planning_probe_backend='route_grid', evaluation_backend=evaluation_backend, duration_frames=duration_frames,lookahead_seconds=duration,remaining_route_m=float(arc[-1]-s),
         nominal_longitudinal_speed_mps=speed,unchanged_evaluation_horizon_seconds=reach.horizon,
         assumption='route_following_constant_longitudinal_speed_without_traffic',
         scope='planning-opportunity filter only; no future-ground-truth, no road extension, no execution approval')
