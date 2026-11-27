@@ -102,9 +102,11 @@ def run_episode(env,policy,index,global_index,args,forecaster=None):
             if generator is not None and not passive_frame:
                 if (args.stop_file and args.stop_file.exists()):
                     raise RuntimeError('shared_planner_service_stop')
+                prior_service_failures = generator._episode_planner_service_failures
                 generator.step(env,env.current_step)
-                if generator._episode_planner_service_failures:
-                    raise RuntimeError('planner_service_failure')
+                if generator._episode_planner_service_failures > prior_service_failures:
+                    # 生成器已经丢弃失败回复并处理熔断；保留事件，继续实际仿真。
+                    trace.append({'kind': 'planner_service_degraded', 'step': int(env.current_step)})
             if controller is not None:
                 offset=0 if cache is None else env.current_step-cache.source_step
                 active=set(np.flatnonzero(env.agent_active))
@@ -379,10 +381,8 @@ def main():
             report={'group':args.group,'protocol':protocol_snapshot(args.model,args.policy,args.seed,args.models,comparison_count),
                 'aggregate':aggregate_attempts(records,len(files)),'episodes':records}
             dump_json(args.output_dir/'results.partial.json',report)
-            if record.get('runtime_failure') or record.get('planner_service_failure_count'):
-                if record.get('planner_service_failure_count') and args.stop_file:
-                    dump_json(args.stop_file,{'reason':'planner_service_failure','group':args.group,'scenario_index':global_index})
-                raise RuntimeError('scene_runtime_or_planner_service_failure; see persisted attempt')
+            if record.get('runtime_failure'):
+                raise RuntimeError('scene_runtime_failure; see persisted attempt')
         dump_json(args.output_dir/'results.json',report)
         dump_json(args.output_dir/'exit_status.json',{'exit_code':0,'finished_at':time.time(),'attempted':len(records)})
     except Exception as error:

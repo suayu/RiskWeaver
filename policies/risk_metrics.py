@@ -553,6 +553,10 @@ class AdversarialRiskMetrics:
             use_joint_trajectory=True,
             static_obstacles=env.get_static_obstacles(),
         )
+        if dangerous is None:
+            # 当前预测不可测，不复用上一帧的基线。
+            self._pending_baseline = None
+            return None
         original_area = float(self._pending_baseline["area_m2"])
         dangerous_area = float(dangerous["area_m2"])
         difficulty = float("nan") if original_area <= 0.0 else 1.0 - dangerous_area / original_area

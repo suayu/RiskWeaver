@@ -72,7 +72,15 @@ class CommonRoadReachability(RouteReachability):
             if response.get('request_id') != self.sequence:
                 raise RuntimeError('commonroad_request_id_mismatch')
             if response.get('error'):
-                raise RuntimeError('commonroad_reach_failure: '+response['error'])
+                error = response['error']
+                # 几何投影域或速度域不可测时返回缺测；通信和协议异常仍抛出。
+                if (error.startswith("CartesianProjectionDomainError:")
+                        or (error.startswith("AssertionError: Initial ")
+                            and "exceeds valid velocity interval" in error)):
+                    import warnings
+                    warnings.warn(f"commonroad_measurement_missing: {error}", RuntimeWarning)
+                    return None
+                raise RuntimeError('commonroad_reach_failure: '+error)
             result = response['result']
             result['wall_seconds'] = time.monotonic()-start
             return result

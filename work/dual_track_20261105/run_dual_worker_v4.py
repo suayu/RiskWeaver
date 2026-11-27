@@ -46,9 +46,13 @@ def main():
         # 生成器保持旧双轨配置，EA 由独立观察器采集。
         return original_overrides(*a,**kw)+['sim.evaluation.ea.enabled=false']
     def episode(*a,**kw):
-        result=original_episode(*a,**kw);obs=DualObserver.latest;result=apply_result(result,obs.challenge_result())
-        result['danger_ttc_input_basis']=obs.danger_ttc_input_basis
-        result['excluded_from_effectiveness_statistics']=is_fault(result)
+        result=original_episode(*a,**kw)
+        # 比较入口已拥有并汇总实际观察器，历史入口只在独立运行时评分。
+        if result.get('scoring_observer_protocol') != 'shared_DualObserver_stationary_v1':
+            obs=DualObserver.latest
+            result=apply_result(result,obs.challenge_result())
+            result['danger_ttc_input_basis']=obs.danger_ttc_input_basis
+            result['excluded_from_effectiveness_statistics']=is_fault(result)
         if is_fault(result):result['autonomous_driving_ability_score']=None
         args=a[4] if len(a)>4 else kw['args'];scene=a[3] if len(a)>3 else kw['global_index'];p=args.output_dir/'movies'/f'scenario_{scene:03d}'
         runner.dump_json(p/'dual_track_result.json',dict(challenge=result['scene_challenge'],outcome=result['outcome_severity_score'],ability=result['autonomous_driving_ability_score']))

@@ -139,7 +139,22 @@ def compute(request):
     config = Configuration(omega)
     extended = np.vstack([route[0]-30*direction[0],route,route[-1]+30*direction[-1]])
     clcs = create_curvilinear_coordinate_system(resample_polyline(extended,.5))
-    config.update(scenario=scenario, planning_problem=problem, CLCS=clcs, list_ids_lanelets=[1])
+    from commonroad_reach.utility import configuration as initial_state_utils
+    original_initial_state = initial_state_utils.compute_initial_state_cvln
+
+    def initial_state_with_tolerance(cfg):
+        position, (longitudinal, lateral) = original_initial_state(cfg)
+        # 只修正零下界附近的小幅负值，保留正常横向速度和实际逆行。
+        def normalize(value, lower_bound):
+            return 0.0 if lower_bound == 0.0 and -0.2 < value < 0.0 else value
+        return position, (normalize(longitudinal, cfg.vehicle.ego.v_lon_min),
+                          normalize(lateral, cfg.vehicle.ego.v_lat_min))
+
+    initial_state_utils.compute_initial_state_cvln = initial_state_with_tolerance
+    try:
+        config.update(scenario=scenario, planning_problem=problem, CLCS=clcs, list_ids_lanelets=[1])
+    finally:
+        initial_state_utils.compute_initial_state_cvln = original_initial_state
     from commonroad_reach.data_structure.collision_checker import CollisionChecker
     original=CollisionChecker.retrieve_static_obstacles
     # 官方逐lanelet边界不等价于道路并集边界；本worker已有显式完整补集。
